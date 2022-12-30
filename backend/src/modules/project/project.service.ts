@@ -30,7 +30,7 @@ export class ProjectService {
     const project = await this.em.findOne({ name, id, owner });
     if (!project) {
       throw new HttpException(
-        'Project to dlete not found.',
+        'Project to delete not found.',
         HttpStatus.NOT_FOUND,
       );
     }
@@ -55,6 +55,13 @@ export class ProjectService {
   }
 
   async getProjects(user: LoginUser) {
-    return await this.em.find({ owner: user.id });
+    const project = await this.em.find({ owner: user.id });
+    if (!project) {
+      throw new HttpException(
+        'Project to delete not found.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return project;
   }
 }

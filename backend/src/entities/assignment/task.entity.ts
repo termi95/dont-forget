@@ -34,4 +34,16 @@ export class TaskEntity {
 
   @Property({ nullable: true })
   FinishDate: DateTimeType;
+
+  constructor(
+    name: string,
+    body: string,
+    createdByUser: number,
+    project: ProjectEntity,
+  ) {
+    this.name = name;
+    this.body = body;
+    this.createdByUser = createdByUser;
+    this.project = project;
+  }
 }

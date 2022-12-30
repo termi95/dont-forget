@@ -12,6 +12,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProjectModule } from './modules/project/project.module';
 import { PassportModule } from '@nestjs/passport';
+import { TaskModule } from './modules/task/task.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PassportModule } from '@nestjs/passport';
     AuthModule,
     ProjectModule,
     PassportModule,
+    TaskModule,
   ],
 })
 export class AppModule implements NestModule, OnModuleInit {
