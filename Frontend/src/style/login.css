@@ -53,6 +53,14 @@ h1 {
   padding: 10px;
 }
 
+.left {
+  text-align: start;
+}
+
+.fail-colort-text {
+  font-size: 1rem;
+}
+
 @media (min-width: 360px) {
   main {
     display: flex;
