@@ -3,13 +3,14 @@ import "../../style/App.css";
 import "../../style/login.css";
 import { UseRegister } from "./UserRegister";
 
-function Register() {
+function Register(this: any) {
   const {
     handleSubmit,
     handleChange,
     userNameValidationHandler,
     passwordValidationHandler,
     emailValidationHandler,
+    shake,
   } = UseRegister();
 
   return (
@@ -44,7 +45,7 @@ function Register() {
         />
         {passwordValidationHandler()}
         <div className="right">
-          <button className="space" type="submit">
+          <button className={"space" + (shake ? ` shake` : '')} type="submit">
             Register
           </button>
           <button>

@@ -27,6 +27,8 @@ const validationObjectState = {
 export const UseRegister = () => {
   const [user, setUser] = useState<UserRegister>(userInitialState);
   const [validation, setvalidationProperty] = useState(validationObjectState);
+  const [shake, setShake] = useState(false);
+
   let navigate = useNavigate();
   const register = async () => {
     await api
@@ -46,6 +48,8 @@ export const UseRegister = () => {
     e.preventDefault();
     if (validateUserToRegister()) {
       register();
+    } else {
+      animate();
     }
   };
   const handleChange = (e: HTMLInputElement): void => {
@@ -135,7 +139,7 @@ export const UseRegister = () => {
   }
 
   function checkIfUserEmailIsValid(email: string): boolean {
-    var validRegex =
+    const validRegex =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (email.match(validRegex)) {
       validation.email.hasProperformat = true;
@@ -204,6 +208,10 @@ export const UseRegister = () => {
       return infoText;
     }
   }
+  const animate = () => {
+    setShake(true);
+    setTimeout(() => setShake(false), 300);
+  };
   return {
     handleSubmit,
     handleChange,
@@ -211,5 +219,6 @@ export const UseRegister = () => {
     emailValidationHandler,
     passwordValidationHandler,
     validateUserToRegister,
+    shake,
   };
 };

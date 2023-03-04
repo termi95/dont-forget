@@ -22,8 +22,9 @@ export class UserService {
       throw new BadRequestException(error);
     }
   }
-
   async create({ username, email, password }: User): Promise<boolean> {
+    await this.validateUserData(username, email, password);
+
     const salt = await bycrypt.genSalt(10);
     const hashedPassword = await bycrypt.hash(password, salt);
     try {
@@ -33,6 +34,44 @@ export class UserService {
       return true;
     } catch (error) {
       throw new BadRequestException(error);
+    }
+  }
+  async validateUserData(
+    username: string,
+    email: string,
+    password: string,
+  ): Promise<void> {
+    await this.checkIfUserEmailIsValid(email);
+    await this.checkIfUsernameIsValid(username);
+    await this.checkIfPasswordIsValid(password);
+  }
+  async checkIfUserEmailIsValid(email: string): Promise<void> {
+    const validRegex =
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!email.match(validRegex)) {
+      throw new Error('Invalid email address format.');
+    }
+  }
+  async checkIfUsernameIsValid(username: string): Promise<void> {
+    if (username.length < 3) {
+      throw new Error('User name is to short, minimum lenght is 3');
+    }
+    if (username.length > 32) {
+      throw new Error('User name is to long, maximum lenght is 32');
+    }
+  }
+  async checkIfPasswordIsValid(password: string): Promise<void> {
+    if (!(password.length >= 8)) {
+      throw new Error('Password minimum lenght is 8 character.');
+    }
+    if (!(password !== password.toLowerCase())) {
+      throw new Error('Password must have different case character.');
+    }
+    if (!password.match(/\d+/g)) {
+      throw new Error('Password must have number in it.');
+    }
+    if (!password.match(/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/)) {
+      throw new Error('Password must have special character in it.');
     }
   }
 }
