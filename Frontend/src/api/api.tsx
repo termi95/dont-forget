@@ -8,7 +8,7 @@ const api = axios.create({
     Accept: "application/json",
   },
 });
-const saveToken = (token: string, userId: any) => {
+const saveToken = (token: string, userId: string) => {
   localStorage.setItem("accessToken", token);
   localStorage.setItem("userId", userId);
 };

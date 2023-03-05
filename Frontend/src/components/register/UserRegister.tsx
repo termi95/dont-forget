@@ -35,7 +35,6 @@ export const UseRegister = () => {
       .post("/auth/register", user)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
           return navigate("/");
         }
       })

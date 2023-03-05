@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
-import { api } from "../../api/api";
+import { useNavigate } from "react-router-dom";
+import { api, saveToken } from "../../api/api";
 import { UserLogin } from "../../types/User";
 const userInitialState: UserLogin = {
   email: "",
@@ -8,13 +9,16 @@ const userInitialState: UserLogin = {
 export const UseLogin = () => {
   const [user, setUser] = useState<UserLogin>(userInitialState);
   
+  let navigate = useNavigate();
   const login = async () => {
     await api
-      .post("/auth/login", { ...user })
+      .post<{access_token: string, id:string}>("/auth/login", { ...user })
       .then((res) => {
         if (res.status === 200) {
           // console.log(res);
           // to do
+          saveToken(res.data.access_token,res.data.id)
+          return navigate("/homepage");
         }
       })
       .catch((error) => {});
