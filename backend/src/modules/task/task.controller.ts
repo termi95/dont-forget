@@ -10,7 +10,7 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { Project } from 'src/models/project';
-import { Task, TaskCreate, TaskUpdate } from 'src/models/Task';
+import { Task, TaskCreate, TaskUpdate } from 'src/models/task';
 import { LoginUserReq } from 'src/models/user';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { TaskService } from './task.service';

@@ -1,7 +1,7 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ProjectEntity } from 'src/entities/assignment/project.entity';
-import { TaskEntity } from 'src/entities/assignment/Task.entity';
+import { TaskEntity } from 'src/entities/assignment/task.entity';
 import { TaskController } from './task.controller';
 import { TaskService } from './task.service';
 

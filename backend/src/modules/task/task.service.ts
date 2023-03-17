@@ -2,8 +2,8 @@ import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ProjectEntity } from 'src/entities/assignment/project.entity';
-import { TaskEntity } from 'src/entities/assignment/Task.entity';
-import { Task, TaskCreate, TaskUpdate } from 'src/models/Task';
+import { TaskEntity } from 'src/entities/assignment/task.entity';
+import { Task, TaskCreate, TaskUpdate } from 'src/models/task';
 
 @Injectable()
 export class TaskService {
