@@ -1,8 +1,11 @@
+import Menu from "../menu/Menu";
+
 function Homepage() {
   return (
-    <main>
-      Homepage
-    </main>
+    <>
+      <Menu />
+      <main>Homepage</main>
+    </>
   );
 }
 
