@@ -15,8 +15,6 @@ export const UseLogin = () => {
       .post<{access_token: string, id:string}>("/auth/login", { ...user })
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res);
-          // to do
           saveToken(res.data.access_token,res.data.id)
           return navigate("/homepage");
         }

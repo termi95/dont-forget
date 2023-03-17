@@ -34,7 +34,7 @@ export const UseRegister = () => {
     await api
       .post("/auth/register", user)
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === 201) {
           return navigate("/");
         }
       })
