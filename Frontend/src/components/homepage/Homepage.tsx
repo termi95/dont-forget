@@ -4,7 +4,9 @@ function Homepage() {
   return (
     <>
       <Menu />
-      <main>Homepage</main>
+      <main>
+        Homepage
+      </main>
     </>
   );
 }
