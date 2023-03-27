@@ -25,6 +25,7 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh }: 
           handleRefresh={handleRefresh}
           name={name}
           toggleState={changeAddProjectState}
+          update={true}
         />
       </>
     );
