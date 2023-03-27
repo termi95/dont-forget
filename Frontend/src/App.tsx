@@ -6,7 +6,7 @@ import "./style/App.css";
 import "./style/login.css";
 
 const Register = React.lazy(() => import("./components/register/Register"));
-const Homepage = React.lazy(() => import("./components/homepage/Homepage"));
+const Project = React.lazy(() => import("./components/project/Project"));
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="homepage" element={<Homepage />} />
+        <Route path="project" element={<Project />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Suspense>

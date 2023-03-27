@@ -16,7 +16,7 @@ export const UseLogin = () => {
       .then((res) => {
         if (res.status === 200) {
           saveToken(res.data.access_token,res.data.id)
-          return navigate("/homepage");
+          return navigate("/project");
         }
       })
       .catch((error) => {});

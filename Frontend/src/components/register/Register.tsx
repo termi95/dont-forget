@@ -23,6 +23,7 @@ function Register(this: any) {
           type="text"
           placeholder="username"
           name="username"
+          className="login-input"
           onChange={(e) => handleChange(e.target)}
         />
         {userNameValidationHandler()}
@@ -32,6 +33,7 @@ function Register(this: any) {
           type="text"
           placeholder="user@email.com"
           name="email"
+          className="login-input"
           onChange={(e) => handleChange(e.target)}
         />
         {emailValidationHandler()}
@@ -41,14 +43,15 @@ function Register(this: any) {
           type="password"
           placeholder="********"
           name="password"
+          className="login-input"
           onChange={(e) => handleChange(e.target)}
         />
         {passwordValidationHandler()}
         <div className="right">
-          <button className={"space" + (shake ? ` shake` : '')} type="submit">
+          <button className={"login-button space" + (shake ? ` shake` : '')} type="submit">
             Register
           </button>
-          <button>
+          <button className="login-button">
             <Link to={`/`}>Login</Link>
           </button>
         </div>

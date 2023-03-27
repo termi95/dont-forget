@@ -15,6 +15,7 @@ function Login() {
           type="text"
           name="email"
           placeholder="user@email.com"
+          className="login-input"
           onChange={(e) => handleChange(e.target)}
         />
         <label htmlFor="password">Password </label>
@@ -22,14 +23,15 @@ function Login() {
           id="password"
           type="password"
           name="password"
+          className="login-input"
           placeholder="********"
           onChange={(e) => handleChange(e.target)}
         />
         <div className="right">
-          <button className="space" type="submit">
+          <button className="login-button space" type="submit">
             Login
           </button>
-          <button>
+          <button className="login-button">
             <Link to={`register`}>Register</Link>
           </button>
         </div>

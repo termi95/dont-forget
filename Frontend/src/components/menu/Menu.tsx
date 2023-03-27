@@ -1,16 +1,79 @@
+import { useEffect } from "react";
 import "../../style/menu.css";
+import { UseMenu } from "./UseMenu";
+import { RiMenuAddLine } from "react-icons/all";
+import AddProject from "./menuForms/project/AddProject";
+import Spiner from "../spiner/Spiner";
+import ProjectHeader from "./menuForms/project/ProjectHeader";
 
 function Menu() {
+  const {
+    getProjects,
+    changeAddProjectState,
+    handleActiveProject,
+    projects,
+    addProject,
+    isLoading,
+  } = UseMenu();
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  const addProjectContent = () => {
     return (
-      <menu className="vertical-menu">        
-        <a href="#" className="active">Home</a>
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
-        <a href="#">Link 4</a>
-      </menu>
+      <>
+        {addProject && (
+          <AddProject
+            handleRefresh={getProjects}
+            name={""}
+            toggleState={changeAddProjectState}
+          />
+        )}
+      </>
     );
-  }
-  
-  export default Menu;
-  
+  };
+
+  const content = () => {
+    return (
+      <>
+        {projects?.map((project, index) => {
+          if (index < 1) {
+            return (
+              <ProjectHeader
+                key={index}
+                active={true}
+                project={project}
+                handleActiveProject={handleActiveProject}
+              />
+            );
+          } else {
+            return (
+              <ProjectHeader
+                key={index}
+                active={false}
+                project={project}
+                handleActiveProject={handleActiveProject}
+              />
+            );
+          }
+        })}
+      </>
+    );
+  };
+
+  return (
+    <menu className="vertical-menu">
+      <div className="btn add-project" onClick={changeAddProjectState}>
+        <span className="add-new">Add new</span>
+        <div className="icon-menu add-new">
+          <RiMenuAddLine />
+        </div>
+      </div>
+      {addProjectContent()}
+      {isLoading ? <Spiner /> : content()}
+    </menu>
+  );
+}
+
+export default Menu;

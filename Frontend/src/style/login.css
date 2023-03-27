@@ -1,10 +1,10 @@
-input,
+.login-input,
 label {
   display: block;
   font-size: 2rem;
 }
 
-input {
+.login-input {
   font-size: 1.5rem;
   margin: 5px;
   padding: 0px 5px;
@@ -32,14 +32,14 @@ input {
   padding: 10px;
 }
 
-button {
+.login-button {
   border-style: double;
   border-color: #e7e7e7;
   background-color: white;
   border-radius: 10px;
 }
 
-button:hover {
+.login-button:hover {
   background-color: #e7e7e7;
 }
 
@@ -94,7 +94,7 @@ h1 {
 }
 
 @media (min-width: 666px) {
-  button {
+  .login-button {
     font-size: 1rem;
   }
   main {
@@ -103,7 +103,7 @@ h1 {
   }
 }
 
-button.shake{
+.login-button.shake{
   animation: shake 1s infinite;
 }
 @keyframes shake {
