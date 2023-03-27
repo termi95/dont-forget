@@ -28,6 +28,7 @@ function Menu() {
             handleRefresh={getProjects}
             name={""}
             toggleState={changeAddProjectState}
+            update={false}
           />
         )}
       </>
@@ -45,6 +46,7 @@ function Menu() {
                 active={true}
                 project={project}
                 handleActiveProject={handleActiveProject}
+                handleRefresh={getProjects}
               />
             );
           } else {
@@ -54,6 +56,7 @@ function Menu() {
                 active={false}
                 project={project}
                 handleActiveProject={handleActiveProject}
+                handleRefresh={getProjects}
               />
             );
           }

@@ -35,6 +35,7 @@ export const UseMenu = () => {
       setActiveHeader(newActiveElem);
     } else {
       document.querySelector('.active')?.classList.remove("active");
+      newActiveElem.classList.add("active");
       setActiveHeader(newActiveElem);
     }
   };

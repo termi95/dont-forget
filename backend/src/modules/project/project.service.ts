@@ -26,8 +26,8 @@ export class ProjectService {
     return project;
   }
 
-  async delete({ name, id }: Project, owner: number): Promise<boolean> {
-    const project = await this.em.findOne({ name, id, owner });
+  async delete({ id }: Project, owner: number): Promise<boolean> {
+    const project = await this.em.findOne({ id, owner });
     if (!project) {
       throw new HttpException(
         'Project to delete not found.',

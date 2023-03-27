@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "./components/login/Login";
+import Spiner from "./components/spiner/Spiner";
 import ErrorPage from "./error-page";
 import "./style/App.css";
 import "./style/login.css";
@@ -10,7 +11,7 @@ const Project = React.lazy(() => import("./components/project/Project"));
 
 function App() {
   return (
-    <Suspense fallback="Loading...">
+    <Suspense fallback={<Spiner/>}>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />

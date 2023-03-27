@@ -10,15 +10,17 @@ const initialProjectState: Project = {
 
 interface Props {
   handleRefresh: () => Promise<void>;
-  toggleState: () => Promise<void>;  
+  toggleState: () => Promise<void>;
   name: string;
 }
 
 export const UseAddProject = ({ handleRefresh, name = "", toggleState }: Props) => {
   const [project, setProject] = useState<Project>({ name, owner: 0, id: 0 });
-  const acceptChanges = async () => {
-    if (project && project.name !== "") {
-      await insert(project);
+  const acceptChanges = async (update: boolean) => {
+    if (project && !update) {
+      await handleInsert(project);
+    } else if (project) {
+      await handleUpdate(project);
     }
   };
 
@@ -27,7 +29,7 @@ export const UseAddProject = ({ handleRefresh, name = "", toggleState }: Props) 
     setProject(project);
   };
 
-  const insert = async (project: Project) => {
+  const handleInsert = async (project: Project) => {
     await api
       .post("/project/", project)
       .then((res) => {
@@ -37,7 +39,19 @@ export const UseAddProject = ({ handleRefresh, name = "", toggleState }: Props) 
           handleRefresh();
         }
       })
-      .catch((error) => {});
+      .catch((error) => { });
+  };
+  const handleUpdate = async (project: Project) => {
+    await api
+      .patch("/project/", project)
+      .then((res) => {
+        if (res.status === 201) {
+          setProject(initialProjectState);
+          toggleState();
+          handleRefresh();
+        }
+      })
+      .catch((error) => { });
   };
   return { acceptChanges, handleChange };
 };
