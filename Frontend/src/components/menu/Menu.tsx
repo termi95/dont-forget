@@ -26,7 +26,7 @@ function Menu() {
         {addProject && (
           <AddProject
             handleRefresh={getProjects}
-            name={""}
+            project={{ name: "", owner: 0, id: 0 }}
             toggleState={changeAddProjectState}
             update={false}
           />
@@ -68,7 +68,7 @@ function Menu() {
   return (
     <menu className="vertical-menu">
       <div className="btn add-project" onClick={changeAddProjectState}>
-        <span className="add-new">Add new</span>
+        <span style={{ width: '100%' }} className="add-new">Add new</span>
         <div className="icon-menu add-new">
           <RiMenuAddLine />
         </div>

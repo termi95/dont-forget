@@ -10,7 +10,7 @@ export class ProjectService {
   constructor(
     @InjectRepository(ProjectEntity)
     private readonly em: EntityRepository<ProjectEntity>,
-  ) {}
+  ) { }
 
   async getProject(id: number, userId: number): Promise<Project> {
     const project = await this.em.findOne({ id: id, owner: userId });
@@ -21,9 +21,28 @@ export class ProjectService {
   }
 
   async create({ name }: Project, owner: number): Promise<Project | undefined> {
-    const project = this.em.create(new ProjectEntity(name, owner));
-    await this.em.flush();
-    return project;
+    if (name === "") {
+      throw new HttpException(
+        'Project name can not be empty.',
+        HttpStatus.NO_CONTENT,
+      );
+    }
+    if (name.length > 32) {
+      throw new HttpException(
+        'Project name is to long.',
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
+    try {
+      const project = this.em.create(new ProjectEntity(name, owner));
+      await this.em.flush();
+      return project;
+    } catch (error) {
+      throw new HttpException(
+        'Encounter internal problem.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async delete({ id }: Project, owner: number): Promise<boolean> {
@@ -42,6 +61,12 @@ export class ProjectService {
     { name, id, newName }: ProjectUpdate,
     owner: number,
   ): Promise<Project> {
+    if (newName === "") {
+      throw new HttpException(
+        'Project name can not be empty.',
+        HttpStatus.NOT_MODIFIED,
+      );
+    }
     const project = await this.em.findOne({ name, id, owner });
     if (!project) {
       throw new HttpException(

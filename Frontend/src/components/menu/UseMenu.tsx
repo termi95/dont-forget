@@ -29,15 +29,9 @@ export const UseMenu = () => {
   };
 
   const handleActiveProject = async (newActiveElem: HTMLDivElement) => {
-    if (activeHeader) {
-      activeHeader.classList.remove("active");
-      newActiveElem.classList.add("active");
-      setActiveHeader(newActiveElem);
-    } else {
-      document.querySelector('.active')?.classList.remove("active");
-      newActiveElem.classList.add("active");
-      setActiveHeader(newActiveElem);
-    }
+    document.querySelector('.active')?.classList.remove("active");
+    newActiveElem.classList.add("active");
+    setActiveHeader(newActiveElem);
   };
 
   return {

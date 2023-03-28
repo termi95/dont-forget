@@ -7,7 +7,7 @@
   flex-direction: column;
 }
 
-.vertical-menu>.lds-spinner {
+.vertical-menu > .lds-spinner {
   display: flex;
   align-self: center;
 }
@@ -29,7 +29,6 @@
   border-bottom: rgba(0, 0, 0, 0.5);
   border-style: solid;
   border-width: 1px;
-  cursor: pointer;
 }
 
 .vertical-menu .add-project:hover {
@@ -71,7 +70,6 @@
   vertical-align: middle;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -107,6 +105,7 @@
 
 .project-header-manager {
   display: flex;
-  justify-content: space-evenly;
-  border-color: #e7e7e7;
+  justify-content: space-evenly;  
+  background-color: #bbbbbb;
+  padding: 12px;
 }

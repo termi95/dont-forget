@@ -14,16 +14,20 @@ interface Props {
 function ProjectHeader({ project, active, handleActiveProject, handleRefresh }: Props) {
   const [activeHeader, setActiveHeader] = useState(active);
   const [addProject, setAddProject] = useState(false);
+  const [projectManger, setProjectManger] = useState(false);
   const { id, name } = project;
   const changeAddProjectState = async () => {
     setAddProject(!addProject);
+  };
+  const changeProjectManage = async () => {
+    setProjectManger(!projectManger);
   };
   const addProjectContent = () => {
     return (
       <>
         <AddProject
           handleRefresh={handleRefresh}
-          name={name}
+          project={project}
           toggleState={changeAddProjectState}
           update={true}
         />
@@ -40,28 +44,46 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh }: 
       })
       .catch((error) => { });
   };
-  return (
-    <>
+
+  const projectHeader = () => {
+    return (
       <div
         key={id}
         className={"btn " + (activeHeader ? "active" : "")}
         onClick={(e) => {
-          // setAddProject(false);
           handleActiveProject(e.currentTarget);
           setActiveHeader(true);
         }}
       >
-        <span>{name}</span>
-        <BsListTask className="icon-menu" onClick={changeAddProjectState} />
-      </div>
-      <div>
-        {addProjectContent()}
+        <span style={{ width:'100%'}}>{name}</span>
+        <BsListTask className="icon-menu end" onClick={changeProjectManage} />
+      </div>)
+  }
+
+  const projectOrRename = () => {
+    if (addProject) {
+      return addProjectContent();
+    } else {
+      return projectHeader();
+    }
+  }
+
+  const projectMangerContent = () => {
+    if (projectManger) {
+      return (<div>
         <div className="project-header-manager">
-          <MdOutlineDriveFileRenameOutline className="icon-menu" />
-          <BsFillTrashFill className="icon-menu" onClick={async () => await handleDelete(id!)} />
-          <GoSettings className="icon-menu" onClick={() => alert("jeszcze tu nic nie ma")}/>
+          <MdOutlineDriveFileRenameOutline title="Rename" className="icon-menu" onClick={changeAddProjectState} />
+          <BsFillTrashFill title="Delete" className="icon-menu" onClick={async () => await handleDelete(id!)} />
+          <GoSettings title="Settings" className="icon-menu" onClick={() => alert("jeszcze tu nic nie ma")} />
         </div>
-      </div>
+      </div>)
+    }
+  }
+
+  return (
+    <>
+      {projectOrRename()}
+      {projectMangerContent()}
     </>
   );
 }

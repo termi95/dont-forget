@@ -3,4 +3,9 @@ interface Project {
     id?: number;
     owner: number;
   }
-  export type { Project };
+
+  interface ProjectUpdate extends Project {
+    newName: string;
+  }
+  
+  export type { Project, ProjectUpdate };

@@ -1,26 +1,29 @@
-import { AiOutlinePlus } from "react-icons/all";
+import { AiOutlinePlus, RxCross1 } from "react-icons/all";
+import { Project } from "../../../../types/Project";
 import { UseAddProject } from "./UseAddProject";
 interface Props {
   handleRefresh: () => Promise<void>;
   toggleState: () => Promise<void>;
-  name: string;
+  project: Project;
   update: boolean;
 }
-function AddProject({ handleRefresh, name = "", toggleState, update }: Props) {
-  const { acceptChanges, handleChange } = UseAddProject({
+function AddProject({ handleRefresh, project, toggleState, update }: Props) {
+  const { acceptChanges, handleChange, projectUpdate } = UseAddProject({
     handleRefresh,
     toggleState,
-    name,
+    project,
+    update
   });
+
   return (
     <button className="add-project">
       <input
         type="text"
-        value={name}
         placeholder="Project name"
         onChange={(e) => handleChange(e.target)}
       ></input>
-      <AiOutlinePlus className="icon-menu" onClick={() => acceptChanges(update)} />
+      <AiOutlinePlus className="icon-menu" onClick={() => acceptChanges()} />
+      <RxCross1 className="icon-menu" onClick={toggleState} />
     </button>
   );
 }
