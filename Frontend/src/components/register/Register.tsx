@@ -3,7 +3,7 @@ import "../../style/App.css";
 import "../../style/login.css";
 import { UseRegister } from "./UserRegister";
 
-function Register(this: any) {
+function Register() {
   const {
     handleSubmit,
     handleChange,
