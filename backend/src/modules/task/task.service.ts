@@ -23,7 +23,7 @@ export class TaskService {
   }
 
   async create(
-    { name, body, project }: TaskCreate,
+    { name, body, projectId }: TaskCreate,
     createdByUser: number,
   ): Promise<Task> {
     try {
@@ -31,11 +31,12 @@ export class TaskService {
         name,
         body,
         createdByUser,
-        await this.emProject.getReference(project),
+        await this.emProject.getReference(projectId),
       );
       await this.em.persistAndFlush(await this.em.create(task));
       return task;
     } catch (e) {
+      console.log(e);
       throw new HttpException(
         'Faild to create task.',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -56,18 +57,20 @@ export class TaskService {
   }
 
   async patch(
-    { name, body, id, newName, newBody }: TaskUpdate,
+    { id, newName, newBody, done }: TaskUpdate,
     owner: number,
   ): Promise<Task> {
-    const Task = await this.em.findOne({ name, id, createdByUser: owner });
+    console.log(id, newName, newBody, done);
+    const Task = await this.em.findOne({ id, createdByUser: owner });
     if (!Task) {
       throw new HttpException(
         'Task to update not found.',
         HttpStatus.NOT_FOUND,
       );
     }
-    Task.name = newName !== '' ? newName : name;
-    Task.body = newBody !== '' ? newBody : body;
+    Task.name = newName;
+    Task.body = newBody;
+    Task.done = done;
     await this.em.persistAndFlush(Task);
     return Task;
   }

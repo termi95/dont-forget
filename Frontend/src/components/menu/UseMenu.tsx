@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { api } from "../../api/api";
 import { Project } from "../../types/Project";
 
@@ -6,18 +6,22 @@ export const UseMenu = () => {
   const [projects, setProjects] = useState<Project[]>();
   const [addProject, setAddProject] = useState<boolean>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [activeHeader, setActiveHeader] = useState<HTMLDivElement>();
   const getProjects = async () => {
     setIsLoading(true);
     try {
       await api
         .get("/project/projects")
-        .then((res) => {
-          if (res.status === 200) {
-            setProjects(res.data);
+        .then(
+          async (res: {
+            status: number;
+            data: SetStateAction<Project[] | undefined>;
+          }) => {
+            if (res.status === 200) {
+              setProjects(res.data);
+            }
           }
-        })
-        .catch((error) => {});
+        )
+        .catch(() => {});
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -29,9 +33,8 @@ export const UseMenu = () => {
   };
 
   const handleActiveProject = async (newActiveElem: HTMLDivElement) => {
-    document.querySelector('.active')?.classList.remove("active");
+    document.querySelector(".active")?.classList.remove("active");
     newActiveElem.classList.add("active");
-    setActiveHeader(newActiveElem);
   };
 
   return {
@@ -42,6 +45,5 @@ export const UseMenu = () => {
     projects,
     addProject,
     isLoading,
-    activeHeader,
   };
 };

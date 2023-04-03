@@ -12,13 +12,12 @@ export interface Task {
 
 export interface TaskUpdate {
   id: number;
-  name: string;
-  body: string;
   newName: string;
   newBody: string;
+  done: boolean;
 }
 export interface TaskCreate {
   name: string;
   body: string;
-  project: number;
+  projectId: number;
 }

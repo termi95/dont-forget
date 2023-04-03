@@ -8,7 +8,7 @@ interface Props {
   update: boolean;
 }
 function AddProject({ handleRefresh, project, toggleState, update }: Props) {
-  const { acceptChanges, handleChange, projectUpdate } = UseAddProject({
+  const { acceptChanges, handleChange } = UseAddProject({
     handleRefresh,
     toggleState,
     project,

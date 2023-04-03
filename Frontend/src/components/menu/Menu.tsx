@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import "../../style/menu.css";
 import { UseMenu } from "./UseMenu";
 import { RiMenuAddLine } from "react-icons/all";
 import AddProject from "./menuForms/project/AddProject";
 import Spiner from "../spiner/Spiner";
 import ProjectHeader from "./menuForms/project/ProjectHeader";
+import { ProjectContext } from "../project/ProjectContext";
 
 function Menu() {
   const {
@@ -15,10 +16,17 @@ function Menu() {
     addProject,
     isLoading,
   } = UseMenu();
+  const { project, setProject } = useContext(ProjectContext);
 
   useEffect(() => {
     getProjects();
   }, []);
+
+  useEffect(() => {
+    if (projects && projects.length > 0 && project.id === 0) {
+      setProject(projects[0]);
+    }
+  }, [projects]);
 
   const addProjectContent = () => {
     return (
@@ -68,7 +76,9 @@ function Menu() {
   return (
     <menu className="vertical-menu">
       <div className="btn add-project" onClick={changeAddProjectState}>
-        <span style={{ width: '100%' }} className="add-new">Add new</span>
+        <span style={{ width: "100%" }} className="add-new">
+          Add new
+        </span>
         <div className="icon-menu add-new">
           <RiMenuAddLine />
         </div>

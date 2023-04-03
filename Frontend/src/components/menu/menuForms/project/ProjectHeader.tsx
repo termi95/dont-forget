@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { GoSettings, MdOutlineDriveFileRenameOutline } from "react-icons/all";
 import { BsFillTrashFill, BsListTask } from "react-icons/bs";
 import { api } from "../../../../api/api";
 import { Project } from "../../../../types/Project";
+import { ProjectContext } from "../../../project/ProjectContext";
 import AddProject from "./AddProject";
 interface Props {
   active: boolean;
@@ -15,14 +16,15 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh }: 
   const [activeHeader, setActiveHeader] = useState(active);
   const [addProject, setAddProject] = useState(false);
   const [projectManger, setProjectManger] = useState(false);
-  const { id, name } = project;
+  const { id, name } = project;  
+  const {setProject} = useContext(ProjectContext);
   const changeAddProjectState = async () => {
     setAddProject(!addProject);
   };
   const changeProjectManage = async () => {
     setProjectManger(!projectManger);
   };
-  const addProjectContent = () => {
+  const addProjectContent = () => {    
     return (
       <>
         <AddProject
@@ -52,6 +54,7 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh }: 
         className={"btn " + (activeHeader ? "active" : "")}
         onClick={(e) => {
           handleActiveProject(e.currentTarget);
+          setProject(project);
           setActiveHeader(true);
         }}
       >

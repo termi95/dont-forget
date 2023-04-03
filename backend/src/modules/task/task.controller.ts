@@ -20,7 +20,8 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get('/tasks')
+  @Post('/tasks')
+  @HttpCode(200)
   getTasks(@Request() req: Request & LoginUserReq, @Body() dto: Project): any {
     return this.taskService.getTasks(dto.id, req.user.id);
   }
@@ -59,6 +60,7 @@ export class TaskController {
     @Request() req: Request & LoginUserReq,
     @Body() dto: TaskUpdate,
   ): Promise<Task> {
+    console.log(dto);
     return this.taskService.patch(dto, req.user.id);
   }
 }
