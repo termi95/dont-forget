@@ -5,6 +5,7 @@ import AddTask from "../task/AddTask";
 import { useState } from "react";
 import ProjectProvider from "./ProjectContext";
 import TaskList from "../task/TaskList";
+import TasksProvider from "../task/TaskContext";
 
 function Project() {
   const [addProjectFlag, setAddProjectFlag] = useState(false);
@@ -18,14 +19,16 @@ function Project() {
         <ProjectProvider>
           <Menu />
           <div id="project-content">
-            <TaskList />
-            {addProjectFlag && <AddTask handleAddClick={handleAddClick} />}
-            <div className="add-task">
-              <AiFillPlusCircle
-                className="add-task-button"
-                onClick={() => handleAddClick(!addProjectFlag)}
-              />
-            </div>
+            <TasksProvider>
+              <TaskList />
+              {addProjectFlag && <AddTask handleAddClick={handleAddClick} />}
+              <div className="add-task">
+                <AiFillPlusCircle
+                  className="add-task-button"
+                  onClick={() => handleAddClick(!addProjectFlag)}
+                />
+              </div>
+            </TasksProvider>
           </div>
         </ProjectProvider>
       </div>

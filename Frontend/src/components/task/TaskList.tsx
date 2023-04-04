@@ -1,43 +1,33 @@
 import { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../project/ProjectContext";
-import { Task as AddTaskType } from "../../types/Task";
 import Task from "./Task";
-import { api } from "../../api/api";
 import Spiner from "../spiner/Spiner";
+import { TasksContext } from "./TaskContext";
+import { UseTask } from "./UseTask";
 
 function TaskList() {
-  const [taskList, setTaskList] = useState<AddTaskType[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { project } = useContext(ProjectContext);
+  const { tasks, setTasks } = useContext(TasksContext);
+  const { getProjectTasks } = UseTask();
 
-  const getProjectTasks = async () => {
+  const handleGetTasks = async () => {
     setIsLoading(true);
-    try {
-      await api
-        .post("/task/tasks", project)
-        .then(async (res) => {
-          if (res.status === 200) {
-            setTaskList(res.data);
-          }
-        })
-        .catch(() => {});
-    } catch (error) {
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    setTasks(await getProjectTasks(project));
+    setIsLoading(false);
+  }
 
   useEffect(() => {
-    getProjectTasks();
+    handleGetTasks();
   }, [project]);
 
   const content = () => {
-    return taskList!.filter((task)=>task.done === false).map((task) => {
-      return <Task key={task.id} task={task} />;
+    return tasks!.filter((task) => task.done === false).map((task) => {
+      return <Task key={task.id} task={task} refresh={handleGetTasks} />;
     });
   };
 
-  return <>{isLoading && !taskList ? <Spiner /> : content()}</>;
+  return <>{isLoading ? <Spiner /> : content()}</>;
 }
 
 export default TaskList;

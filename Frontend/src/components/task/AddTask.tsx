@@ -3,6 +3,8 @@ import { BsFillTrashFill } from "react-icons/all";
 import { api } from "../../api/api";
 import { AddTask as AddTaskType } from "../../types/Task";
 import { ProjectContext } from "../project/ProjectContext";
+import { TasksContext } from "./TaskContext";
+import { UseTask } from "./UseTask";
 interface Props {
   handleAddClick: (flag: boolean) => void;
 }
@@ -14,27 +16,23 @@ const initialTask: AddTaskType = {
 };
 
 function AddTask({ handleAddClick }: Props) {
+  const {handleAddTask, getProjectTasks} = UseTask();
   const [task, setTask] = useState<AddTaskType>(initialTask);
   const ref = useRef<HTMLInputElement>(null);
   const { project } = useContext(ProjectContext);
+  const { setTasks } = useContext(TasksContext);
   useEffect(() => {
     ref.current?.focus();
   }, []);
-  const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleOnKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleAddTask(task);
+      if(await handleAddTask(task, project.id!)){
+        handleAddClick(false);
+        setTasks(await getProjectTasks(project));
+      };
     }
   };
-
-  const handleAddTask = (task: AddTaskType) => {
-    task.projectId = project.id!;
-    api.post("/task", task).then((res) => {
-      if (res.status === 200) {
-        handleAddClick(false);
-      }
-    });
-  };
-
+  
   const handleChange = (e: HTMLInputElement) => {
     task.name = e.value;
     setTask(task);
