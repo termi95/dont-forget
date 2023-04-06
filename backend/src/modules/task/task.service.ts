@@ -12,7 +12,7 @@ export class TaskService {
     private readonly em: EntityRepository<TaskEntity>,
     @InjectRepository(ProjectEntity)
     private readonly emProject: EntityRepository<ProjectEntity>,
-  ) {}
+  ) { }
 
   async getTask(id: number, userId: number): Promise<Task> {
     const task = await this.em.findOne({ id: id, createdByUser: userId });
@@ -85,5 +85,25 @@ export class TaskService {
     }
 
     return tasks;
+  }
+  async togleDone({id, done}:TaskUpdate): Promise<Task> {
+    const task = await this.em.findOne({
+      id: id
+    });
+    if (!task) {
+      throw new HttpException('No task was found.', HttpStatus.NOT_FOUND);
+    }
+
+    try {
+      task.done = done;
+      // task.finishDate = null;
+      // if (done) {
+      //   task.finishDate = new Date();
+      // }
+      await this.em.persistAndFlush(task);     
+    } catch (error) {
+      throw new HttpException('Could not update status task.', HttpStatus.INTERNAL_SERVER_ERROR);     
+    }
+    return task;
   }
 }

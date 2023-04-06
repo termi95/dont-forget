@@ -11,19 +11,19 @@ function TaskList() {
   const { tasks, setTasks } = useContext(TasksContext);
   const { getProjectTasks } = UseTask();
 
-  const handleGetTasks = async () => {
+  const fetchTasks = async () => {
     setIsLoading(true);
     setTasks(await getProjectTasks(project));
     setIsLoading(false);
   }
 
   useEffect(() => {
-    handleGetTasks();
+    fetchTasks();
   }, [project]);
 
   const content = () => {
     return tasks!.filter((task) => task.done === false).map((task) => {
-      return <Task key={task.id} task={task} refresh={handleGetTasks} />;
+      return <Task key={task.id} task={task} refresh={fetchTasks} />;
     });
   };
 

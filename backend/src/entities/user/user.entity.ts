@@ -25,14 +25,14 @@ export class UserEntity {
   @Property()
   password: string;
 
-  @Property({ onCreate: () => new Date() })
-  creationDate: DateTimeType;
+  @Property({ type: 'datetime', columnType: 'datetime', onCreate: () => new Date() })
+  creationDate: Date;
 
-  @Property({ nullable: true })
-  lastLogin: DateTimeType;
+  @Property({ type: 'datetime', columnType: 'datetime', nullable: true })
+  lastLogin: Date;
 
-  @Property({ nullable: true })
-  passwordChangeDate: DateTimeType;
+  @Property({ type: 'datetime', columnType: 'datetime', nullable: true })
+  passwordChangeDate: Date;
 
   @AfterCreate()
   async afterCreate<T>(args: EventArgs<T>): Promise<void> {

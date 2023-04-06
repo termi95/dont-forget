@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Task as AddTaskType, TaskUpdate } from "../../types/Task";
+import { Task as AddTaskType } from "../../types/Task";
 import Spiner from "../spiner/Spiner";
 import { UseTask } from "./UseTask";
 interface Props {
@@ -8,11 +8,11 @@ interface Props {
 }
 function Task({ task, refresh }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { UpdateTask } = UseTask();
-  const handleUpdate = async () => {
+  const { taskToggleDoneStatus } = UseTask();
+  const toggleTaskStatus = async () => {
     try {
       setIsLoading(true);
-      task.done = await UpdateTask(task) ? true : false;
+      task.done = await taskToggleDoneStatus(task) ? true : false;
       refresh();
     } catch (error) {
 
@@ -26,8 +26,8 @@ function Task({ task, refresh }: Props) {
       <>
         <div className="task">
           <div className="circle" onClick={() => {
-            task.done = true;
-            handleUpdate();
+            task.done = !task.done;
+            toggleTaskStatus();
           }}></div>
           <div className="task-title">{task.name}</div>
         </div>

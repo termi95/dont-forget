@@ -1,13 +1,11 @@
-import { DateTimeType } from '@mikro-orm/core';
-
 export interface Task {
   id: number;
   name: string;
   body: string;
   done: boolean;
   createdByUser: number;
-  creationDate: DateTimeType;
-  FinishDate: DateTimeType;
+  creationDate: Date;
+  finishDate: Date;
 }
 
 export interface TaskUpdate {

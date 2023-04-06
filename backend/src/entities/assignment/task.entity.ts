@@ -29,11 +29,11 @@ export class TaskEntity {
   @Property()
   createdByUser: number;
 
-  @Property({ onCreate: () => new Date() })
-  creationDate: DateTimeType;
+  @Property({ type: 'datetime', columnType: 'datetime', onCreate: () => new Date() })
+  creationDate: Date;
 
-  @Property({ nullable: true })
-  FinishDate: DateTimeType;
+  @Property({ type: 'datetime', columnType: 'datetime', nullable: true })
+  finishDate: Date;
 
   constructor(
     name: string,

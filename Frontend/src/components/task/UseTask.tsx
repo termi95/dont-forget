@@ -24,10 +24,10 @@ export const UseTask = () => {
             })
         return tasks
     };
-    const UpdateTask = async (task: Task) => {
+    const taskToggleDoneStatus = async (task: Task) => {
         const updatedTask = await handlePrepareTaskToUpdate(task)
         return await api
-            .patch("/task/", updatedTask)
+            .patch("/task/togleDone", updatedTask)
             .then(async (res) => {
                 if (res.status === 200) {
                     return true
@@ -53,6 +53,6 @@ export const UseTask = () => {
     return {
         handleAddTask,
         getProjectTasks,
-        UpdateTask
+        taskToggleDoneStatus
     }
 }

@@ -60,7 +60,14 @@ export class TaskController {
     @Request() req: Request & LoginUserReq,
     @Body() dto: TaskUpdate,
   ): Promise<Task> {
-    console.log(dto);
     return this.taskService.patch(dto, req.user.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/togleDone')
+  PatchTaskTogleDone(
+    @Body() dto: TaskUpdate,
+  ): Promise<Task> {
+    return this.taskService.togleDone(dto);
   }
 }
