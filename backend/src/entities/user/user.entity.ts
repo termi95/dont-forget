@@ -1,6 +1,5 @@
 import {
   AfterCreate,
-  DateTimeType,
   Entity,
   EventArgs,
   PrimaryKey,
@@ -25,13 +24,17 @@ export class UserEntity {
   @Property()
   password: string;
 
-  @Property({ type: 'datetime', columnType: 'datetime', onCreate: () => new Date() })
+  @Property({
+    type: 'timestamp',
+    columnType: 'timestamp',
+    onCreate: () => new Date(),
+  })
   creationDate: Date;
 
-  @Property({ type: 'datetime', columnType: 'datetime', nullable: true })
+  @Property({ type: 'timestamp', columnType: 'timestamp', nullable: true })
   lastLogin: Date;
 
-  @Property({ type: 'datetime', columnType: 'datetime', nullable: true })
+  @Property({ type: 'timestamp', columnType: 'timestamp', nullable: true })
   passwordChangeDate: Date;
 
   @AfterCreate()

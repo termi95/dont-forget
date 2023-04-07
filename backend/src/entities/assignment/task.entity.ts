@@ -1,5 +1,4 @@
 import {
-  DateTimeType,
   Entity,
   ManyToOne,
   PrimaryKey,
@@ -29,10 +28,14 @@ export class TaskEntity {
   @Property()
   createdByUser: number;
 
-  @Property({ type: 'datetime', columnType: 'datetime', onCreate: () => new Date() })
+  @Property({
+    type: 'datetime',
+    columnType: 'timestamp',
+    onCreate: () => new Date(),
+  })
   creationDate: Date;
 
-  @Property({ type: 'datetime', columnType: 'datetime', nullable: true })
+  @Property({ type: 'datetime', columnType: 'timestamp', nullable: true })
   finishDate: Date;
 
   constructor(
