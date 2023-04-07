@@ -6,6 +6,7 @@ import { useState } from "react";
 import ProjectProvider from "./ProjectContext";
 import TaskList from "../task/TaskList";
 import TasksProvider from "../task/TaskContext";
+import ListManager from "../task/ListManager";
 
 function Project() {
   const [addProjectFlag, setAddProjectFlag] = useState(false);
@@ -20,6 +21,7 @@ function Project() {
           <Menu />
           <div id="project-content">
             <TasksProvider>
+              <ListManager />
               <TaskList />
               {addProjectFlag && <AddTask handleAddClick={handleAddClick} />}
               <div className="add-task">

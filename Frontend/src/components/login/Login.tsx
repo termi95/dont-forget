@@ -9,7 +9,7 @@ function Login() {
     <main>
       <form id="form" onSubmit={handleSubmit}>
         <h1 className="center">Sign Up</h1>
-        <label htmlFor="email">Email</label>
+        <label className="login-label" htmlFor="email">Email</label>
         <input
           id="email"
           type="text"
@@ -18,7 +18,7 @@ function Login() {
           className="login-input"
           onChange={(e) => handleChange(e.target)}
         />
-        <label htmlFor="password">Password </label>
+        <label className="login-label" htmlFor="password">Password </label>
         <input
           id="password"
           type="password"

@@ -17,7 +17,7 @@ function Register() {
     <main>
       <form id="form" onSubmit={handleSubmit}>
         <h1 className="center">Register</h1>
-        <label htmlFor="username">Username</label>
+        <label className="login-label" htmlFor="username">Username</label>
         <input
           id="username"
           type="text"
@@ -27,7 +27,7 @@ function Register() {
           onChange={(e) => handleChange(e.target)}
         />
         {userNameValidationHandler()}
-        <label htmlFor="email">Email</label>
+        <label className="login-label" htmlFor="email">Email</label>
         <input
           id="email"
           type="text"
@@ -37,7 +37,7 @@ function Register() {
           onChange={(e) => handleChange(e.target)}
         />
         {emailValidationHandler()}
-        <label htmlFor="password">Password </label>
+        <label className="login-label" htmlFor="password">Password </label>
         <input
           id="password"
           type="password"

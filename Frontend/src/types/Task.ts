@@ -19,5 +19,14 @@ interface AddTask {
   body: string;
   projectId: number | null;
 }
+interface ITaskVisibility {
+  name: string, value: number
+}
 
-export type { Task, AddTask, TaskUpdate };
+export const TaskVisibility: ITaskVisibility[] = [
+  { name: 'Not done', value: 0 },
+  { name: 'Done', value: 1 },
+  { name: 'All', value: 2 }];
+
+
+export type { Task, AddTask, TaskUpdate, ITaskVisibility };
