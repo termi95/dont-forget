@@ -19,7 +19,7 @@ export default function ListManager() {
             <div className="task">
                 <div>
                     <label htmlFor="visibility">Choose a car:</label>
-                    <select id="visibility" onChange={(e) => { setVisibility(e.target.value) }} value={taskVisibility.name}>
+                    <select id="visibility" onChange={(e) => { setVisibility(e.target.value) }} value={taskVisibility.value}>
                         {
                             visibilityOptions()
                         }
