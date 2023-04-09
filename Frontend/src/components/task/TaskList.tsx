@@ -20,11 +20,11 @@ function TaskList() {
 
   useEffect(() => {
     fetchTasks();
-  }, [project, taskVisibility]);
+  }, [project]);
 
   const content = () => {
     if (!(taskVisibility.name === 'All')) {
-      return tasks!.filter((task) => task.done === Boolean(taskVisibility.value).valueOf()).map((task) => {
+      return tasks!.filter((task) => task.done === Boolean(taskVisibility.value)).map((task) => {
         return <Task key={task.id} task={task} refresh={fetchTasks} />;
       });
     } else {
