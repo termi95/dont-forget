@@ -1,7 +1,10 @@
-import { useState } from "react";
+import "../../style/task.css";
+import { useContext, useState } from "react";
 import { Task as AddTaskType } from "../../types/Task";
 import Spiner from "../spiner/Spiner";
 import { UseTask } from "./UseTask";
+import { TaskBody } from "./TaskBody";
+import { TaskContext } from "./TaskContext";
 interface Props {
   task: AddTaskType;
   refresh: () => void;
@@ -9,6 +12,8 @@ interface Props {
 function Task({ task, refresh }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { taskToggleDoneStatus } = UseTask();
+  const { activeTask, setActiveTask } = useContext(TaskContext);
+
   const toggleTaskStatus = async () => {
     try {
       setIsLoading(true);
@@ -21,16 +26,39 @@ function Task({ task, refresh }: Props) {
     }
   }
 
+  const toggleActiveTask = (task:AddTaskType) => {
+    if (task.id === activeTask?.id) {
+      setActiveTask(null);
+    } else {
+      setActiveTask(task);      
+    }
+  }
+
+  const showTaskBody = () => {
+    if (!activeTask) {
+      return;
+    }
+    if (task.id == activeTask.id) {
+      return (<div className="task-body">
+        {task.id}
+        <TaskBody />
+      </div>);
+    }
+  }
+
   const content = () => {
     return (
       <>
-        <div className="task">
+        <div className="task" onClick={() => { console.log('click'); toggleActiveTask(task) }}>
           <div className="circle" onClick={() => {
             task.done = !task.done;
             toggleTaskStatus();
           }}></div>
           <div className="task-title">{task.name}</div>
         </div>
+        {
+          showTaskBody()
+        }
       </>
     );
   };

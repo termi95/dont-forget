@@ -4,7 +4,7 @@ import { TaskVisibilityContext } from "./TaskContext";
 
 export default function ListManager() {
     const { taskVisibility, setTaskVisibility } = useContext(TaskVisibilityContext);
-    const visibilityOptions = () => (TaskVisibility.map((x,index) => {
+    const visibilityOptions = () => (TaskVisibility.map((x, index) => {
         return <option key={index} value={x.value}>{x.name}</option>
     }));
     const setVisibility = (value: string) => {
@@ -17,8 +17,8 @@ export default function ListManager() {
     return (
         <>
             <div className="task">
-                <div>
-                    <label htmlFor="visibility">Choose a car:</label>
+                <div className="task-visibility">
+                    <label htmlFor="visibility"><p>Task visibility:</p></label>
                     <select id="visibility" onChange={(e) => { setVisibility(e.target.value) }} value={taskVisibility.value}>
                         {
                             visibilityOptions()

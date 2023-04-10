@@ -21,6 +21,7 @@
   border-radius: 20px;
   align-items: center;
   min-height: 40px;
+  cursor: pointer;
 }
 
 .circle {
