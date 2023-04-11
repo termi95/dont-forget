@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useCallback, useState } from "react";
 import { api } from "../../api/api";
 import { Project } from "../../types/Project";
 
@@ -6,7 +6,7 @@ export const UseMenu = () => {
   const [projects, setProjects] = useState<Project[]>();
   const [addProject, setAddProject] = useState<boolean>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const getProjects = async () => {
+  const getProjects = useCallback(async () => {
     setIsLoading(true);
     try {
       await api
@@ -26,16 +26,19 @@ export const UseMenu = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   const changeAddProjectState = async () => {
     setAddProject(!addProject);
   };
 
-  const handleActiveProject = async (newActiveElem: HTMLDivElement) => {
-    document.querySelector(".active")?.classList.remove("active");
-    newActiveElem.classList.add("active");
-  };
+  const handleActiveProject = useCallback(
+    async (newActiveElem: HTMLDivElement) => {
+      document.querySelector(".active")?.classList.remove("active");
+      newActiveElem.classList.add("active");
+    },
+    []
+  );
 
   return {
     getProjects,

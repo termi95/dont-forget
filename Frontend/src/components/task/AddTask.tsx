@@ -1,6 +1,5 @@
 import { KeyboardEvent, useContext, useEffect, useRef, useState } from "react";
 import { BsFillTrashFill } from "react-icons/all";
-import { api } from "../../api/api";
 import { AddTask as AddTaskType } from "../../types/Task";
 import { ProjectContext } from "../project/ProjectContext";
 import { TasksContext } from "./TaskContext";

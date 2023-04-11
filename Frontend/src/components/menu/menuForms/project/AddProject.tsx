@@ -1,6 +1,7 @@
 import { AiOutlinePlus, RxCross1 } from "react-icons/all";
 import { Project } from "../../../../types/Project";
 import { UseAddProject } from "./UseAddProject";
+import { memo } from "react";
 interface Props {
   handleRefresh: () => Promise<void>;
   toggleState: () => Promise<void>;
@@ -12,7 +13,7 @@ function AddProject({ handleRefresh, project, toggleState, update }: Props) {
     handleRefresh,
     toggleState,
     project,
-    update
+    update,
   });
 
   return (
@@ -28,4 +29,4 @@ function AddProject({ handleRefresh, project, toggleState, update }: Props) {
   );
 }
 
-export default AddProject;
+export default memo(AddProject);

@@ -1,4 +1,5 @@
-export function TaskBody() {
+ function TaskBody() {
     return (<>
     dupa dupa</>)
 }
+export default TaskBody;

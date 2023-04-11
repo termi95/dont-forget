@@ -3,6 +3,7 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
+  useMemo,
   useState,
 } from "react";
 import { Project } from "../../types/Project";
@@ -31,9 +32,14 @@ type ProjectProviderProps = {
 export default function ProjectProvider({ children }: ProjectProviderProps) {
   const [project, setProject] = useState<Project>(initialProjectState);
 
+  const value = useMemo(
+    () => ({
+      project,
+      setProject,
+    }),
+    [project]
+  );
   return (
-    <ProjectContext.Provider value={{ project, setProject }}>
-      {children}
-    </ProjectContext.Provider>
+    <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
   );
 }

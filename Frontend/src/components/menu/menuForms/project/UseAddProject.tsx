@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { api } from "../../../../api/api";
 import { Project, ProjectUpdate } from "../../../../types/Project";
 
@@ -13,11 +13,21 @@ interface Props {
   handleRefresh: () => Promise<void>;
   toggleState: () => Promise<void>;
   project: Project;
-  update: boolean
+  update: boolean;
 }
 
-export const UseAddProject = ({ handleRefresh, project, toggleState, update }: Props) => {
-  const [projectUpdate, setProject] = useState<ProjectUpdate>({ name: project.name, newName: "", owner: 0, id: project.id });
+export const UseAddProject = ({
+  handleRefresh,
+  project,
+  toggleState,
+  update,
+}: Props) => {
+  const [projectUpdate, setProject] = useState<ProjectUpdate>({
+    name: project.name,
+    newName: "",
+    owner: 0,
+    id: project.id,
+  });
   const acceptChanges = async () => {
     console.log(update);
     if (projectUpdate && !update && projectUpdate.name) {
@@ -27,7 +37,7 @@ export const UseAddProject = ({ handleRefresh, project, toggleState, update }: P
     }
   };
 
-  const handleChange = async (e: HTMLInputElement) => {
+  const handleChange = useCallback(async (e: HTMLInputElement) => {
     if (update) {
       projectUpdate.newName = e.value;
       setProject(projectUpdate);
@@ -35,7 +45,7 @@ export const UseAddProject = ({ handleRefresh, project, toggleState, update }: P
       projectUpdate.name = e.value;
       setProject(projectUpdate);
     }
-  };
+  }, []);
 
   const handleInsert = async (project: ProjectUpdate) => {
     await api
@@ -47,7 +57,7 @@ export const UseAddProject = ({ handleRefresh, project, toggleState, update }: P
           handleRefresh();
         }
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
   const handleUpdate = async (project: ProjectUpdate) => {
     await api
@@ -59,7 +69,7 @@ export const UseAddProject = ({ handleRefresh, project, toggleState, update }: P
           handleRefresh();
         }
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
   return { acceptChanges, handleChange, projectUpdate };
 };

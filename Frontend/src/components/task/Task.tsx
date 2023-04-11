@@ -1,9 +1,9 @@
 import "../../style/task.css";
-import { useContext, useState } from "react";
+import { memo, useContext, useState } from "react";
 import { Task as AddTaskType } from "../../types/Task";
 import Spiner from "../spiner/Spiner";
 import { UseTask } from "./UseTask";
-import { TaskBody } from "./TaskBody";
+import TaskBody from "./TaskBody";
 import { TaskContext } from "./TaskContext";
 interface Props {
   task: AddTaskType;
@@ -17,48 +17,56 @@ function Task({ task, refresh }: Props) {
   const toggleTaskStatus = async () => {
     try {
       setIsLoading(true);
-      task.done = await taskToggleDoneStatus(task) ? true : false;
+      task.done = (await taskToggleDoneStatus(task)) ? true : false;
       refresh();
     } catch (error) {
-
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
-  const toggleActiveTask = (task:AddTaskType) => {
+  const toggleActiveTask = (task: AddTaskType) => {
     if (task.id === activeTask?.id) {
       setActiveTask(null);
     } else {
-      setActiveTask(task);      
+      setActiveTask(task);
     }
-  }
+  };
 
   const showTaskBody = () => {
     if (!activeTask) {
       return;
     }
     if (task.id == activeTask.id) {
-      return (<div className="task-body">
-        {task.id}
-        <TaskBody />
-      </div>);
+      return (
+        <div className="task-body">
+          {task.id}
+          <TaskBody />
+        </div>
+      );
     }
-  }
+  };
 
   const content = () => {
     return (
       <>
-        <div className="task" onClick={() => { console.log('click'); toggleActiveTask(task) }}>
-          <div className="circle" onClick={() => {
-            task.done = !task.done;
-            toggleTaskStatus();
-          }}></div>
+        <div
+          className="task"
+          onClick={() => {
+            console.log("click");
+            toggleActiveTask(task);
+          }}
+        >
+          <div
+            className="circle"
+            onClick={() => {
+              task.done = !task.done;
+              toggleTaskStatus();
+            }}
+          ></div>
           <div className="task-title">{task.name}</div>
         </div>
-        {
-          showTaskBody()
-        }
+        {showTaskBody()}
       </>
     );
   };

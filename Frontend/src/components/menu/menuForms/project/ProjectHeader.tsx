@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { memo, useContext, useState } from "react";
 import { GoSettings, MdOutlineDriveFileRenameOutline } from "react-icons/all";
 import { BsFillTrashFill, BsListTask } from "react-icons/bs";
 import { api } from "../../../../api/api";
@@ -10,14 +10,14 @@ interface Props {
   project: Project;
   handleActiveProject: (idActiveElem: HTMLDivElement) => Promise<void>;
   handleRefresh: () => Promise<void>;
+  setProjectContext: (project:Project) => void;
 }
 
-function ProjectHeader({ project, active, handleActiveProject, handleRefresh }: Props) {
+function ProjectHeader({ project, active, handleActiveProject, handleRefresh,setProjectContext }: Props) {
   const [activeHeader, setActiveHeader] = useState(active);
   const [addProject, setAddProject] = useState(false);
   const [projectManger, setProjectManger] = useState(false);
-  const { id, name } = project;  
-  const {setProject} = useContext(ProjectContext);
+  const { id, name } = project;
   const changeAddProjectState = async () => {
     setAddProject(!addProject);
   };
@@ -54,7 +54,7 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh }: 
         className={"btn " + (activeHeader ? "active" : "")}
         onClick={(e) => {
           handleActiveProject(e.currentTarget);
-          setProject(project);
+          setProjectContext(project);
           setActiveHeader(true);
         }}
       >
@@ -91,4 +91,4 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh }: 
   );
 }
 
-export default ProjectHeader;
+export default memo(ProjectHeader);

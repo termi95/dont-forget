@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import "../../style/menu.css";
 import { UseMenu } from "./UseMenu";
 import { RiMenuAddLine } from "react-icons/all";
@@ -6,6 +6,7 @@ import AddProject from "./menuForms/project/AddProject";
 import Spiner from "../spiner/Spiner";
 import ProjectHeader from "./menuForms/project/ProjectHeader";
 import { ProjectContext } from "../project/ProjectContext";
+import { Project } from "../../types/Project";
 
 function Menu() {
   const {
@@ -27,6 +28,10 @@ function Menu() {
       setProject(projects[0]);
     }
   }, [projects]);
+
+  const setProjectContext = useCallback((project: Project) => {
+    setProject(project);
+  }, []);
 
   const addProjectContent = () => {
     return (
@@ -55,6 +60,7 @@ function Menu() {
                 project={project}
                 handleActiveProject={handleActiveProject}
                 handleRefresh={getProjects}
+                setProjectContext={setProjectContext}
               />
             );
           } else {
@@ -65,6 +71,7 @@ function Menu() {
                 project={project}
                 handleActiveProject={handleActiveProject}
                 handleRefresh={getProjects}
+                setProjectContext={setProjectContext}
               />
             );
           }
