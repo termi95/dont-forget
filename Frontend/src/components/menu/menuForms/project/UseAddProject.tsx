@@ -29,7 +29,6 @@ export const UseAddProject = ({
     id: project.id,
   });
   const acceptChanges = async () => {
-    console.log(update);
     if (projectUpdate && !update && projectUpdate.name) {
       await handleInsert(projectUpdate);
     } else if (projectUpdate && projectUpdate.newName !== "") {
@@ -71,5 +70,11 @@ export const UseAddProject = ({
       })
       .catch((error) => {});
   };
-  return { acceptChanges, handleChange, projectUpdate };
+
+  const handleOnKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      await acceptChanges();
+    }
+  };
+  return { acceptChanges, handleChange, handleOnKeyDown, projectUpdate };
 };

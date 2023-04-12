@@ -15,7 +15,7 @@ const initialTask: AddTaskType = {
 };
 
 function AddTask({ handleAddClick }: Props) {
-  const {handleAddTask, getProjectTasks} = UseTask();
+  const { handleAddTask, getProjectTasks } = UseTask();
   const [task, setTask] = useState<AddTaskType>(initialTask);
   const ref = useRef<HTMLInputElement>(null);
   const { project } = useContext(ProjectContext);
@@ -25,13 +25,17 @@ function AddTask({ handleAddClick }: Props) {
   }, []);
   const handleOnKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      if(await handleAddTask(task, project.id!)){
-        handleAddClick(false);
-        setTasks(await getProjectTasks(project));
-      };
+      await addTask();
     }
   };
-  
+
+  const addTask = async () => {
+    if (await handleAddTask(task, project.id!)) {
+      handleAddClick(false);
+      setTasks(await getProjectTasks(project));
+    }
+  };
+
   const handleChange = (e: HTMLInputElement) => {
     task.name = e.value;
     setTask(task);
@@ -46,6 +50,7 @@ function AddTask({ handleAddClick }: Props) {
             ref={ref}
             onChange={(e) => handleChange(e.target)}
             onKeyDown={(e) => handleOnKeyDown(e)}
+            onBlur={() => addTask()}
             type="text"
             style={{ all: "unset", width: "100%", textAlign: "left" }}
           />
