@@ -2,7 +2,7 @@ import { KeyboardEvent, useContext, useEffect, useRef, useState } from "react";
 import { BsFillTrashFill } from "react-icons/all";
 import { AddTask as AddTaskType } from "../../types/Task";
 import { ProjectContext } from "../project/ProjectContext";
-import { TasksContext } from "./TaskContext";
+import { TasksContext } from "./contexts/TasksContext";
 import { UseTask } from "./UseTask";
 interface Props {
   handleAddClick: (flag: boolean) => void;

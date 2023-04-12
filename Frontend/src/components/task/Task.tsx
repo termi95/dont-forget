@@ -4,7 +4,7 @@ import { Task as AddTaskType } from "../../types/Task";
 import Spiner from "../spiner/Spiner";
 import { UseTask } from "./UseTask";
 import TaskBody from "./TaskBody";
-import { TaskContext } from "./TaskContext";
+import { TaskContext } from "./contexts/ActiveTaskContext";
 interface Props {
   task: AddTaskType;
   refresh: () => void;

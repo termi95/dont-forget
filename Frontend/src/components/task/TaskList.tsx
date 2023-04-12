@@ -2,8 +2,9 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../project/ProjectContext";
 import Task from "./Task";
 import Spiner from "../spiner/Spiner";
-import { TaskVisibilityContext, TasksContext } from "./TaskContext";
 import { UseTask } from "./UseTask";
+import { TaskVisibilityContext } from "./contexts/TaskVisibilityContext";
+import { TasksContext } from "./contexts/TasksContext";
 
 function TaskList() {
   const { taskVisibility } = useContext(TaskVisibilityContext);

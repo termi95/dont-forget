@@ -1,6 +1,6 @@
 import { memo, useContext } from "react";
 import { TaskVisibility } from "../../types/Task";
-import { TaskVisibilityContext } from "./TaskContext";
+import { TaskVisibilityContext } from "./contexts/TaskVisibilityContext";
 
 function ListManager() {
   const { taskVisibility, setTaskVisibility } = useContext(
