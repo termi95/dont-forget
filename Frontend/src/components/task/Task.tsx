@@ -1,17 +1,20 @@
 import "../../style/task.css";
-import {  useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Task as AddTaskType } from "../../types/Task";
 import Spiner from "../spiner/Spiner";
 import { UseTask } from "./UseTask";
 import TaskBody from "./TaskBody";
 import { TaskContext } from "./contexts/ActiveTaskContext";
+import { BsFillTrashFill, BsListTask } from "react-icons/bs";
+import { GoSettings, MdOutlineDriveFileRenameOutline, RxCross1 } from "react-icons/all";
 interface Props {
   task: AddTaskType;
   refresh: () => void;
 }
 function Task({ task, refresh }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { taskToggleDoneStatus } = UseTask();
+  const [visibleTaskSetting, setVisibleTaskSetting] = useState<boolean>(false);
+  const { taskToggleDoneStatus, deleteTask } = UseTask();
   const { activeTask, setActiveTask } = useContext(TaskContext);
 
   const toggleTaskStatus = async () => {
@@ -46,14 +49,32 @@ function Task({ task, refresh }: Props) {
     }
   };
 
+  const taskSettings = () => {
+    return (
+      <div className="task-header-manager">
+        <MdOutlineDriveFileRenameOutline title="Rename" className="icon-menu primary" onClick={() => { }} />
+        <BsFillTrashFill title="Delete" className="icon-menu delete" onClick={async () => { if (await deleteTask(task)) { refresh(); } }} />
+        <RxCross1 className="icon-menu secondary" onClick={() => { setVisibleTaskSetting(false) }} />
+      </div>);
+  }
+
+  const taskSettingsIcon = () => {
+    return (<BsListTask className="icon-menu secondary" onClick={() => { setVisibleTaskSetting(true) }} />);
+  }
+
+  const taskSettingsOrIcon = () => {
+    if (visibleTaskSetting) {
+      return taskSettings()
+    } else {
+      return taskSettingsIcon()
+    }
+  }
   const content = () => {
     return (
       <>
         <div
-          className={`task ${activeTask?.id &&task.id == activeTask.id &&"remove-bottom-border"}`}
-          onClick={() => {
-            toggleActiveTask(task);
-          }}
+          className={`task ${activeTask?.id && task.id === activeTask.id ? "remove-bottom-border" : ""} `}
+
         >
           <div
             className="circle"
@@ -62,7 +83,8 @@ function Task({ task, refresh }: Props) {
               toggleTaskStatus();
             }}
           ></div>
-          <div className="task-title">{task.name}</div>
+          <div className="task-title" onClick={() => { toggleActiveTask(task); }}>{task.name}</div>
+          {taskSettingsOrIcon()}
         </div>
         {showTaskBody()}
       </>

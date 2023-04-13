@@ -44,8 +44,8 @@ export class TaskService {
     }
   }
 
-  async delete({ name, id }: Task, owner: number): Promise<boolean> {
-    const Task = await this.em.findOne({ name, id, createdByUser: owner });
+  async delete({ id }: Task): Promise<boolean> {
+    const Task = await this.em.findOne({ id});
     if (!Task) {
       throw new HttpException(
         'Task to delete not found.',

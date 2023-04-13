@@ -57,7 +57,7 @@ function AddTask({ handleAddClick }: Props) {
         </div>
         <BsFillTrashFill
           title="Delete"
-          className="icon-menu"
+          className="icon-menu delete"
           onClick={() => handleAddClick(false)}
           style={{ marginRight: "2rem", marginLeft: "2rem" }}
         />

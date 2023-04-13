@@ -17,6 +17,25 @@
   border-bottom-right-radius: 0px;
 }
 
-.task-body-content{
-    padding: 10px;
+.task-body-content-wraper {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.task-body-content {
+  width: 50%;
+}
+
+
+.task-body-content > textarea{
+  width: 95%;
+  max-width: 95%;  
+}
+
+.chat { 
+  width: 50%;
+  border-color:rgba(128, 128, 128, 0.5);
+  border-left: dotted 1px;
 }

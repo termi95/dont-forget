@@ -60,7 +60,7 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh,set
         }}
       >
         <span style={{ width:'100%'}}>{name}</span>
-        <BsListTask className="icon-menu end" onClick={changeProjectManage} />
+        <BsListTask className="icon-menu end secondary" onClick={changeProjectManage} />
       </div>)
   }
 
@@ -76,9 +76,9 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh,set
     if (projectManger) {
       return (<div>
         <div className="project-header-manager">
-          <MdOutlineDriveFileRenameOutline title="Rename" className="icon-menu" onClick={changeAddProjectState} />
-          <BsFillTrashFill title="Delete" className="icon-menu" onClick={async () => await handleDelete(id!)} />
-          <GoSettings title="Settings" className="icon-menu" onClick={() => alert("jeszcze tu nic nie ma")} />
+          <MdOutlineDriveFileRenameOutline title="Rename" className="icon-menu success" onClick={changeAddProjectState} />
+          <BsFillTrashFill title="Delete" className="icon-menu delete" onClick={async () => await handleDelete(id!)} />
+          <GoSettings title="Settings" className="icon-menu primary" onClick={() => alert("jeszcze tu nic nie ma")} />
         </div>
       </div>)
     }

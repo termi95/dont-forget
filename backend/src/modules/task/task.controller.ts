@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Patch,
   Post,
@@ -17,7 +16,7 @@ import { TaskService } from './task.service';
 
 @Controller('/task')
 export class TaskController {
-  constructor(private readonly taskService: TaskService) {}
+  constructor(private readonly taskService: TaskService) { }
 
   @UseGuards(JwtAuthGuard)
   @Post('/tasks')
@@ -46,12 +45,12 @@ export class TaskController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('/')
+  @Post('/delete')
   deleteTask(
     @Request() req: Request & LoginUserReq,
     @Body() dto: Task,
   ): Promise<boolean> {
-    return this.taskService.delete(dto, req.user.id);
+    return this.taskService.delete(dto);
   }
 
   @UseGuards(JwtAuthGuard)

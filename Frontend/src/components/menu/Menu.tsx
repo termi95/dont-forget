@@ -86,7 +86,7 @@ function Menu() {
         <span style={{ width: "100%" }} className="add-new">
           Add new
         </span>
-        <div className="icon-menu add-new">
+        <div className="icon-menu add-new secondary">
           <RiMenuAddLine />
         </div>
       </div>

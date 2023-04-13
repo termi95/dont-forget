@@ -5,3 +5,22 @@
   min-height: 100vh;
   min-width: 100vw;
 }
+
+.delete:hover {
+  color: #c82333;
+}
+
+.primary:hover {
+  color: #0069d9
+}
+
+.info:hover {
+  color: #138496;
+}
+
+.secondary:hover {
+  color: #6c757d;
+}
+.success:hover {
+  color: #218838;
+}

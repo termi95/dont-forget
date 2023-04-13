@@ -30,8 +30,8 @@ function AddProject({ handleRefresh, project, toggleState, update }: Props) {
         onChange={(e) => handleChange(e.target)}
         onKeyDown={(e) => handleOnKeyDown(e)}
       ></input>
-      <AiOutlinePlus className="icon-menu" onClick={() => acceptChanges()} />
-      <RxCross1 className="icon-menu" onClick={toggleState} />
+      <AiOutlinePlus className="icon-menu success" onClick={() => acceptChanges()} />
+      <RxCross1 className="icon-menu secondary" onClick={toggleState} />
     </button>
   );
 }

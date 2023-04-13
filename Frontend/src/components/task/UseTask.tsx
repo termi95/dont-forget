@@ -4,6 +4,9 @@ import { AddTask, Task, TaskUpdate } from "../../types/Task";
 
 export const UseTask = () => {
     const handleAddTask = (task: AddTask, projectId: number) => {
+        if (task.name.length < 4) {
+            throw new Error("Name is to short");
+        }
         task.projectId = projectId;
         const result = api.post("/task", task).then((res) => {
             if (res.status === 200) {
@@ -36,6 +39,18 @@ export const UseTask = () => {
             })
             .catch((e) => { throw new Error(""); });
     };
+    const deleteTask = async (task: Task) => {
+        return await api
+            .post("/task/delete", task)
+            .then(async (res) => {
+                if (res.status === 201) {
+                    return true
+                }
+                throw new Error("");
+            })
+            .catch((e) => { throw new Error(""); });
+    };
+
     const handlePrepareTaskToUpdate = (task: Task) => {
         const updateTask: TaskUpdate = {
             id: 0,
@@ -53,6 +68,7 @@ export const UseTask = () => {
     return {
         handleAddTask,
         getProjectTasks,
-        taskToggleDoneStatus
+        taskToggleDoneStatus,
+        deleteTask
     }
 }
