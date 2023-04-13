@@ -1,0 +1,22 @@
+.task-body {
+  border-color: rgba(128, 128, 128, 0.5);
+  border-style: none solid solid solid;
+  display: flex;
+  margin-top: -12px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: rgb(220, 220, 220);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  align-items: center;
+  min-height: 40px;
+}
+
+.remove-bottom-border {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.task-body-content{
+    padding: 10px;
+}

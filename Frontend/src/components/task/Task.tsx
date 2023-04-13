@@ -1,5 +1,5 @@
 import "../../style/task.css";
-import { memo, useContext, useState } from "react";
+import {  useContext, useState } from "react";
 import { Task as AddTaskType } from "../../types/Task";
 import Spiner from "../spiner/Spiner";
 import { UseTask } from "./UseTask";
@@ -40,7 +40,6 @@ function Task({ task, refresh }: Props) {
     if (task.id == activeTask.id) {
       return (
         <div className="task-body">
-          {task.id}
           <TaskBody />
         </div>
       );
@@ -51,9 +50,8 @@ function Task({ task, refresh }: Props) {
     return (
       <>
         <div
-          className="task"
+          className={`task ${activeTask?.id &&task.id == activeTask.id &&"remove-bottom-border"}`}
           onClick={() => {
-            console.log("click");
             toggleActiveTask(task);
           }}
         >

@@ -52,6 +52,7 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh,set
       <div
         key={id}
         className={"btn " + (activeHeader ? "active" : "")}
+        onDoubleClick={changeAddProjectState}
         onClick={(e) => {
           handleActiveProject(e.currentTarget);
           setProjectContext(project);
