@@ -16,7 +16,6 @@ function ListManager() {
     });
   const setVisibility = (value: string) => {
     const mode = TaskVisibility.find((x) => x.value === Number(value));
-    console.log(value, mode);
     if (mode) {
       setTaskVisibility(mode);
     }

@@ -43,6 +43,7 @@
   border-color: #e7e7e7;
   width: 80%;
   margin-left: 5px;
+  padding: 5px;
 }
 
 .add-project .btn {
@@ -101,6 +102,7 @@
   display: flex;
   padding-top: 5px;
   padding-bottom: 5px;
+  align-items: center;
 }
 
 .project-header-manager {

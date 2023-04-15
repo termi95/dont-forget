@@ -1,20 +1,17 @@
-import { useCallback, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import "../../style/menu.css";
 import { UseMenu } from "./UseMenu";
 import { RiMenuAddLine } from "react-icons/all";
-import AddProject from "./menuForms/project/AddProject";
 import Spiner from "../spiner/Spiner";
-import ProjectHeader from "./menuForms/project/ProjectHeader";
+import ProjectHeader from "./menuElements/project/header/ProjectHeader";
 import { ProjectContext } from "../project/ProjectContext";
-import { Project } from "../../types/Project";
 
 function Menu() {
   const {
     getProjects,
     changeAddProjectState,
-    handleActiveProject,
+    addProjectContent,
     projects,
-    addProject,
     isLoading,
   } = UseMenu();
   const { project, setProject } = useContext(ProjectContext);
@@ -25,56 +22,21 @@ function Menu() {
 
   useEffect(() => {
     if (projects && projects.length > 0 && project.id === 0) {
-      setProject(projects[0]);
+      setProject(projects[0]);    
     }
   }, [projects]);
-
-  const setProjectContext = useCallback((project: Project) => {
-    setProject(project);
-  }, []);
-
-  const addProjectContent = () => {
-    return (
-      <>
-        {addProject && (
-          <AddProject
-            handleRefresh={getProjects}
-            project={{ name: "", owner: 0, id: 0 }}
-            toggleState={changeAddProjectState}
-            update={false}
-          />
-        )}
-      </>
-    );
-  };
 
   const content = () => {
     return (
       <>
-        {projects?.map((project, index) => {
-          if (index < 1) {
-            return (
-              <ProjectHeader
-                key={index}
-                active={true}
-                project={project}
-                handleActiveProject={handleActiveProject}
-                handleRefresh={getProjects}
-                setProjectContext={setProjectContext}
-              />
-            );
-          } else {
-            return (
-              <ProjectHeader
-                key={index}
-                active={false}
-                project={project}
-                handleActiveProject={handleActiveProject}
-                handleRefresh={getProjects}
-                setProjectContext={setProjectContext}
-              />
-            );
-          }
+        {projects?.map((project, index) => {          
+          return (
+            <ProjectHeader
+              key={index}
+              projectProp={project}
+              handleRefresh={getProjects}
+            />
+          );
         })}
       </>
     );
@@ -91,7 +53,7 @@ function Menu() {
         </div>
       </div>
       {addProjectContent()}
-      {isLoading ? <Spiner /> : content()}
+        {isLoading ? <Spiner /> : content()}
     </menu>
   );
 }

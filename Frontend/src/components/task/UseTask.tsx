@@ -62,7 +62,6 @@ export const UseTask = () => {
         updateTask.newName = task.name;
         updateTask.newBody = task.body;
         updateTask.id = task.id ? task.id : 0;
-        console.log(updateTask);
         return updateTask;
     }
     return {

@@ -39,7 +39,7 @@ export const UseRegister = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        throw new Error(error);        
       });
   };
 

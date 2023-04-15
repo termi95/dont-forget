@@ -1,5 +1,5 @@
 import { AiOutlinePlus, RxCross1 } from "react-icons/all";
-import { Project } from "../../../../types/Project";
+import { Project } from "../../../../../types/Project";
 import { UseAddProject } from "./UseAddProject";
 import { memo, useEffect, useRef } from "react";
 interface Props {

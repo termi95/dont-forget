@@ -1,12 +1,13 @@
 import { useCallback, useState } from "react";
 import { Project } from "../../types/Project";
 import UseMenuApi from "./UseMenuApi";
+import AddProject from "./menuElements/project/addProject/AddProject";
 
 export const UseMenu = () => {
   const { getProjectHeader } = UseMenuApi();
   const [projects, setProjects] = useState<Project[]>();
   const [addProject, setAddProject] = useState<boolean>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);  
   const getProjects = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -24,19 +25,26 @@ export const UseMenu = () => {
     setAddProject(!addProject);
   };
 
-  const handleActiveProject = useCallback(
-    async (newActiveElem: HTMLDivElement) => {
-      document.querySelector(".active")?.classList.remove("active");
-      newActiveElem.classList.add("active");
-    },
-    []
-  );
+  const addProjectContent = () => {
+    return (
+      <>
+        {addProject && (
+          <AddProject
+            handleRefresh={getProjects}
+            project={{ name: "", owner: 0, id: 0 }}
+            toggleState={changeAddProjectState}
+            update={false}
+          />
+        )}
+      </>
+    );
+  };
 
   return {
     getProjects,
     changeAddProjectState,
     setIsLoading,
-    handleActiveProject,
+    addProjectContent,
     projects,
     addProject,
     isLoading,

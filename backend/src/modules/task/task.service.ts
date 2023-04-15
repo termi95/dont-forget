@@ -36,7 +36,6 @@ export class TaskService {
       await this.em.persistAndFlush(await this.em.create(task));
       return task;
     } catch (e) {
-      console.log(e);
       throw new HttpException(
         'Faild to create task.',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -60,7 +59,6 @@ export class TaskService {
     { id, newName, newBody, done }: TaskUpdate,
     owner: number,
   ): Promise<Task> {
-    console.log(id, newName, newBody, done);
     const Task = await this.em.findOne({ id, createdByUser: owner });
     if (!Task) {
       throw new HttpException(

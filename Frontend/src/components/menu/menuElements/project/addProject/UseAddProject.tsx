@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
-import { api } from "../../../../api/api";
-import { Project, ProjectUpdate } from "../../../../types/Project";
-import UseMenuApi from "../../UseMenuApi";
+import { Project, ProjectUpdate } from "../../../../../types/Project";
+import UseMenuApi from "../../../UseMenuApi";
 
 const initialProjectState: ProjectUpdate = {
   name: "",
