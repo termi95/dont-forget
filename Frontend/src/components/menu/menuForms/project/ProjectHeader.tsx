@@ -1,19 +1,26 @@
-import { memo, useContext, useState } from "react";
+import { memo, useState } from "react";
 import { GoSettings, MdOutlineDriveFileRenameOutline } from "react-icons/all";
 import { BsFillTrashFill, BsListTask } from "react-icons/bs";
 import { api } from "../../../../api/api";
 import { Project } from "../../../../types/Project";
-import { ProjectContext } from "../../../project/ProjectContext";
 import AddProject from "./AddProject";
+import UseMenuApi from "../../UseMenuApi";
 interface Props {
   active: boolean;
   project: Project;
   handleActiveProject: (idActiveElem: HTMLDivElement) => Promise<void>;
   handleRefresh: () => Promise<void>;
-  setProjectContext: (project:Project) => void;
+  setProjectContext: (project: Project) => void;
 }
 
-function ProjectHeader({ project, active, handleActiveProject, handleRefresh,setProjectContext }: Props) {
+function ProjectHeader({
+  project,
+  active,
+  handleActiveProject,
+  handleRefresh,
+  setProjectContext,
+}: Props) {
+  const { deleteProjectHeader } = UseMenuApi();
   const [activeHeader, setActiveHeader] = useState(active);
   const [addProject, setAddProject] = useState(false);
   const [projectManger, setProjectManger] = useState(false);
@@ -24,7 +31,7 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh,set
   const changeProjectManage = async () => {
     setProjectManger(!projectManger);
   };
-  const addProjectContent = () => {    
+  const addProjectContent = () => {
     return (
       <>
         <AddProject
@@ -37,14 +44,9 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh,set
     );
   };
   const handleDelete = async (id: number) => {
-    await api
-      .delete("/project/", { data: { id } })
-      .then((res) => {
-        if (res.status === 200) {
-          handleRefresh();
-        }
-      })
-      .catch((error) => { });
+    if (await deleteProjectHeader(id)) {
+      handleRefresh();
+    }
   };
 
   const projectHeader = () => {
@@ -59,10 +61,18 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh,set
           setActiveHeader(true);
         }}
       >
+<<<<<<< Updated upstream
         <span style={{ width:'100%'}}>{name}</span>
         <BsListTask className="icon-menu end secondary" onClick={changeProjectManage} />
       </div>)
   }
+=======
+        <span style={{ width: "100%" }}>{name}</span>
+        <BsListTask className="icon-menu end" onClick={changeProjectManage} />
+      </div>
+    );
+  };
+>>>>>>> Stashed changes
 
   const projectOrRename = () => {
     if (addProject) {
@@ -70,19 +80,41 @@ function ProjectHeader({ project, active, handleActiveProject, handleRefresh,set
     } else {
       return projectHeader();
     }
-  }
+  };
 
   const projectMangerContent = () => {
     if (projectManger) {
+<<<<<<< Updated upstream
       return (<div>
         <div className="project-header-manager">
           <MdOutlineDriveFileRenameOutline title="Rename" className="icon-menu success" onClick={changeAddProjectState} />
           <BsFillTrashFill title="Delete" className="icon-menu delete" onClick={async () => await handleDelete(id!)} />
           <GoSettings title="Settings" className="icon-menu primary" onClick={() => alert("jeszcze tu nic nie ma")} />
+=======
+      return (
+        <div>
+          <div className="project-header-manager">
+            <MdOutlineDriveFileRenameOutline
+              title="Rename"
+              className="icon-menu"
+              onClick={changeAddProjectState}
+            />
+            <BsFillTrashFill
+              title="Delete"
+              className="icon-menu"
+              onClick={async () => await handleDelete(id!)}
+            />
+            <GoSettings
+              title="Settings"
+              className="icon-menu"
+              onClick={() => alert("jeszcze tu nic nie ma")}
+            />
+          </div>
+>>>>>>> Stashed changes
         </div>
-      </div>)
+      );
     }
-  }
+  };
 
   return (
     <>

@@ -1,27 +1,19 @@
-import { SetStateAction, useCallback, useState } from "react";
-import { api } from "../../api/api";
+import { useCallback, useState } from "react";
 import { Project } from "../../types/Project";
+import UseMenuApi from "./UseMenuApi";
 
 export const UseMenu = () => {
+  const { getProjectHeader } = UseMenuApi();
   const [projects, setProjects] = useState<Project[]>();
   const [addProject, setAddProject] = useState<boolean>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const getProjects = useCallback(async () => {
     setIsLoading(true);
     try {
-      await api
-        .get("/project/projects")
-        .then(
-          async (res: {
-            status: number;
-            data: SetStateAction<Project[] | undefined>;
-          }) => {
-            if (res.status === 200) {
-              setProjects(res.data);
-            }
-          }
-        )
-        .catch(() => {});
+      const projects = await getProjectHeader();
+      if (projects !== null) {
+        setProjects(projects);
+      }
     } catch (error) {
     } finally {
       setIsLoading(false);

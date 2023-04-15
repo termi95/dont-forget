@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { api } from "../../../../api/api";
 import { Project, ProjectUpdate } from "../../../../types/Project";
+import UseMenuApi from "../../UseMenuApi";
 
 const initialProjectState: ProjectUpdate = {
   name: "",
@@ -28,6 +29,7 @@ export const UseAddProject = ({
     owner: 0,
     id: project.id,
   });
+  const { updateProjectHeader, insertProjectHeader } = UseMenuApi();
   const acceptChanges = async () => {
     if (projectUpdate && !update && projectUpdate.name) {
       await handleInsert(projectUpdate);
@@ -47,28 +49,19 @@ export const UseAddProject = ({
   }, []);
 
   const handleInsert = async (project: ProjectUpdate) => {
-    await api
-      .post("/project/", project)
-      .then((res) => {
-        if (res.status === 201) {
-          setProject(initialProjectState);
-          toggleState();
-          handleRefresh();
-        }
-      })
-      .catch((error) => {});
+    if (await insertProjectHeader(project)) {
+      setProject(initialProjectState);
+      toggleState();
+      handleRefresh();
+    }
   };
+
   const handleUpdate = async (project: ProjectUpdate) => {
-    await api
-      .patch("/project/", project)
-      .then((res) => {
-        if (res.status === 200) {
-          setProject(initialProjectState);
-          toggleState();
-          handleRefresh();
-        }
-      })
-      .catch((error) => {});
+    if (await updateProjectHeader(project)) {
+      setProject(initialProjectState);
+      toggleState();
+      handleRefresh();
+    }
   };
 
   const handleOnKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
