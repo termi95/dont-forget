@@ -1,17 +1,19 @@
-import { memo, useCallback, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { GoSettings, MdOutlineDriveFileRenameOutline } from "react-icons/all";
 import { BsFillTrashFill, BsListTask } from "react-icons/bs";
 import { Project } from "../../../../../types/Project";
 import UseProjectHeader from "./UseProjectHeader";
 import { ProjectContext } from "../../../../project/ProjectContext";
 import AddProject from "../addProject/AddProject";
+import Modal from "../../../../modal/Modal";
+import { ModalButton } from "../../../../../types/Modal";
 interface Props {
   projectProp: Project;
   handleRefresh: () => Promise<void>;
 }
 
 function ProjectHeader({ projectProp, handleRefresh }: Props) {
-  const { handleDelete, changeAddProjectState, addProject } = UseProjectHeader({
+  const { handleDelete, changeAddProjectState, toggleModalValue, addProject, showModal } = UseProjectHeader({
     handleRefresh,
   });
   const { project, setProject } = useContext(ProjectContext);
@@ -90,6 +92,7 @@ function ProjectHeader({ projectProp, handleRefresh }: Props) {
     <>
       {projectOrRename()}
       {projectMangerContent()}
+      {showModal && <Modal text={`Are you sure, you want to delete project: ${projectProp.name}`} tittle={projectProp.name} type={ModalButton.YesNo} handleUserAction={toggleModalValue}/>}
     </>
   );
 }

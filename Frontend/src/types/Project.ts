@@ -7,10 +7,5 @@ interface Project {
   interface ProjectUpdate extends Project {
     newName: string;
   }
-
-  interface ProjectContextType {
-    project: Project
-    activeManager:boolean
-  }
   
-  export type { Project, ProjectUpdate, ProjectContextType };
+  export type { Project, ProjectUpdate };

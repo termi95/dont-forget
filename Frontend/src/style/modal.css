@@ -1,0 +1,66 @@
+/* The Modal (background) */
+.modal {
+    /* display: none; */
+    /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: rgba(254, 254, 254, 0.8);
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    font-size: 1rem;
+    border-radius: 25px;
+}
+
+.modal-title {
+    font-size: 2rem;
+    border-bottom: 1px solid #888;
+}
+
+.modal-content-text {
+    padding-top: 20px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.modal-content-action {
+    padding-top: 20px;
+}
+
+.modal-content-action > button {
+    padding: 5px;
+    margin: 10px;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    border-style: double;
+    color: white;
+    cursor: pointer;
+}
+
+.close {
+    background-color: #bdbdbd;
+    float: right;
+    font-size: 2rem;
+    font-weight: bold;
+    position: absolute;
+    margin: 5px;
+    top: 0px;
+    right: 0px;
+    border-radius: 25%;
+}
+
+.close:hover,
+.close:focus {
+    cursor: pointer;
+}
