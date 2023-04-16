@@ -56,10 +56,9 @@ export class TaskService {
   }
 
   async patch(
-    { id, newName, newBody, done }: TaskUpdate,
-    owner: number,
+    { id, newName }: TaskUpdate
   ): Promise<Task> {
-    const Task = await this.em.findOne({ id, createdByUser: owner });
+    const Task = await this.em.findOne({ id });
     if (!Task) {
       throw new HttpException(
         'Task to update not found.',
@@ -67,8 +66,6 @@ export class TaskService {
       );
     }
     Task.name = newName;
-    Task.body = newBody;
-    Task.done = done;
     await this.em.persistAndFlush(Task);
     return Task;
   }

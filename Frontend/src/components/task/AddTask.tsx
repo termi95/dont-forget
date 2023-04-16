@@ -1,22 +1,24 @@
 import { KeyboardEvent, useContext, useEffect, useRef, useState } from "react";
 import { BsFillTrashFill } from "react-icons/all";
-import { AddTask as AddTaskType } from "../../types/Task";
+import { AddTaskHeader } from "../../types/Task";
 import { ProjectContext } from "../project/ProjectContext";
 import { TasksContext } from "./contexts/TasksContext";
 import { UseTask } from "./UseTask";
 interface Props {
   handleAddClick: (flag: boolean) => void;
+  isUpdate: boolean;
+  taskId:number
 }
 
-const initialTask: AddTaskType = {
-  body: "",
+const initialTask: AddTaskHeader = {
   name: "",
   projectId: 0,
+  id:0,
 };
 
-function AddTask({ handleAddClick }: Props) {
-  const { handleAddTask, getProjectTasks } = UseTask();
-  const [task, setTask] = useState<AddTaskType>(initialTask);
+function AddTask({ handleAddClick, isUpdate, taskId }: Props) {
+  const { handleAddTask, handleUpdateTask, getProjectTasks } = UseTask();
+  const [task, setTask] = useState<AddTaskHeader>(initialTask);
   const ref = useRef<HTMLInputElement>(null);
   const { project } = useContext(ProjectContext);
   const { setTasks } = useContext(TasksContext);
@@ -25,7 +27,7 @@ function AddTask({ handleAddClick }: Props) {
   }, []);
   const handleOnKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      await addTask();
+      await acceptChanges();
     }
   };
 
@@ -34,6 +36,22 @@ function AddTask({ handleAddClick }: Props) {
       handleAddClick(false);
       setTasks(await getProjectTasks(project));
     }
+  };
+
+  const updateTask = async () => {
+    task.id = taskId;
+    if (await handleUpdateTask(task)) {
+      handleAddClick(false);
+      setTasks(await getProjectTasks(project));
+    }
+  };
+
+  const acceptChanges = async () => {
+    if (isUpdate) {
+      await updateTask();
+      return;
+    }
+    await addTask();
   };
 
   const handleChange = (e: HTMLInputElement) => {
@@ -50,7 +68,7 @@ function AddTask({ handleAddClick }: Props) {
             ref={ref}
             onChange={(e) => handleChange(e.target)}
             onKeyDown={(e) => handleOnKeyDown(e)}
-            onBlur={() => addTask()}
+            onBlur={() => acceptChanges()}
             type="text"
             style={{ all: "unset", width: "100%", textAlign: "left" }}
           />

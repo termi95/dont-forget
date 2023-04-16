@@ -14,10 +14,10 @@ interface TaskUpdate {
   done: boolean;
 }
 
-interface AddTask {
+interface AddTaskHeader {
   name: string;
-  body: string;
   projectId: number | null;
+  id: number
 }
 interface ITaskVisibility {
   name: string, value: number
@@ -29,4 +29,4 @@ export const TaskVisibility: ITaskVisibility[] = [
   { name: 'All', value: 2 }];
 
 
-export type { Task, AddTask, TaskUpdate, ITaskVisibility };
+export type { Task, AddTaskHeader, TaskUpdate, ITaskVisibility };

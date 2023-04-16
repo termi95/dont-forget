@@ -54,12 +54,12 @@ export class TaskController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('/')
+  @Patch('/rename')
   PatchTask(
     @Request() req: Request & LoginUserReq,
     @Body() dto: TaskUpdate,
   ): Promise<Task> {
-    return this.taskService.patch(dto, req.user.id);
+    return this.taskService.patch(dto);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -3,23 +3,25 @@ import AddTask from "./AddTask";
 import { useState } from "react";
 
 function AddTaskContainer() {
-    const [addProjectFlag, setAddProjectFlag] = useState(false);
-    const handleAddClick = (flag: boolean) => {
-      setAddProjectFlag(flag);
-    };
+  const [addProjectFlag, setAddProjectFlag] = useState(false);
 
-return(
-    <>    
-    {addProjectFlag && <AddTask handleAddClick={handleAddClick} />}
-              <div className="add-task">
-                <AiFillPlusCircle
-                  className="add-task-button"
-                  onClick={() => handleAddClick(!addProjectFlag)}
-                />
-              </div>
+  return (
+    <>
+      {addProjectFlag && (
+        <AddTask
+          handleAddClick={() => setAddProjectFlag(false)}
+          isUpdate={false}
+          taskId={0}
+        />
+      )}
+      <div className="add-task">
+        <AiFillPlusCircle
+          className="add-task-button"
+          onClick={() => setAddProjectFlag(true)}
+        />
+      </div>
     </>
-)
-    
+  );
 }
 
 export default AddTaskContainer;

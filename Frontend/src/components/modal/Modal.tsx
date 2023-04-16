@@ -1,4 +1,3 @@
-import { RxCross1 } from "react-icons/all"
 import "../../style/modal.css"
 import { ModalButton } from "../../types/Modal";
 
@@ -33,8 +32,7 @@ function Modal({ text, tittle, type, handleUserAction, closeAction }: Props) {
     return (
         <>
             <div id="myModal" className="modal" onClick={async () => await closeAction()}>
-                <div onClick={(e) => e.stopPropagation()} className="modal-content">
-                    <RxCross1 className="icon-menu secondary close" onClick={async () => await closeAction()} />
+                <div onClick={(e) => e.stopPropagation()} className="modal-content">                    
                     <div className="modal-title">
                         <p>{tittle}</p>
                     </div>
