@@ -1,12 +1,14 @@
 import "../../style/task.css";
-import { useContext, useState } from "react";
+import { lazy, useContext, useState } from "react";
 import { Task as AddTaskType } from "../../types/Task";
 import Spiner from "../spiner/Spiner";
 import { UseTask } from "./UseTask";
 import TaskBody from "./TaskBody";
 import { TaskContext } from "./contexts/ActiveTaskContext";
 import { BsFillTrashFill, BsListTask } from "react-icons/bs";
-import { GoSettings, MdOutlineDriveFileRenameOutline, RxCross1 } from "react-icons/all";
+import { MdOutlineDriveFileRenameOutline, RxCross1 } from "react-icons/all";
+import { ModalButton } from "../../types/Modal";
+const Modal = lazy(() => import("../modal/Modal"));
 interface Props {
   task: AddTaskType;
   refresh: () => void;
@@ -14,6 +16,7 @@ interface Props {
 function Task({ task, refresh }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visibleTaskSetting, setVisibleTaskSetting] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const { taskToggleDoneStatus, deleteTask } = UseTask();
   const { activeTask, setActiveTask } = useContext(TaskContext);
 
@@ -49,11 +52,21 @@ function Task({ task, refresh }: Props) {
     }
   };
 
+  const deleteTaskHandler = async (userAction: boolean) => {
+    setShowModal(false);
+    if (!userAction) {
+      return
+    }
+    if (await deleteTask(task)) {
+      refresh();
+    }
+  }
+
   const taskSettings = () => {
     return (
       <div className="task-header-manager">
         <MdOutlineDriveFileRenameOutline title="Rename" className="icon-menu primary" onClick={() => { }} />
-        <BsFillTrashFill title="Delete" className="icon-menu delete" onClick={async () => { if (await deleteTask(task)) { refresh(); } }} />
+        <BsFillTrashFill title="Delete" className="icon-menu delete" onClick={async () => setShowModal(true)} />
         <RxCross1 className="icon-menu secondary" onClick={() => { setVisibleTaskSetting(false) }} />
       </div>);
   }
@@ -90,7 +103,10 @@ function Task({ task, refresh }: Props) {
       </>
     );
   };
-  return <>{isLoading ? <Spiner /> : content()}</>;
+  return <>
+    {isLoading ? <Spiner /> : content()}
+    {showModal && <Modal text={`Are you sure, you want to delete task: ${task.name}`} tittle={task.name} type={ModalButton.YesNo} closeAction={async () => setShowModal(false)} handleUserAction={deleteTaskHandler} />}
+  </>;
 }
 
 export default Task;

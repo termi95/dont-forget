@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
+import { lazy, useContext, useState } from "react";
 import { GoSettings, MdOutlineDriveFileRenameOutline } from "react-icons/all";
 import { BsFillTrashFill, BsListTask } from "react-icons/bs";
 import { Project } from "../../../../../types/Project";
 import UseProjectHeader from "./UseProjectHeader";
 import { ProjectContext } from "../../../../project/ProjectContext";
 import AddProject from "../addProject/AddProject";
-import Modal from "../../../../modal/Modal";
 import { ModalButton } from "../../../../../types/Modal";
+const Modal = lazy(() => import("../../../../modal/Modal"));
 interface Props {
   projectProp: Project;
   handleRefresh: () => Promise<void>;
