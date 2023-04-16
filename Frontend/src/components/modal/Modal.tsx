@@ -1,27 +1,29 @@
 import { RxCross1 } from "react-icons/all"
 import "../../style/modal.css"
+import { ModalButton } from "../../types/Modal";
 
 interface Props {
     tittle: string;
     text: string;
     type: number;
     handleUserAction: (action: boolean) => Promise<void>;
+    closeAction: () => Promise<void>;
 }
 
-function Modal({ text, tittle, type, handleUserAction }: Props) {
+function Modal({ text, tittle, type, handleUserAction, closeAction }: Props) {
 
     const renderModalButtons = (type: number) => {
         switch (type) {
-            case 0:
+            case ModalButton.YesNo:
                 return (
                     <>
-                        <button className="back-success" onClick={()=>handleUserAction(true)}>Yes</button>
-                        <button className="back-delete" onClick={()=>handleUserAction(false)}>No</button>
+                        <button className="back-success" onClick={async () => await handleUserAction(true)}>Yes</button>
+                        <button className="back-delete" onClick={async () => await handleUserAction(false)}>No</button>
                     </>);
-            case 1:
+            case ModalButton.Info:
                 return (
                     <>
-                        <button onClick={()=>handleUserAction(true)}>Ok</button>
+                        <button onClick={async () => await closeAction()}>Ok</button>
                     </>);
             default:
                 throw new Error("Type of modal button not found");
@@ -30,9 +32,9 @@ function Modal({ text, tittle, type, handleUserAction }: Props) {
 
     return (
         <>
-            <div id="myModal" className="modal">
-                <div className="modal-content">
-                    <RxCross1 className="icon-menu secondary close" />
+            <div id="myModal" className="modal" onClick={async () => await closeAction()}>
+                <div onClick={(e) => e.stopPropagation()} className="modal-content">
+                    <RxCross1 className="icon-menu secondary close" onClick={async () => await closeAction()} />
                     <div className="modal-title">
                         <p>{tittle}</p>
                     </div>

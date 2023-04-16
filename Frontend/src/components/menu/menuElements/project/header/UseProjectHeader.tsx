@@ -1,10 +1,12 @@
 import { useState } from "react";
 import UseMenuApi from "../../../UseMenuApi";
+import { Project } from "../../../../../types/Project";
 interface Props {
   handleRefresh: () => Promise<void>;
+  projectProp: Project;
 }
 
-function UseProjectHeader({ handleRefresh }: Props) {
+function UseProjectHeader({ handleRefresh, projectProp }: Props) {
   const { deleteProjectHeader } = UseMenuApi();
   const [addProject, setAddProject] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -13,20 +15,22 @@ function UseProjectHeader({ handleRefresh }: Props) {
     setAddProject(!addProject);
   };
 
-  const toggleModalState =async () => {
-    setShowModal(!showModal);
-  }
-  const toggleModalValue =async () => {
+  const toggleModalState = async () => {
+    await setShowModal(!showModal);
+  };
+
+  const toggleModalValue = async () => {
     setModalValue(!modalValue);
-  }
-  const handleDelete = async (id: number) => {
+  };
+
+  const handleDelete = async (userAnswer: boolean) => {
     await toggleModalState();
-    if (await modalValue) {
-      if (await deleteProjectHeader(id)) {
-        handleRefresh();
-      }
+    if (!userAnswer) {
+      return;
     }
-    await toggleModalState();;
+    if (await deleteProjectHeader(projectProp.id!)) {
+      handleRefresh();
+    }
   };
 
 
@@ -34,6 +38,7 @@ function UseProjectHeader({ handleRefresh }: Props) {
     handleDelete,
     changeAddProjectState,
     toggleModalValue,
+    toggleModalState,
     addProject,
     showModal,
   };

@@ -15,21 +15,22 @@ function Menu() {
     isLoading,
   } = UseMenu();
   const { project, setProject } = useContext(ProjectContext);
+  const checkIfProjectExists = () => { return (projects && projects.length > 0 && (project.id === 0 || (projects.filter((x) => x.id === project.id).length !== projects.length))) };
 
   useEffect(() => {
     getProjects();
   }, []);
 
   useEffect(() => {
-    if (projects && projects.length > 0 && project.id === 0) {
-      setProject(projects[0]);    
+    if (projects && checkIfProjectExists()) {
+      setProject(projects[0]);
     }
   }, [projects]);
 
   const content = () => {
     return (
       <>
-        {projects?.map((project, index) => {          
+        {projects?.map((project, index) => {
           return (
             <ProjectHeader
               key={index}
@@ -53,7 +54,7 @@ function Menu() {
         </div>
       </div>
       {addProjectContent()}
-        {isLoading ? <Spiner /> : content()}
+      {isLoading ? <Spiner /> : content()}
     </menu>
   );
 }

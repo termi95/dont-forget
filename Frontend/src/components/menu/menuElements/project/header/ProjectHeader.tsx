@@ -13,8 +13,8 @@ interface Props {
 }
 
 function ProjectHeader({ projectProp, handleRefresh }: Props) {
-  const { handleDelete, changeAddProjectState, toggleModalValue, addProject, showModal } = UseProjectHeader({
-    handleRefresh,
+  const { changeAddProjectState, handleDelete, toggleModalState, addProject, showModal } = UseProjectHeader({
+    handleRefresh, projectProp
   });
   const { project, setProject } = useContext(ProjectContext);
   const [projectManger, setProjectManger] = useState(false);
@@ -75,7 +75,7 @@ function ProjectHeader({ projectProp, handleRefresh }: Props) {
             <BsFillTrashFill
               title="Delete"
               className="icon-menu delete"
-              onClick={async () => await handleDelete(projectProp.id!)}
+              onClick={toggleModalState}
             />
             <GoSettings
               title="Settings"
@@ -92,7 +92,7 @@ function ProjectHeader({ projectProp, handleRefresh }: Props) {
     <>
       {projectOrRename()}
       {projectMangerContent()}
-      {showModal && <Modal text={`Are you sure, you want to delete project: ${projectProp.name}`} tittle={projectProp.name} type={ModalButton.YesNo} handleUserAction={toggleModalValue}/>}
+      {showModal && <Modal text={`Are you sure, you want to delete project: ${projectProp.name}`} tittle={projectProp.name} type={ModalButton.YesNo} closeAction={toggleModalState} handleUserAction={handleDelete} />}
     </>
   );
 }
