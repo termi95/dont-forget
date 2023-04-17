@@ -6,6 +6,7 @@ export interface Task {
   createdByUser: number;
   creationDate: Date;
   finishDate: Date;
+  priority?: Priority;
 }
 
 export interface TaskUpdate {
@@ -18,4 +19,11 @@ export interface TaskCreate {
   name: string;
   body: string;
   projectId: number;
+}
+
+export enum Priority {
+  LOW,
+  MEDIUM,
+  HIGH,
+  CRITICAL
 }

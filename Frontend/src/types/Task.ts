@@ -28,5 +28,11 @@ export const TaskVisibility: ITaskVisibility[] = [
   { name: 'Done', value: 1 },
   { name: 'All', value: 2 }];
 
+export enum Priority {
+  LOW,
+  MEDIUM,
+  HIGH,
+  CRITICAL
+}
 
 export type { Task, AddTaskHeader, TaskUpdate, ITaskVisibility };

@@ -1,11 +1,13 @@
 import {
   Entity,
+  Enum,
   ManyToOne,
   PrimaryKey,
   Property,
   Unique,
 } from '@mikro-orm/core';
 import { ProjectEntity } from './project.entity';
+import { Priority } from 'src/models/task';
 
 @Entity()
 export class TaskEntity {
@@ -27,6 +29,9 @@ export class TaskEntity {
 
   @Property()
   createdByUser: number;
+
+  @Enum({items: () => Priority, nullable: true} )
+  priority?: Priority;
 
   @Property({
     type: 'datetime',
