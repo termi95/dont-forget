@@ -26,6 +26,10 @@
   color: #218838;
 }
 
+.warning:hover {
+  color: #ffc107;
+}
+
 
 .back-delete {
   background-color: #c82333;
@@ -51,4 +55,9 @@
 .back-success {
   background-color: #218838;
   border-color: #218838;
+}
+
+.back-warning { 
+  background-color: #ffc107;
+  border-color: #ffc107;
 }

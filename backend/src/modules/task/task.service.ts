@@ -33,9 +33,11 @@ export class TaskService {
         createdByUser,
         await this.emProject.getReference(projectId),
       );
+      console.log(task);
       await this.em.persistAndFlush(await this.em.create(task));
       return task;
     } catch (e) {
+      console.log(e);
       throw new HttpException(
         'Faild to create task.',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -44,7 +46,7 @@ export class TaskService {
   }
 
   async delete({ id }: Task): Promise<boolean> {
-    const Task = await this.em.findOne({ id});
+    const Task = await this.em.findOne({ id });
     if (!Task) {
       throw new HttpException(
         'Task to delete not found.',
@@ -55,9 +57,7 @@ export class TaskService {
     return true;
   }
 
-  async patch(
-    { id, newName }: TaskUpdate
-  ): Promise<Task> {
+  async patch({ id, newName }: TaskUpdate): Promise<Task> {
     const Task = await this.em.findOne({ id });
     if (!Task) {
       throw new HttpException(
@@ -78,8 +78,7 @@ export class TaskService {
     if (!tasks) {
       throw new HttpException('No task was found.', HttpStatus.NOT_FOUND);
     }
-
-    return tasks;
+    return tasks.sort((a, b) => (a.name > b.name ? 1 : -1));
   }
   async togleDone({ id, done }: TaskUpdate): Promise<Task> {
     const task = await this.em.findOne({

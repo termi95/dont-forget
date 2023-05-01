@@ -18,7 +18,7 @@ export class TaskEntity {
   @Property({ length: 32 })
   name: string;
 
-  @Property({ length: 32 })
+  @Property({ length: 32, nullable: true })
   body: string;
 
   @Property({ onCreate: () => false })
@@ -30,8 +30,8 @@ export class TaskEntity {
   @Property()
   createdByUser: number;
 
-  @Enum({items: () => Priority, nullable: true} )
-  priority?: Priority;
+  @Enum({ items: () => Priority, type: 'enum', default: Priority.MEDIUM })
+  priority!: Priority;
 
   @Property({
     type: 'datetime',

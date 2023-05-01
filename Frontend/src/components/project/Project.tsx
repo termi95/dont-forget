@@ -3,10 +3,11 @@ import "../../style/mainContainer.css";
 import ProjectProvider from "./ProjectContext";
 import TaskList from "../task/TaskList";
 import TasksProvider from "../task/contexts/TasksContext";
-import ListManager from "../task/ListManager";
+import ListManager from "../task/listTaskManager/ListManager";
 import AddTaskContainer from "../task/AddTaskContainer";
 import TaskVisibilityProvider from "../task/contexts/TaskVisibilityContext";
 import ActiveTaskProvider from "../task/contexts/ActiveTaskContext";
+import TaskSortContextProvider from "../task/contexts/TaskSortContext";
 
 function Project() {
   return (
@@ -17,10 +18,12 @@ function Project() {
           <div id="project-content">
             <TasksProvider>
               <TaskVisibilityProvider>
-                <ListManager />
-                <ActiveTaskProvider>
-                  <TaskList />
-                </ActiveTaskProvider>
+                <TaskSortContextProvider>
+                  <ListManager />
+                  <ActiveTaskProvider>
+                    <TaskList />
+                  </ActiveTaskProvider>
+                </TaskSortContextProvider>
               </TaskVisibilityProvider>
               <AddTaskContainer />
             </TasksProvider>

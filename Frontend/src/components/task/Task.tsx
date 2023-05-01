@@ -1,14 +1,15 @@
 import "../../style/task.css";
 import { lazy, useContext, useState } from "react";
-import { Task as AddTaskType } from "../../types/Task";
+import { Task as AddTaskType, Priority } from "../../types/Task";
 import Spiner from "../spiner/Spiner";
-import { UseTask } from "./UseTask";
+import { UseTaskApi } from "./UseTaskApi";
 import TaskBody from "./TaskBody";
 import { TaskContext } from "./contexts/ActiveTaskContext";
 import { BsFillTrashFill, BsListTask } from "react-icons/bs";
 import { MdOutlineDriveFileRenameOutline, RxCross1 } from "react-icons/all";
 import { ModalButton } from "../../types/Modal";
 import AddTask from "./AddTask";
+import UseTask from "./UseTask";
 const Modal = lazy(() => import("../modal/Modal"));
 interface Props {
   task: AddTaskType;
@@ -19,7 +20,8 @@ function Task({ task, refresh }: Props) {
   const [visibleTaskSetting, setVisibleTaskSetting] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const { taskToggleDoneStatus, deleteTask } = UseTask();
+  const { taskToggleDoneStatus, deleteTask } = UseTaskApi();
+  const { getArrowPrioritet } = UseTask();
   const { activeTask, setActiveTask } = useContext(TaskContext);
 
   const toggleTaskStatus = async () => {
@@ -145,6 +147,7 @@ function Task({ task, refresh }: Props) {
             }}
           >
             {task.name}
+            <div className="priority">{getArrowPrioritet(task.priority)}</div>
           </div>
           {taskSettingsOrIcon()}
         </div>

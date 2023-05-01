@@ -7,21 +7,11 @@ import {
 } from "react";
 import { Task } from "../../../types/Task";
 
-const initialTasksState: [Task] = [
-  {
-    body: "",
-    createdByUser: 0,
-    creationDate: new Date("2021-01-01"),
-    done: false,
-    FinishDate: new Date("2021-01-01"),
-    id: 0,
-    name: "",
-  },
-];
+const initialTasksState: [Task] | null = null;
 
 export interface TasksContextInterface {
-  tasks: [Task];
-  setTasks: Dispatch<SetStateAction<[Task]>>;
+  tasks: [Task] | null;
+  setTasks: Dispatch<SetStateAction<[Task] | null>>;
 }
 const defaultState = {
   tasks: initialTasksState,
@@ -34,11 +24,11 @@ type ProjectProviderProps = {
   children: ReactNode;
 };
 export default function TasksProvider({ children }: ProjectProviderProps) {
-  const [tasks, setTasks] = useState<[Task]>(initialTasksState);
+  const [tasks, setTasks] = useState<[Task] | null>(initialTasksState);
 
   return (
     <TasksContext.Provider value={{ tasks, setTasks }}>
-          {children}
+      {children}
     </TasksContext.Provider>
   );
 }

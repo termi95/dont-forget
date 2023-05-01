@@ -3,7 +3,7 @@ import { BsFillTrashFill } from "react-icons/all";
 import { AddTaskHeader } from "../../types/Task";
 import { ProjectContext } from "../project/ProjectContext";
 import { TasksContext } from "./contexts/TasksContext";
-import { UseTask } from "./UseTask";
+import { UseTaskApi } from "./UseTaskApi";
 interface Props {
   handleAddClick: (flag: boolean) => void;
   isUpdate: boolean;
@@ -17,7 +17,7 @@ const initialTask: AddTaskHeader = {
 };
 
 function AddTask({ handleAddClick, isUpdate, taskId }: Props) {
-  const { handleAddTask, handleUpdateTask, getProjectTasks } = UseTask();
+  const { handleAddTask, handleUpdateTask, getProjectTasks } = UseTaskApi();
   const [task, setTask] = useState<AddTaskHeader>(initialTask);
   const ref = useRef<HTMLInputElement>(null);
   const { project } = useContext(ProjectContext);

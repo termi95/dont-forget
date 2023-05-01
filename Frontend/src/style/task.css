@@ -1,17 +1,30 @@
 .task-visibility {
-    font-size: 1rem;
-    padding: 10px;
+  font-size: 1rem;
+  padding: 10px;
 }
 
 .task-header-manager {
-    display: flex;
-    justify-content: space-evenly;
-    background-color: #bbbbbb;
-    padding: 13px;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #bbbbbb;
+  padding: 13px;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
-.remove-bottom-border >.task-header-manager {
-    border-bottom-right-radius: 0px;
+.remove-bottom-border > .task-header-manager {
+  border-bottom-right-radius: 0px;
+}
+
+.task-title {
+  font-size: 1rem;
+  margin: 10px;
+  width: 100%;
+  text-align: start;
+  display: flex;
+}
+
+.priority {
+    margin-left: 15px;
+    font-size: 1.3rem;
 }
