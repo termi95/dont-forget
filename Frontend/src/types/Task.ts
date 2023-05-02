@@ -13,6 +13,7 @@ interface TaskUpdate {
   newName: string;
   newBody: string;
   done: boolean;
+  priority: Priority;
 }
 
 interface AddTaskHeader {

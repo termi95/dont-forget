@@ -39,3 +39,10 @@
   border-color:rgba(128, 128, 128, 0.5);
   border-left: dotted 1px;
 }
+
+.task-priority {
+  font-size: 1rem;
+  float: left;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}

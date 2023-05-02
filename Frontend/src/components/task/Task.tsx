@@ -3,7 +3,7 @@ import { lazy, useContext, useState } from "react";
 import { Task as AddTaskType, Priority } from "../../types/Task";
 import Spiner from "../spiner/Spiner";
 import { UseTaskApi } from "./UseTaskApi";
-import TaskBody from "./TaskBody";
+import TaskBody from "./taskBody/TaskBody";
 import { TaskContext } from "./contexts/ActiveTaskContext";
 import { BsFillTrashFill, BsListTask } from "react-icons/bs";
 import { MdOutlineDriveFileRenameOutline, RxCross1 } from "react-icons/all";
@@ -21,7 +21,9 @@ function Task({ task, refresh }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const { taskToggleDoneStatus, deleteTask } = UseTaskApi();
-  const { getArrowPrioritet } = UseTask();
+  const { getArrowPrioritet, handleChangePriority, priority } = UseTask({
+    initialPriority: task.priority,
+  });
   const { activeTask, setActiveTask } = useContext(TaskContext);
 
   const toggleTaskStatus = async () => {
@@ -50,7 +52,12 @@ function Task({ task, refresh }: Props) {
     if (task.id == activeTask.id) {
       return (
         <div className="task-body">
-          <TaskBody />
+          <TaskBody
+            key={task.id}
+            id={task.id!}
+            priority={task.priority}
+            refreshPriority={handleChangePriority}
+          />
         </div>
       );
     }
@@ -147,7 +154,7 @@ function Task({ task, refresh }: Props) {
             }}
           >
             {task.name}
-            <div className="priority">{getArrowPrioritet(task.priority)}</div>
+            <div className="priority">{getArrowPrioritet(priority)}</div>
           </div>
           {taskSettingsOrIcon()}
         </div>

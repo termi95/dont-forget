@@ -14,6 +14,7 @@ export interface TaskUpdate {
   newName: string;
   newBody: string;
   done: boolean;
+  priority?: Priority;
 }
 export interface TaskCreate {
   name: string;

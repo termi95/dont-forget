@@ -103,4 +103,23 @@ export class TaskService {
     }
     return task;
   }
+  async priority({ id, priority }: TaskUpdate): Promise<Task> {
+    const task = await this.em.findOne({
+      id: id,
+    });
+    if (!task) {
+      throw new HttpException('No task was found.', HttpStatus.NOT_FOUND);
+    }
+
+    try {
+      task.priority = priority;
+      await this.em.persistAndFlush(task);
+    } catch (error) {
+      throw new HttpException(
+        'Could not update status task.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return task;
+  }
 }

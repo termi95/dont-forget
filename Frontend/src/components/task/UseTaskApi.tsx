@@ -1,6 +1,6 @@
 import { api } from "../../api/api";
 import { Project } from "../../types/Project";
-import { AddTaskHeader, Task, TaskUpdate } from "../../types/Task";
+import { AddTaskHeader, Priority, Task, TaskUpdate } from "../../types/Task";
 
 export const UseTaskApi = () => {
   const handleAddTask = (task: AddTaskHeader, projectId: number) => {
@@ -61,11 +61,13 @@ export const UseTaskApi = () => {
       newName: "",
       newBody: "",
       done: false,
+      priority: Priority.MEDIUM,
     };
     updateTask.done = task.done;
     updateTask.newName = task.name;
     updateTask.newBody = task.body;
     updateTask.id = task.id ? task.id : 0;
+    updateTask.priority = task.priority;
     return updateTask;
   };
 
@@ -87,11 +89,27 @@ export const UseTaskApi = () => {
       });
   };
 
+  const handleUpdateTaskPriority =async (task: Task) => {
+    const updatedTask = await handlePrepareTaskToUpdate(task);
+    return await api
+      .patch("/task/priority", updatedTask)
+      .then(async (res) => {
+        if (res.status === 200) {
+          return true;
+        }
+        throw new Error("");
+      })
+      .catch((e) => {
+        throw new Error("");
+      });
+  }
+
   return {
     handleAddTask,
     getProjectTasks,
     taskToggleDoneStatus,
     deleteTask,
     handleUpdateTask,
+    handleUpdateTaskPriority,
   };
 };

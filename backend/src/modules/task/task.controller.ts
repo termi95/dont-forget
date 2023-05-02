@@ -16,7 +16,7 @@ import { TaskService } from './task.service';
 
 @Controller('/task')
 export class TaskController {
-  constructor(private readonly taskService: TaskService) { }
+  constructor(private readonly taskService: TaskService) {}
 
   @UseGuards(JwtAuthGuard)
   @Post('/tasks')
@@ -64,9 +64,13 @@ export class TaskController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('/togleDone')
-  PatchTaskTogleDone(
-    @Body() dto: TaskUpdate,
-  ): Promise<Task> {
+  PatchTaskTogleDone(@Body() dto: TaskUpdate): Promise<Task> {
     return this.taskService.togleDone(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/priority')
+  PatchTaskPriority(@Body() dto: TaskUpdate): Promise<Task> {
+    return this.taskService.priority(dto);
   }
 }
