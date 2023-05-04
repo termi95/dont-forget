@@ -3,8 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./components/login/Login";
 import Spiner from "./components/spiner/Spiner";
 import ErrorPage from "./error-page";
-import "./style/App.css";
-import "./style/login.css";
 
 const Register = React.lazy(() => import("./components/register/Register"));
 const Project = React.lazy(() => import("./components/project/Project"));

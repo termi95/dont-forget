@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import "../../style/menu.css";
+import "../../style/menu.scss";
 import { UseMenu } from "./UseMenu";
 import { RiMenuAddLine } from "react-icons/all";
 import Spiner from "../spiner/Spiner";

@@ -1,4 +1,4 @@
-import "../../../style/taskBody.css";
+import "../../../style/taskBody.scss";
 import { Priority } from "../../../types/Task";
 import UseTaskBody from "./UseTaskBody";
 

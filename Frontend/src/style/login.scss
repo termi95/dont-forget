@@ -1,3 +1,5 @@
+$default-background-color:#e7e7e7;
+
 .login-input,
 .login-label {
   display: block;
@@ -10,14 +12,14 @@
   padding: 0px 5px;
   line-height: 1.2;
   border-radius: 15px;
-  border-color: #e7e7e7;
+  border-color: $default-background-color;
   border-style: double;
 }
 
 #form {
   background-color: #fcfaf9;
   padding: 10px 20px;
-  border-color: #e7e7e7;
+  border-color: $default-background-color;
   border-style: solid;
   border-radius: 20px;
 }
@@ -34,13 +36,13 @@
 
 .login-button {
   border-style: double;
-  border-color: #e7e7e7;
+  border-color: $default-background-color;
   background-color: white;
   border-radius: 10px;
 }
 
 .login-button:hover {
-  background-color: #e7e7e7;
+  background-color: $default-background-color;
 }
 
 h1 {
@@ -74,10 +76,6 @@ h1 {
   }
 }
 @media (min-height: 375px) and (max-height: 400px) {
-  #app {
-    padding-top: 0.7rem !important;
-    padding-bottom: 0.7rem !important;
-  }
   #form {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -85,11 +83,6 @@ h1 {
   .right {
     padding-top: 5px;
     padding-bottom: 5px;
-  }
-}
-@media (min-width: 666px) and (max-width: 700px) {
-  #app {
-    padding: 0.3rem !important;
   }
 }
 

@@ -1,4 +1,4 @@
-import "../../style/task.css";
+import "../../style/task.scss";
 import { lazy, useContext, useState } from "react";
 import { Task as AddTaskType, Priority } from "../../types/Task";
 import Spiner from "../spiner/Spiner";

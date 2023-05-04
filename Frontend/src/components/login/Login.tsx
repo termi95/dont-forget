@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { UseLogin } from "./UseLogin";
-import "../../style/App.css";
-import "../../style/login.css";
+import "../../style/login.scss";
 
 function Login() {
   const { handleSubmit, handleChange } = UseLogin();

@@ -6,9 +6,9 @@
   position: relative;
   font-weight: normal;
 }
+
 body {
   font-size: 10px;
-  /* min-height: 100vh; */
   color: var(--color-text);
   background: var(--color-background);
   transition: color 0.5s, background-color 0.5s;
@@ -28,21 +28,19 @@ body {
   );
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  /* padding: 2rem; */
-
-  font-weight: normal;
-}
+$danger-color:#c82333;
+$success-color:#218838;
+$primary-color:#0069d9;
+$warning-color:#ffc107;
+$secondary-color:#6c757d;
+$info-color:#138496;
 
 a {
   text-decoration: none;
   color: black;
-}
-
-a:visited {
-  color: black;
+  :visited {
+    color: black;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -81,4 +79,67 @@ a:visited {
   outline-width: 3px;
   outline-color: #dc354691;
   outline-style: solid;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.delete:hover {
+  color: $danger-color;
+}
+
+.primary:hover {
+  color: $primary-color;
+}
+
+.info:hover {
+  color: $info-color;
+}
+
+.secondary:hover {
+  color: $secondary-color;
+}
+
+.success:hover {
+  color: $success-color;
+}
+
+.warning:hover {
+  color: $warning-color;
+}
+
+
+.back-delete {
+  background-color: $danger-color;
+  border-color: $danger-color;
+}
+
+.back-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.back-info {
+  background-color: $info-color;
+  border-color: $info-color;
+}
+
+.back-secondary {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+}
+
+.back-success {
+  background-color: $success-color;
+  border-color: $success-color;
+}
+
+.back-warning { 
+  background-color: $warning-color;
+  border-color: $warning-color;
 }

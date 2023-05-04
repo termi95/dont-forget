@@ -1,4 +1,4 @@
-import "../../style/modal.css"
+import "../../style/modal.scss"
 import { ModalButton } from "../../types/Modal";
 
 interface Props {

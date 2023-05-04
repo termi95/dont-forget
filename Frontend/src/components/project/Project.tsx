@@ -1,5 +1,5 @@
 import Menu from "../menu/Menu";
-import "../../style/mainContainer.css";
+import "../../style/mainContainer.scss";
 import ProjectProvider from "./ProjectContext";
 import TaskList from "../task/TaskList";
 import TasksProvider from "../task/contexts/TasksContext";
