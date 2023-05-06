@@ -3,7 +3,7 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ProjectEntity } from 'src/entities/assignment/project.entity';
 import { TaskEntity } from 'src/entities/assignment/task.entity';
-import { Task, TaskCreate, TaskUpdate } from 'src/models/task';
+import { Task, TaskCreate, TaskProperties, TaskUpdate } from 'src/models/task';
 
 @Injectable()
 export class TaskService {
@@ -116,9 +116,39 @@ export class TaskService {
       await this.em.persistAndFlush(task);
     } catch (error) {
       throw new HttpException(
-        'Could not update status task.',
+        'Could not update task status.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+    }
+    return task;
+  }
+
+  async properties({ id, body }: TaskProperties): Promise<TaskProperties> {
+    const task = await this.em.findOne({
+      id: id,
+    });
+    if (!task) {
+      throw new HttpException('No task was found.', HttpStatus.NOT_FOUND);
+    }
+
+    try {
+      task.body = body;
+      await this.em.persistAndFlush(task);
+    } catch (error) {
+      throw new HttpException(
+        'Could not update task body.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return task;
+  }
+
+  async getProperties({ id }: TaskProperties): Promise<TaskProperties> {
+    const task = await this.em.findOne({
+      id: id,
+    });
+    if (!task) {
+      throw new HttpException('No task was found.', HttpStatus.NOT_FOUND);
     }
     return task;
   }

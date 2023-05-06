@@ -25,6 +25,11 @@ interface ITaskVisibility {
   name: string;
   value: number;
 }
+export interface TaskProperties {
+  id: number;
+  body: string;
+  priority?: Priority;
+}
 
 export const TaskVisibility: ITaskVisibility[] = [
   { name: "Not done", value: 0 },

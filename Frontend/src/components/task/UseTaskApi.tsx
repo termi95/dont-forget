@@ -1,6 +1,6 @@
 import { api } from "../../api/api";
 import { Project } from "../../types/Project";
-import { AddTaskHeader, Priority, Task, TaskUpdate } from "../../types/Task";
+import { AddTaskHeader, Priority, Task, TaskProperties, TaskUpdate } from "../../types/Task";
 
 export const UseTaskApi = () => {
   const handleAddTask = (task: AddTaskHeader, projectId: number) => {
@@ -103,7 +103,30 @@ export const UseTaskApi = () => {
         throw new Error("");
       });
   }
-
+  const updateTaskProperties=async (properties: TaskProperties) => {
+    return await api
+      .patch("/task/properties", properties)
+      .then(async (res) => {
+        if (res.status === 200) {
+          return res.data;
+        }
+        throw new Error("");
+      })
+      .catch((e) => {
+        throw new Error("");
+      });
+  }
+  const getTaskProperties = async (id:number) => {
+    const tasks = await api
+      .post("/task/get-properties", {id})
+      .then(async (res): Promise<TaskProperties> => {
+        if (res.status === 201) {
+          return res.data;
+        }
+        throw new Error("error");
+      });
+    return tasks;
+  };
   return {
     handleAddTask,
     getProjectTasks,
@@ -111,5 +134,7 @@ export const UseTaskApi = () => {
     deleteTask,
     handleUpdateTask,
     handleUpdateTaskPriority,
+    getTaskProperties,
+    updateTaskProperties
   };
 };

@@ -8,6 +8,11 @@ export interface Task {
   finishDate: Date;
   priority?: Priority;
 }
+export interface TaskProperties {
+  id: number;
+  body: string;
+  priority?: Priority;
+}
 
 export interface TaskUpdate {
   id: number;
@@ -15,6 +20,7 @@ export interface TaskUpdate {
   newBody: string;
   done: boolean;
   priority?: Priority;
+  body?: string;
 }
 export interface TaskCreate {
   name: string;

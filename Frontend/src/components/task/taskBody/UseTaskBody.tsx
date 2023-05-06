@@ -1,15 +1,26 @@
-import { Priority, Task } from "../../../types/Task";
+import { Priority, Task, TaskProperties } from "../../../types/Task";
 import { UseTaskApi } from "../UseTaskApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
-  priority: Priority;
   id: number;
   refreshPriority: (value: Priority) => void;
 }
-function UseTaskBody({ id, priority, refreshPriority }: Props) {
+function UseTaskBody({ id, refreshPriority }: Props) {
   const { handleUpdateTaskPriority } = UseTaskApi();
-  const [selectedOption, setSelectedOption] = useState(priority);
+  const [taskProperties, setTaskProperties] = useState<TaskProperties>();
+  const { getTaskProperties, updateTaskProperties } = UseTaskApi();
+
+  useEffect(() => {
+    getProperties(id);
+  }, []);
+
+  const getProperties = async (id: number) => {
+    const data = await getTaskProperties(id);
+    if (data) {
+      setTaskProperties(data);
+    }
+  };
 
   const priorityTaskOptions = () => {
     const sortTypes = Object.values(Priority);
@@ -45,16 +56,29 @@ function UseTaskBody({ id, priority, refreshPriority }: Props) {
           id: id,
         } as Task)
       ) {
-        setSelectedOption(pickedPriorityAsNumber);
+        taskProperties!.priority = pickedPriorityAsNumber;
+        setTaskProperties(taskProperties);
         refreshPriority(pickedPriorityAsNumber);
       }
     } catch (error) {}
   };
 
+  const handleSaveContent = async (content: string | undefined) => {
+    if (content === undefined && taskProperties === undefined) {
+      return;
+    }
+    taskProperties!.body = content!;
+    const data = await updateTaskProperties(taskProperties!);
+    if (data) {
+      setTaskProperties(data);
+    }
+  };
+
   return {
     priorityTaskOptions,
     changeTaskPriority,
-    selectedOption,
+    taskProperties,
+    handleSaveContent,
   };
 }
 

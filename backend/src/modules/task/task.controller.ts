@@ -9,7 +9,7 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { Project } from 'src/models/project';
-import { Task, TaskCreate, TaskUpdate } from 'src/models/task';
+import { Task, TaskCreate, TaskProperties, TaskUpdate } from 'src/models/task';
 import { LoginUserReq } from 'src/models/user';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { TaskService } from './task.service';
@@ -72,5 +72,17 @@ export class TaskController {
   @Patch('/priority')
   PatchTaskPriority(@Body() dto: TaskUpdate): Promise<Task> {
     return this.taskService.priority(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/properties')
+  PatchProperties(@Body() dto: TaskProperties): Promise<TaskProperties> {
+    return this.taskService.properties(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/get-properties')
+  GetProperties(@Body() dto: TaskProperties): Promise<TaskProperties> {
+    return this.taskService.getProperties(dto);
   }
 }

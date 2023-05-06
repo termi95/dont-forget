@@ -55,7 +55,6 @@ function Task({ task, refresh }: Props) {
           <TaskBody
             key={task.id}
             id={task.id!}
-            priority={task.priority}
             refreshPriority={handleChangePriority}
           />
         </div>

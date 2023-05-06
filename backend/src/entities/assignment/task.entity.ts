@@ -18,7 +18,7 @@ export class TaskEntity {
   @Property({ length: 32 })
   name: string;
 
-  @Property({ length: 32, nullable: true })
+  @Property({ nullable: true })
   body: string;
 
   @Property({ onCreate: () => false })
