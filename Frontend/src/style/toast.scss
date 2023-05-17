@@ -2,8 +2,6 @@
   position: absolute;
   background: #fff;
   transition: 0.3s ease;
-  pointer-events: auto;
-  overflow: hidden;
   margin: 0 0 6px;
   padding: 10px;
   margin-bottom: 15px;
@@ -13,26 +11,35 @@
   box-shadow: 0 0 10px #999;
   color: #000;
   opacity: 0.8;
-  background-repeat: no-repeat;
   z-index: 999999;
   &-container {
-    display: flex;
-    flex-direction: row;
     font-size: 1rem;
-    flex-wrap: wrap;
+    display: flex;
+    flex-flow: row wrap;
   }
   &-image {
-    position: relative;
     color: white;
     font-size: 1.5rem;
-    float: left;
-  }
-  &-title {
   }
   &-message {
+    border-left: 1px;
+    border-right: 1px;
+    border-color: wheat;
   }
+  &-top {
+    flex-flow: column nowrap;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  p {
+    word-break: break-all;
+    white-space: normal;
+  }
+
   button {
-    float: right;
+    justify-self: flex-end;
     font-weight: 700;
     color: #fff;
     outline: none;

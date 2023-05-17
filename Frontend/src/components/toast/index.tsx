@@ -2,21 +2,16 @@ import {
   AiFillCheckCircle,
   AiFillInfoCircle,
   AiFillWarning,
-  BiColorFill,
   CgDanger,
 } from "react-icons/all";
 import "../../style/toast.scss";
-import { useState } from "react";
 
 interface Props {
-  title: string;
   message: string;
   type: string;
 }
 
-function Toast({ message, title, type }: Props) {
-  const [isVisible, setIsVisible] = useState<boolean>(true);
-
+function Toast({ message, type }: Props) {
   const iconType = (type: string) => {
     switch (type) {
       case "success":
@@ -32,33 +27,20 @@ function Toast({ message, title, type }: Props) {
     }
   };
 
-  const closeToast = () => {
-    setIsVisible(false);
-  };
-
-  const render = () => {
-    if (isVisible) {
-      return (
-        <>
-          <div className="notification top-center toast-success">
-            <div className="notification-container">
-              <div>
-                <div className="notification-image">{iconType(type)}</div>
-                <button onClick={closeToast}>X</button>
-              </div>
-              <div>
-                <p className="notification-title">{title}</p>
-                <p className="notification-message">{message}</p>
-              </div>
-            </div>
+  return (
+    <>
+      <div className={"notification top-center toast-" + type}>
+        <div className="notification-container">
+          <div className="notification-container-top">
+            <div className="notification-image">{iconType(type)}</div>
+            <button onClick={() => {}}>X</button>
           </div>
-        </>
-      );
-    } else {
-      return <></>;
-    }
-  };
-
-  return { render };
+          <div className="notification-container-bottom">
+            <p className="notification-message">{message}</p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 export default Toast;
