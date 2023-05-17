@@ -42,7 +42,7 @@ function Login() {
           </div>
         </form>
       </main>
-      {<Toast message="message" title="title"/>}
+      <Toast message="message" title="title" type="danger" />
     </>
   );
 }
