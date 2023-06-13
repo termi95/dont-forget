@@ -1,6 +1,11 @@
 import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { UserEntity } from 'src/entities/user/user.entity';
 import * as bycrypt from 'bcrypt';
 import { BasicUser, User } from 'src/models/user';
@@ -23,6 +28,10 @@ export class UserService {
     }
   }
   async create({ username, email, password }: User): Promise<boolean> {
+    const user = await this.UserRepository.findOne({ email: email });
+    if (user) {
+      throw new HttpException('Email is taken.', HttpStatus.CONFLICT);
+    }
     await this.validateUserData(username, email, password);
 
     const salt = await bycrypt.genSalt(10);

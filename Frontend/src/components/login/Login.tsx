@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { UseLogin } from "./UseLogin";
 import "../../style/login.scss";
-import Toast from "../toast";
 
 function Login() {
   const { handleSubmit, handleChange } = UseLogin();
@@ -42,7 +41,6 @@ function Login() {
           </div>
         </form>
       </main>
-      <Toast message="messagemessagemessagemessagemessagemessagemessagemessagemessage" type="danger" />
     </>
   );
 }

@@ -28,12 +28,12 @@ body {
   );
 }
 
-$danger-color:#c82333;
-$success-color:#218838;
-$primary-color:#0069d9;
-$warning-color:#ffc107;
-$secondary-color:#6c757d;
-$info-color:#138496;
+$danger-color: #c82333;
+$success-color: #218838;
+$primary-color: #0069d9;
+$warning-color: #ffc107;
+$secondary-color: #6c757d;
+$info-color: #138496;
 
 a {
   text-decoration: none;
@@ -113,7 +113,6 @@ a {
   color: $warning-color;
 }
 
-
 .back-delete {
   background-color: $danger-color;
   border-color: $danger-color;
@@ -139,7 +138,44 @@ a {
   border-color: $success-color;
 }
 
-.back-warning { 
+.back-warning {
   background-color: $warning-color;
   border-color: $warning-color;
+}
+
+.t10 {
+  font-size: 1.1rem;
+}
+.t20 {
+  font-size: 1.2rem;
+}
+.t30 {
+  font-size: 1.3rem;
+}
+.t40 {
+  font-size: 1.4rem;
+}
+.t50 {
+  font-size: 1.5rem;
+}
+.t60 {
+  font-size: 1.6rem;
+}
+.t70 {
+  font-size: 1.7rem;
+}
+.t80 {
+  font-size: 1.8rem;
+}
+.t90 {
+  font-size: 1.9rem;
+}
+.t100 {
+  font-size: 2rem;
+}
+.pointer {
+  cursor: pointer;
+}
+.t-center {
+  text-align: center;
 }
