@@ -1,7 +1,9 @@
+import UseToast from "../../UseToast";
 import { api } from "../../api/api";
 import { Project, ProjectUpdate } from "../../types/Project";
 
-function UseMenuApi() {
+function UseMenuApi() {  
+  const { ShowSuccess } = UseToast();
   const updateProjectHeader = async (project: ProjectUpdate) => {
     return await api
       .patch("/project/", project)
@@ -50,6 +52,7 @@ function UseMenuApi() {
       .delete("/project/", { data: { id } })
       .then((res) => {
         if (res.status === 200) {
+          ShowSuccess("Project deleted successfully.");
           return true;
         } else {
           return false;

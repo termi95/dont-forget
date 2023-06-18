@@ -10,7 +10,7 @@ export class ProjectService {
   constructor(
     @InjectRepository(ProjectEntity)
     private readonly em: EntityRepository<ProjectEntity>,
-  ) { }
+  ) {}
 
   async getProject(id: number, userId: number): Promise<Project> {
     const project = await this.em.findOne({ id: id, owner: userId });
@@ -21,7 +21,7 @@ export class ProjectService {
   }
 
   async create({ name }: Project, owner: number): Promise<Project | undefined> {
-    if (name === "") {
+    if (name === '') {
       throw new HttpException(
         'Project name can not be empty.',
         HttpStatus.NO_CONTENT,
@@ -61,7 +61,7 @@ export class ProjectService {
     { name, id, newName }: ProjectUpdate,
     owner: number,
   ): Promise<Project> {
-    if (newName === "") {
+    if (newName === '') {
       throw new HttpException(
         'Project name can not be empty.',
         HttpStatus.NOT_MODIFIED,
@@ -82,10 +82,7 @@ export class ProjectService {
   async getProjects(user: LoginUser) {
     const project = await this.em.find({ owner: user.id });
     if (!project) {
-      throw new HttpException(
-        'Project to delete not found.',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('Projects not found.', HttpStatus.NOT_FOUND);
     }
     return project;
   }

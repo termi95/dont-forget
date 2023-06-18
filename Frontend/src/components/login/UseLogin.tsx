@@ -19,8 +19,6 @@ export const UseLogin = () => {
         if (res.status === 200) {
           saveToken(res.data.access_token, res.data.id);
           return navigate("/project");
-        } else if (res.request.status === 401) {
-          ShowError("Email or password are incorrect.");
         }
       })
       .catch((error) => {

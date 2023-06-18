@@ -2,9 +2,6 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../api/api";
 import { UserRegister } from "../../types/User";
-import { toast } from "react-toastify";
-import UseToast from "../../UseToast";
-import { ErrorMessage } from "../../types/System";
 const userInitialState: UserRegister = {
   email: "",
   password: "",
@@ -31,7 +28,6 @@ export const UseRegister = () => {
   const [user, setUser] = useState<UserRegister>(userInitialState);
   const [validation, setvalidationProperty] = useState(validationObjectState);
   const [shake, setShake] = useState(false);
-  const { ShowError } = UseToast();
 
   let navigate = useNavigate();
   const register = async () => {
@@ -40,14 +36,9 @@ export const UseRegister = () => {
       .then((res) => {
         if (res.status === 201) {
           return navigate("/");
-        } else if (res.request.status === 409) {
-          const response:ErrorMessage = JSON.parse(res.request.responseText)
-          ShowError(response.message);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const handleSubmit = (e: FormEvent) => {

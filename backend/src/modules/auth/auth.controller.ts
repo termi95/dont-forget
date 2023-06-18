@@ -1,14 +1,15 @@
 import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
-import { Request } from '@nestjs/common/decorators';
+import { Request, UseFilters } from '@nestjs/common/decorators';
 import { LoginUserReq, User } from 'src/models/user';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-auth.guards';
+import { LocalAuthGuard, ViewAuthFilter } from './local-auth.guards';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
+  @UseFilters(ViewAuthFilter)
   @Post('/login')
   @HttpCode(200)
   async login(@Request() req: Request & LoginUserReq) {

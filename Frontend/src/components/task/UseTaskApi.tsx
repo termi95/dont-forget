@@ -1,8 +1,10 @@
+import UseToast from "../../UseToast";
 import { api } from "../../api/api";
 import { Project } from "../../types/Project";
 import { AddTaskHeader, Priority, Task, TaskProperties, TaskUpdate } from "../../types/Task";
 
 export const UseTaskApi = () => {
+  const { ShowSuccess } = UseToast();
   const handleAddTask = (task: AddTaskHeader, projectId: number) => {
     if (task.name.length < 4) {
       throw new Error("Name is to short");
@@ -46,6 +48,7 @@ export const UseTaskApi = () => {
       .post("/task/delete", task)
       .then(async (res) => {
         if (res.status === 201) {
+          ShowSuccess("Task deleted successfully.");
           return true;
         }
         throw new Error("");

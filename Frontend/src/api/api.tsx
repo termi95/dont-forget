@@ -1,4 +1,6 @@
 import axios from "axios";
+import UseToast from "../UseToast";
+const { ShowError } = UseToast();
 
 const api = axios.create({
   baseURL: "http://127.0.0.1:3001/api",
@@ -36,6 +38,7 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
+    ShowError(error.response.data.message);
     if (error.response.status === 401 &&  localStorage.getItem("accessToken") !== null) {
       removeToken();
       window.location.href = "/";
