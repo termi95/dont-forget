@@ -10,8 +10,8 @@ interface Task {
 }
 interface TaskUpdate {
   id: number;
-  newName: string;
-  newBody: string;
+  Name: string;
+  Body: string;
   done: boolean;
   priority: Priority;
 }

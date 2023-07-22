@@ -5,7 +5,7 @@ import { UserRegister } from "../../types/User";
 const userInitialState: UserRegister = {
   email: "",
   password: "",
-  username: "",
+  name: "",
 };
 
 const validationObjectState = {
@@ -32,9 +32,9 @@ export const UseRegister = () => {
   let navigate = useNavigate();
   const register = async () => {
     await api
-      .post("/auth/register", user)
+      .post("/user/register", user)
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           return navigate("/");
         }
       })
@@ -56,7 +56,7 @@ export const UseRegister = () => {
       newUserData.email = e.value;
       validation = checkIfUserEmailIsValid(e.value);
     } else if (e.name === "username") {
-      newUserData.username = e.value;
+      newUserData.name = e.value;
       validation = checkIfUsernameIsValid(e.value);
     } else if (e.name === "password") {
       newUserData.password = e.value;
@@ -151,7 +151,7 @@ export const UseRegister = () => {
   function validateUserToRegister(): boolean {
     return (
       checkIfUserEmailIsValid(user.email) &&
-      checkIfUsernameIsValid(user.username) &&
+      checkIfUsernameIsValid(user.name) &&
       checkIfPasswordIsValid(user.password)
     );
   }

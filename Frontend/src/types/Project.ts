@@ -1,11 +1,16 @@
 interface Project {
-    name: string;
-    id?: number;
-    owner: number;
-  }
+  name: string;
+  id?: number;
+  owner: number;
+}
 
-  interface ProjectUpdate extends Project {
-    newName: string;
-  }
-  
-  export type { Project, ProjectUpdate };
+interface ProjectUpdate extends Project {
+  newName: string;
+}
+
+export enum Privileges {
+  ADMIN,
+  USER,
+}
+
+export type { Project, ProjectUpdate };

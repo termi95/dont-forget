@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 
 const Register = React.lazy(() => import("./components/register/Register"));
 const Project = React.lazy(() => import("./components/project/Project"));
+const Settings = React.lazy(() => import("./components/project/settings/Settings"));
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="project" element={<Project />} />
+        <Route path="project/settings/:projectId" element={<Settings />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <div className="t10">

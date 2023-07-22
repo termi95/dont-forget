@@ -33,6 +33,7 @@ export const UseAddProject = ({
     if (projectUpdate && !update && projectUpdate.name) {
       await handleInsert(projectUpdate);
     } else if (projectUpdate && projectUpdate.newName !== "") {
+      projectUpdate.name = projectUpdate.newName;
       await handleUpdate(projectUpdate);
     }
   };

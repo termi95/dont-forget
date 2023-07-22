@@ -3,21 +3,19 @@ import UseToast from "../UseToast";
 const { ShowError } = UseToast();
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:3001/api",
+  baseURL: "http://127.0.0.1:5143/api",
   headers: {
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     "Content-Type": "application/json",
     Accept: "application/json",
   },
 });
-const saveToken = (token: string, userId: string) => {
+const saveToken = (token: string) => {
   localStorage.setItem("accessToken", token);
-  localStorage.setItem("userId", userId);
 };
 
 const removeToken = () => {
   localStorage.removeItem("accessToken");
-  localStorage.removeItem("userId");
 };
 
 api.interceptors.request.use((req) => {

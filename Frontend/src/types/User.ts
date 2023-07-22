@@ -4,7 +4,7 @@ interface UserLogin {
 }
 
 interface UserRegister extends UserLogin {
-  username: string;
+  name: string;
 }
 
 export type { UserLogin, UserRegister };

@@ -14,10 +14,10 @@ export const UseLogin = () => {
   let navigate = useNavigate();
   const login = async () => {
     await api
-      .post<{ access_token: string; id: string }>("/auth/login", { ...user })
+      .post("/user/login", { ...user })
       .then((res) => {
         if (res.status === 200) {
-          saveToken(res.data.access_token, res.data.id);
+          saveToken(res.data);
           return navigate("/project");
         }
       })

@@ -66,14 +66,13 @@ function UseListManager() {
 
   const sortTask = (sortType: SortType) => {
     let sortedTasks: [Task] | undefined = undefined;
-    console.log("sortType:", sortType);
 
     switch (sortType) {
       case SortType.ALPHABETICALLY_ASC:
-        sortedTasks = tasks?.sort((a, b) => (a.name > b.name ? 1 : -1));
+        sortedTasks = tasks?.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
         break;
       case SortType.ALPHABETICALLY_DESC:
-        sortedTasks = tasks?.sort((a, b) => (a.name > b.name ? -1 : 1));
+        sortedTasks = tasks?.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1));
         break;
       case SortType.PRIORITY_ASC:
         sortedTasks = tasks?.sort((a, b) => {

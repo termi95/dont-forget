@@ -1,7 +1,13 @@
 import UseToast from "../../UseToast";
 import { api } from "../../api/api";
 import { Project } from "../../types/Project";
-import { AddTaskHeader, Priority, Task, TaskProperties, TaskUpdate } from "../../types/Task";
+import {
+  AddTaskHeader,
+  Priority,
+  Task,
+  TaskProperties,
+  TaskUpdate,
+} from "../../types/Task";
 
 export const UseTaskApi = () => {
   const { ShowSuccess } = UseToast();
@@ -10,7 +16,7 @@ export const UseTaskApi = () => {
       throw new Error("Name is to short");
     }
     task.projectId = projectId;
-    const result = api.post("/task", task).then((res) => {
+    const result = api.post("/Assignment/create", task).then((res) => {
       if (res.status === 200) {
         return true;
       }
@@ -20,7 +26,7 @@ export const UseTaskApi = () => {
   };
   const getProjectTasks = async (project: Project): Promise<[Task]> => {
     const tasks = await api
-      .post("/task/tasks", project)
+      .post("/Assignment/tasks", project)
       .then(async (res): Promise<[Task]> => {
         if (res.status === 200) {
           return res.data;
@@ -32,7 +38,7 @@ export const UseTaskApi = () => {
   const taskToggleDoneStatus = async (task: Task) => {
     const updatedTask = await handlePrepareTaskToUpdate(task);
     return await api
-      .patch("/task/togleDone", updatedTask)
+      .patch("/Assignment/togleDone", updatedTask)
       .then(async (res) => {
         if (res.status === 200) {
           return true;
@@ -45,9 +51,9 @@ export const UseTaskApi = () => {
   };
   const deleteTask = async (task: Task) => {
     return await api
-      .post("/task/delete", task)
+      .post("/Assignment/delete", task)
       .then(async (res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           ShowSuccess("Task deleted successfully.");
           return true;
         }
@@ -61,14 +67,14 @@ export const UseTaskApi = () => {
   const handlePrepareTaskToUpdate = (task: Task) => {
     const updateTask: TaskUpdate = {
       id: 0,
-      newName: "",
-      newBody: "",
+      Name: "",
+      Body: "",
       done: false,
       priority: Priority.MEDIUM,
     };
     updateTask.done = task.done;
-    updateTask.newName = task.name;
-    updateTask.newBody = task.body;
+    updateTask.Name = task.name;
+    updateTask.Body = task.body;
     updateTask.id = task.id ? task.id : 0;
     updateTask.priority = task.priority;
     return updateTask;
@@ -80,7 +86,7 @@ export const UseTaskApi = () => {
       name: task.name,
     } as Task);
     return await api
-      .patch("/task/rename", updatedTask)
+      .patch("/Assignment/rename", updatedTask)
       .then(async (res) => {
         if (res.status === 200) {
           return true;
@@ -92,10 +98,10 @@ export const UseTaskApi = () => {
       });
   };
 
-  const handleUpdateTaskPriority =async (task: Task) => {
+  const handleUpdateTaskPriority = async (task: Task) => {
     const updatedTask = await handlePrepareTaskToUpdate(task);
     return await api
-      .patch("/task/priority", updatedTask)
+      .patch("/Assignment/priority", updatedTask)
       .then(async (res) => {
         if (res.status === 200) {
           return true;
@@ -105,10 +111,10 @@ export const UseTaskApi = () => {
       .catch((e) => {
         throw new Error("");
       });
-  }
-  const updateTaskProperties=async (properties: TaskProperties) => {
+  };
+  const updateTaskProperties = async (properties: TaskProperties) => {
     return await api
-      .patch("/task/properties", properties)
+      .patch("/Assignment/properties", properties)
       .then(async (res) => {
         if (res.status === 200) {
           return res.data;
@@ -118,17 +124,17 @@ export const UseTaskApi = () => {
       .catch((e) => {
         throw new Error("");
       });
-  }
-  const getTaskProperties = async (id:number) => {
-    const tasks = await api
-      .post("/task/get-properties", {id})
-      .then(async (res): Promise<TaskProperties> => {
-        if (res.status === 201) {
+  };
+  const getTaskProperties = async (id: number) => {
+    const tasks: TaskProperties = await api
+      .post("/Assignment/get-properties", { id })
+      .then((res) => {
+        if (res.status === 200) {
           return res.data;
         }
         throw new Error("error");
       });
-    return tasks;
+    return await tasks;
   };
   return {
     handleAddTask,
@@ -138,6 +144,6 @@ export const UseTaskApi = () => {
     handleUpdateTask,
     handleUpdateTaskPriority,
     getTaskProperties,
-    updateTaskProperties
+    updateTaskProperties,
   };
 };

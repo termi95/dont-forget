@@ -1,10 +1,10 @@
 import UseToast from "../../UseToast";
 import { api } from "../../api/api";
-import { Project, ProjectUpdate } from "../../types/Project";
+import { Project } from "../../types/Project";
 
 function UseMenuApi() {  
   const { ShowSuccess } = UseToast();
-  const updateProjectHeader = async (project: ProjectUpdate) => {
+  const updateProjectHeader = async (project: Project) => {
     return await api
       .patch("/project/", project)
       .then((res) => {
@@ -17,7 +17,7 @@ function UseMenuApi() {
       });
   };
 
-  const insertProjectHeader = async (project: ProjectUpdate) => {
+  const insertProjectHeader = async (project: Project) => {
     return await api
       .post("/project/", project)
       .then((res) => {

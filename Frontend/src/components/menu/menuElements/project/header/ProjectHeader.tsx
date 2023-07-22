@@ -6,6 +6,7 @@ import UseProjectHeader from "./UseProjectHeader";
 import { ProjectContext } from "../../../../project/ProjectContext";
 import AddProject from "../addProject/AddProject";
 import { ModalButton } from "../../../../../types/Modal";
+import { Link } from "react-router-dom";
 const Modal = lazy(() => import("../../../../modal/Modal"));
 interface Props {
   projectProp: Project;
@@ -13,8 +14,15 @@ interface Props {
 }
 
 function ProjectHeader({ projectProp, handleRefresh }: Props) {
-  const { changeAddProjectState, handleDelete, toggleModalState, addProject, showModal } = UseProjectHeader({
-    handleRefresh, projectProp
+  const {
+    changeAddProjectState,
+    handleDelete,
+    toggleModalState,
+    addProject,
+    showModal,
+  } = UseProjectHeader({
+    handleRefresh,
+    projectProp,
   });
   const { project, setProject } = useContext(ProjectContext);
   const [projectManger, setProjectManger] = useState(false);
@@ -77,11 +85,9 @@ function ProjectHeader({ projectProp, handleRefresh }: Props) {
               className="icon-menu delete"
               onClick={toggleModalState}
             />
-            <GoSettings
-              title="Settings"
-              className="icon-menu primary"
-              onClick={() => alert("jeszcze tu nic nie ma")}
-            />
+            <Link to={`settings/${id}`}>
+              <GoSettings title="Settings" className="icon-menu primary" />
+            </Link>
           </div>
         </div>
       );
@@ -92,7 +98,15 @@ function ProjectHeader({ projectProp, handleRefresh }: Props) {
     <>
       {projectOrRename()}
       {projectMangerContent()}
-      {showModal && <Modal text={`Are you sure, you want to delete project: ${projectProp.name}`} tittle={projectProp.name} type={ModalButton.YesNo} closeAction={toggleModalState} handleUserAction={handleDelete} />}
+      {showModal && (
+        <Modal
+          text={`Are you sure, you want to delete project: ${projectProp.name}`}
+          tittle={projectProp.name}
+          type={ModalButton.YesNo}
+          closeAction={toggleModalState}
+          handleUserAction={handleDelete}
+        />
+      )}
     </>
   );
 }
