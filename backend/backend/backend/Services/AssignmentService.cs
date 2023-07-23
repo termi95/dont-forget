@@ -15,7 +15,7 @@ namespace backend.Services
         }
         public async Task<bool> ChangePriorityAssignmentAsync(AssignmentDto assignment, int userId)
         {
-            Assignment toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
+            Assignment? toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
             if (toDo is null)
             {
                 throw new NotFoundException("Assignment to delete not found.");
@@ -48,7 +48,7 @@ namespace backend.Services
 
         public async Task<bool> DeleteAssigmentByIdAsync(int assignmenId, int userId)
         {
-            Assignment result = await GetAssignmentToUpdateProp(userId, assignmenId);
+            Assignment? result = await GetAssignmentToUpdateProp(userId, assignmenId);
             if (result is null)
             {
                 throw new NotFoundException("Assignment to delete not found.");
@@ -116,7 +116,7 @@ namespace backend.Services
 
         public async Task<bool> RenameAssignmentAsync(AssignmentDto assignment, int userId)
         {
-            Assignment toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
+            Assignment? toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
             if (toDo is null)
             {
                 throw new NotFoundException("Assignment not found.");
@@ -129,7 +129,7 @@ namespace backend.Services
 
         public async Task<bool> SetBodyAssignmentAsync(AssignmentDto assignment, int userId)
         {
-            Assignment toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
+            Assignment? toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
             if (toDo is null)
             {
                 throw new NotFoundException("Assignment not found.");
@@ -142,7 +142,7 @@ namespace backend.Services
 
         public async Task<bool> TogleDoneAssignmentAsync(AssignmentDto assignment, int userId)
         {
-            Assignment toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
+            Assignment? toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
             if (toDo is null)
             {
                 throw new NotFoundException("Assignment not found.");

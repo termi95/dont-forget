@@ -8,8 +8,8 @@ namespace backend.Entities
     {
         [Key]
         public int Id { get; set; }
-        [Required, DisallowNull, MinLength(3), MaxLength(32)]
-        public string Name { get; set; }
+        [Required, NotNull, DisallowNull, MinLength(3), MaxLength(32)]
+        public string Name { get; set; } = string.Empty;
         public DateOnly Created { get; set; }
         public DateOnly Updated { get; set; }
     }

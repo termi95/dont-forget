@@ -40,14 +40,18 @@ namespace backend.Services
 
             await _context.Users.AddAsync(user);
             _context.SaveChanges();
-            var project = new Project() { Created = DateOnly.FromDateTime(DateTime.Now.Date), Name = "Default" };
+            DateOnly dateOnly = DateOnly.FromDateTime(DateTime.Now.Date);
+            var project = new Project() { Created = dateOnly, Name = "Default" };
 
             await _context.Projects.AddAsync(project);
             _context.SaveChanges();
             await _context.ProjectMemberships.AddAsync(
                 new ProjectMemberships() {
                     ProjectId = project.Id,
-                    UserId = user.Id
+                    UserId = user.Id,
+                    Role = Model.ProjectMemberships.ProjectMembershipsEnum.Role.Admin,
+                    Created = dateOnly,
+                    Updated = dateOnly,
                 });
             _context.SaveChanges();
             await _context.Assignments.AddAsync(
@@ -81,7 +85,7 @@ namespace backend.Services
                 new Claim(ClaimTypes.Name, user.Name.ToString()),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey!));
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
             var expires = DateTime.Now.AddDays(_authenticationSettings.JwtExpireDays);
 

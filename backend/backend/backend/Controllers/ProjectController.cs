@@ -53,5 +53,12 @@ namespace backend.Controllers
             int userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);            
             return Ok(_projectService.UpdateProject(userId, project));
         }
+
+        [HttpPost, Route("members"), Authorize]
+        public async Task<ActionResult> GetUsersInProject([FromBody] ProjectDto project)
+        {
+            int userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            return Ok(await _projectService.GetUsersInProject(userId, project));
+        }
     }
 }

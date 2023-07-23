@@ -1,6 +1,6 @@
 ﻿using backend.Entities;
 using backend.Model.Project;
-using Microsoft.EntityFrameworkCore;
+using backend.Model.ProjectMemberships;
 
 namespace backend.IServices
 {
@@ -15,5 +15,6 @@ namespace backend.IServices
         public Project UpdateProject(int userId, ProjectDto project);
 
         public Task<Project> CreateProject(int userId, ProjectDto project);
+        public Task<List<ProjectMembersDto>> GetUsersInProject(int userId, ProjectDto project);
     }
 }

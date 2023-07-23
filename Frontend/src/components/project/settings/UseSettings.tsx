@@ -1,9 +1,14 @@
-import { useRef } from "react";
-import { Privileges } from "../../../types/Project";
-
-function UseSettings() {
+import { useRef, useState } from "react";
+import { Privileges, ProjectMembers } from "../../../types/Project";
+import UseProjectApi from "../UseProjectApi";
+interface Props {
+  projectId: string | undefined;
+}
+export default function UseSettings({ projectId }: Props) {
   const userToAddRef = useRef<HTMLInputElement>(null);
   const selectRef = useRef<HTMLSelectElement>(null);
+  const [members, setMembers] = useState<ProjectMembers[]>();
+  const { getProjectMembers } = UseProjectApi();
 
   const userPrivilagesOptions = () => {
     const privileges = Object.values(Privileges);
@@ -25,7 +30,31 @@ function UseSettings() {
     }
   };
 
-  return { userToAddRef, selectRef, userPrivilagesOptions, addUser };
-}
+  const fetchData = async () => {
+    if (projectId) {
+      setMembers(await getProjectMembers(parseInt(projectId)));
+    }
+  };
 
-export default UseSettings;
+  const projectMembersTableContent = () => {
+    return members?.map((member, index) => {
+      const {email,id,role,created} = member;
+      return (
+        <tr key={id}>
+          <td>{++index}</td>
+          <td>{email}</td>
+          <td>{Privileges[role]}</td>
+          <td>{created.toString()}</td>
+        </tr>
+      );
+    });
+  };
+  return {
+    userToAddRef,
+    selectRef,
+    userPrivilagesOptions,
+    addUser,
+    fetchData,
+    projectMembersTableContent,
+  };
+}
