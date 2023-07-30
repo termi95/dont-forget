@@ -16,5 +16,8 @@ namespace backend.IServices
 
         public Task<Project> CreateProject(int userId, ProjectDto project);
         public Task<List<ProjectMembersDto>> GetUsersInProject(int userId, ProjectDto project);
+        public Task<bool> DeleteMemberFromProject(int userId, RemoveProjectMemberDto member);
+        public Task<ProjectMembersDto> AddMemberToProject(int userId, AddProjectMemberDto member);
+        public Task<bool> ChangeUserRoleInProject(int userId, ChangeMemberRoleDto member);
     }
 }

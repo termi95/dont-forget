@@ -36,7 +36,7 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    ShowError(error.response.data.message);
+    ShowError(error.response.data);
     if (error.response.status === 401 &&  localStorage.getItem("accessToken") !== null) {
       removeToken();
       window.location.href = "/";

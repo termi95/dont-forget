@@ -25,11 +25,11 @@ function Settings() {
           <input
             type="email"
             name="Email"
-            className="space-left"
+            className="space-left  t00"
             placeholder="user@email.com"
             ref={userToAddRef}
           />
-          <select name="Privilages" ref={selectRef}>
+          <select name="Privilages" ref={selectRef} className="bg-white no-border t00 pointer">
             {userPrivilagesOptions()}
           </select>
           <button className="t20 back-info t-white" onClick={addUser}>
@@ -43,6 +43,7 @@ function Settings() {
               <th>User</th>
               <th>Privilages</th>
               <th>Added</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>{projectMembersTableContent()}</tbody>

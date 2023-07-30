@@ -42,6 +42,10 @@ a {
   }
 }
 
+.bg-white {
+  background-color: white;
+}
+
 @media (min-width: 1024px) {
   body {
     display: flex;
@@ -67,6 +71,10 @@ a {
   border-color: #dc3545;
   border-width: 2px;
   border-style: solid;
+}
+
+.no-border {
+  border-style: none;
 }
 
 .input-success:focus {
@@ -203,6 +211,9 @@ th {
 
 tr:nth-child(even) {
   background-color: #e6e6e6;
+  select{
+    background-color: #e6e6e6;
+  }
 }
 tr {
   background-color: white;
