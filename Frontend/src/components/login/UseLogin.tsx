@@ -1,14 +1,18 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api, saveToken } from "../../api/api";
 import { UserLogin } from "../../types/User";
 import UseToast from "../../UseToast";
+import { AppContext } from "../../AppContext";
+import { MenuContext } from "../menu/MenuContext";
 const userInitialState: UserLogin = {
   email: "",
   password: "",
 };
 export const UseLogin = () => {
   const [user, setUser] = useState<UserLogin>(userInitialState);
+  const { setLoginUser } = useContext(AppContext);
+  const { setIsMenuExpaned } = useContext(MenuContext);  
   const { ShowError } = UseToast();
 
   let navigate = useNavigate();
@@ -18,6 +22,15 @@ export const UseLogin = () => {
       .then((res) => {
         if (res.status === 200) {
           saveToken(res.data);
+
+          if (window.innerWidth <= 600) {
+            setLoginUser((prev) => ({ ...prev, isMobile: true }));
+            setIsMenuExpaned(false);
+          } else {
+            setLoginUser((prev) => ({ ...prev, isDesktop: true }));
+            setIsMenuExpaned(true);
+          }
+
           return navigate("/project");
         }
       })

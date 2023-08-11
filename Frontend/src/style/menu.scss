@@ -104,3 +104,30 @@
   background-color: #bbbbbb;
   padding: 12px;
 }
+
+.vertical-menu-mobile{
+  display: none; 
+}
+
+@media all and (max-width: 600px) {
+  .vertical-menu-mobile{
+    display: flex;
+  }
+  .vertical-menu {
+    width: 80%;
+    padding: 5;
+  }  
+}
+
+.shrink-menu {
+  opacity: 0;
+  transform: translateX(0);
+  transition: all 400ms ease-out;
+  width: 0;
+}
+
+.expand-menu{
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 400ms ease-out;
+}

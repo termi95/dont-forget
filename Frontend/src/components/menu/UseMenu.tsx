@@ -1,13 +1,17 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Project } from "../../types/Project";
 import UseMenuApi from "./UseMenuApi";
 import AddProject from "./menuElements/project/addProject/AddProject";
+import { MenuContext } from "./MenuContext";
+import { AppContext } from "../../AppContext";
 
 export const UseMenu = () => {
   const { getProjectHeader } = UseMenuApi();
   const [projects, setProjects] = useState<Project[]>();
   const [addProject, setAddProject] = useState<boolean>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);  
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { IsMenuExpaned, setIsMenuExpaned } = useContext(MenuContext);  
+  const { loginUser } = useContext(AppContext);
   const getProjects = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -45,8 +49,11 @@ export const UseMenu = () => {
     changeAddProjectState,
     setIsLoading,
     addProjectContent,
+    setIsMenuExpaned,
     projects,
     addProject,
     isLoading,
+    IsMenuExpaned,
+    loginUser
   };
 };

@@ -36,7 +36,7 @@ function Settings() {
             Add
           </button>
         </div>
-        <table className="styled-table w100 t00 text-left space-top">
+        <table className="styled-table w100 t00 text-left space-top tablemobile">
           <thead>
             <tr>
               <th>No.</th>

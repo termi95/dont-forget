@@ -204,6 +204,35 @@ a {
   text-align: left;
 }
 
+.pad {
+  padding: 10px;
+}
+
+.sm-pad {
+  padding: 5px;
+}
+
+.pad-top {
+  padding-top: 10px;
+}
+.pad-left {
+  padding-left: 10px;
+}
+.pad-bottom {
+  padding-bottom: 10px;
+}
+.pad-right {
+  padding-right: 10px;
+}
+
+.h-auto {
+  height: auto;
+}
+
+.absolut {
+  position: absolute;
+}
+
 td,
 th {
   padding: 8px;
@@ -211,7 +240,7 @@ th {
 
 tr:nth-child(even) {
   background-color: #e6e6e6;
-  select{
+  select {
     background-color: #e6e6e6;
   }
 }
@@ -227,6 +256,10 @@ tr {
     background-color: $info-color;
     color: white;
   }
+}
+
+.max-h {
+  min-height: 100vh;
 }
 
 .flex {
@@ -257,4 +290,18 @@ tr {
 }
 .space-bottom {
   margin-bottom: 1rem;
+}
+
+.background-default {  
+  background-color:#eee;
+}
+
+@media only screen and (max-width: 480px) {
+  .tablemobile {
+    overflow-x: auto;
+    display: block;
+  }
+  .center {
+    width: auto;
+  }
 }
