@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import UseSettings from "./UseSettings";
 import Modal from "../../modal/Modal";
 import { ModalButton } from "../../../types/Modal";
+import { AiFillHome } from "react-icons/ai";
+import { ImExit } from "react-icons/im";
 
 function Settings() {
   const { projectId } = useParams();
@@ -18,6 +20,7 @@ function Settings() {
     fetchData,
     projectMembersTableContent,
     toggleModalState,
+    returnToMainPage,
   } = UseSettings({ projectId });
   useEffect(() => {
     fetchData();
@@ -26,7 +29,7 @@ function Settings() {
     <>
       <div className="center flex column">
         <div className="t100">Project: </div>
-        <div className="t20 flex">
+        <div className="t20 flex" style={{ justifyContent: "flex-end" }}>
           <p>Add user to project</p>
           <input
             type="email"
@@ -45,6 +48,7 @@ function Settings() {
           <button className="t20 back-info t-white" onClick={addUser}>
             Add
           </button>
+          <ImExit className="t40 pointer" style={{ margin: "auto" }} title="back to main page" onClick={returnToMainPage}/>
         </div>
         <table className="styled-table w100 t00 text-left space-top tablemobile">
           <thead>
@@ -59,7 +63,7 @@ function Settings() {
           <tbody>{projectMembersTableContent()}</tbody>
         </table>
       </div>
-      {showModal &&  memberToDelete && (
+      {showModal && memberToDelete && (
         <Modal
           text={`Are you sure, you want to remove ${memberToDelete.email} from project`}
           tittle={`Remove ${memberToDelete.email}`}

@@ -7,6 +7,7 @@ import {
 } from "../../../types/Project";
 import UseProjectApi from "../UseProjectApi";
 import { UserRow } from "./UserRow";
+import { useNavigate } from "react-router-dom";
 interface Props {
   projectId: string | undefined;
 }
@@ -99,6 +100,11 @@ export default function UseSettings({ projectId }: Props) {
     }
   };
 
+  let navigate = useNavigate();
+  function returnToMainPage() {
+    return navigate("/project");
+  }
+
   const projectMembersTableContent = () => {
     return members?.map((member, index) => {
       return (
@@ -125,5 +131,6 @@ export default function UseSettings({ projectId }: Props) {
     projectMembersTableContent,
     toggleModalState,
     handleDeleteAction,
+    returnToMainPage,
   };
 }
