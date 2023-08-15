@@ -6,7 +6,7 @@ import {
   ProjectMembers,
 } from "../../../types/Project";
 import UseProjectApi from "../UseProjectApi";
-import { BsFillTrashFill } from "react-icons/bs";
+import { UserRow } from "./UserRow";
 interface Props {
   projectId: string | undefined;
 }
@@ -14,6 +14,10 @@ export default function UseSettings({ projectId }: Props) {
   const userToAddRef = useRef<HTMLInputElement>(null);
   const selectRef = useRef<HTMLSelectElement>(null);
   const [members, setMembers] = useState<ProjectMembers[]>();
+  const [memberToDelete, setMemberToDelete] = useState<ProjectMembers | null>(
+    null
+  );
+  const [showModal, setShowModal] = useState(false);
   const { getProjectMembers, deleteMember, insertMember, changeMemberRole } =
     UseProjectApi();
 
@@ -29,6 +33,20 @@ export default function UseSettings({ projectId }: Props) {
         </option>
       );
     });
+  };
+
+  const toggleModalState = async () => {
+    await setShowModal((prev) => !prev);
+  };
+  const handleDeleteAction = async (userAnswer: boolean) => {
+    await toggleModalState();
+    if (!userAnswer) {
+      return;
+    }
+    if (memberToDelete) {
+      deleteMemberHandler(memberToDelete?.userId);
+      setMemberToDelete(null);
+    }
   };
 
   const addUser = async () => {
@@ -50,6 +68,9 @@ export default function UseSettings({ projectId }: Props) {
       setMembers(await getProjectMembers(parseInt(projectId)));
     }
   };
+  const handleSetMemberToDelete = (member: ProjectMembers) => {
+    setMemberToDelete(member);
+  };
 
   const deleteMemberHandler = async (userId: number) => {
     const member: RemoveProjectMember = {
@@ -65,12 +86,14 @@ export default function UseSettings({ projectId }: Props) {
     if (
       await changeMemberRole({ role, userId, projectId: parseInt(projectId!) })
     ) {
-      let index: number = members?.findIndex(m =>m.userId === userId)!;
-      const changedRole: ProjectMembers = members?.filter((m) => m.userId === userId)[0]!;
+      let index: number = members?.findIndex((m) => m.userId === userId)!;
+      const changedRole: ProjectMembers = members?.filter(
+        (m) => m.userId === userId
+      )[0]!;
       changedRole.role = role;
       setMembers([
         ...members!.slice(0, index),
-        changedRole,        
+        changedRole,
         ...members!.slice(++index),
       ]);
     }
@@ -78,40 +101,29 @@ export default function UseSettings({ projectId }: Props) {
 
   const projectMembersTableContent = () => {
     return members?.map((member, index) => {
-      const { email, id, role, created, userId } = member;
       return (
-        <tr key={id}>
-          <td>{++index}</td>
-          <td>{email}</td>
-          <td>
-            <select
-              name="Privilages"
-              className="bg-white no-border t00 pointer"
-              onChange={(e) =>
-                changeMemberRoleHandler(parseInt(e.target.value), userId)
-              }
-              value={role}
-            >
-              {userPrivilagesOptions()}
-            </select>
-          </td>
-          <td>{created.toString()}</td>
-          <td>
-            <BsFillTrashFill
-              className="delete"
-              onClick={() => deleteMemberHandler(userId)}
-            />
-          </td>
-        </tr>
+        <UserRow
+          key={member.id}
+          member={member}
+          index={index}
+          userPrivilagesOptions={userPrivilagesOptions}
+          changeMemberRoleHandler={changeMemberRoleHandler}
+          handleSetMemberToDelete={handleSetMemberToDelete}
+          toggleModalState={toggleModalState}
+        />
       );
     });
   };
   return {
     userToAddRef,
     selectRef,
+    showModal,
+    memberToDelete,
     userPrivilagesOptions,
     addUser,
     fetchData,
     projectMembersTableContent,
+    toggleModalState,
+    handleDeleteAction,
   };
 }

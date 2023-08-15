@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UseSettings from "./UseSettings";
+import Modal from "../../modal/Modal";
+import { ModalButton } from "../../../types/Modal";
 
 function Settings() {
   const { projectId } = useParams();
@@ -8,10 +10,14 @@ function Settings() {
   const {
     userToAddRef,
     selectRef,
+    showModal,
+    memberToDelete,
+    handleDeleteAction,
     userPrivilagesOptions,
     addUser,
     fetchData,
     projectMembersTableContent,
+    toggleModalState,
   } = UseSettings({ projectId });
   useEffect(() => {
     fetchData();
@@ -29,7 +35,11 @@ function Settings() {
             placeholder="user@email.com"
             ref={userToAddRef}
           />
-          <select name="Privilages" ref={selectRef} className="bg-white no-border t00 pointer">
+          <select
+            name="Privilages"
+            ref={selectRef}
+            className="bg-white no-border t00 pointer"
+          >
             {userPrivilagesOptions()}
           </select>
           <button className="t20 back-info t-white" onClick={addUser}>
@@ -49,6 +59,15 @@ function Settings() {
           <tbody>{projectMembersTableContent()}</tbody>
         </table>
       </div>
+      {showModal &&  memberToDelete && (
+        <Modal
+          text={`Are you sure, you want to remove ${memberToDelete.email} from project`}
+          tittle={`Remove ${memberToDelete.email}`}
+          type={ModalButton.YesNo}
+          closeAction={toggleModalState}
+          handleUserAction={handleDeleteAction}
+        />
+      )}
     </>
   );
 }

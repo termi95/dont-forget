@@ -1,5 +1,4 @@
-﻿using AutoMapper.Execution;
-using backend.Entities;
+﻿using backend.Entities;
 using backend.Exceptions;
 using backend.IServices;
 using backend.Model.Project;
@@ -115,9 +114,12 @@ namespace backend.Services
 
         public async Task<bool> DeleteMemberFromProject(int userId, RemoveProjectMemberDto member)
         {
-            await CheckIfUserIsAdminForProject(userId, member.ProjectId);
-
-            await CheckMinimalNumberOfAdminsInProject(member.ProjectId);
+             await CheckIfUserIsAdminForProject(userId, member.ProjectId);
+            var memberToDelete = await _context.ProjectMemberships.FirstOrDefaultAsync(x => x.UserId == member.UserId);
+            if (memberToDelete is not null && memberToDelete.Role == Role.Admin)
+            {
+                await CheckMinimalNumberOfAdminsInProject(member.ProjectId);
+            }
 
             int rows = await _context.ProjectMemberships.Where(m => m.UserId == member.UserId && m.ProjectId == member.ProjectId).ExecuteDeleteAsync();
             return rows > 0;
@@ -136,13 +138,14 @@ namespace backend.Services
             }
 
             await CheckIfUserIsAdminForProject(userId, member.ProjectId);
-            ProjectMemberships? memberExist = await _context.ProjectMemberships.Where(u=>u.UserId == user.Id && u.ProjectId == member.ProjectId).SingleOrDefaultAsync();
+            ProjectMemberships? memberExist = await _context.ProjectMemberships.Where(u => u.UserId == user.Id && u.ProjectId == member.ProjectId).SingleOrDefaultAsync();
             if (memberExist is not null)
             {
                 throw new NotAllowedExeption("User is already in project.");
             }
 
-            ProjectMemberships newMember = new() { 
+            ProjectMemberships newMember = new()
+            {
                 Created = DateOnly.FromDateTime(DateTime.Now.Date),
                 Updated = DateOnly.FromDateTime(DateTime.Now.Date),
                 ProjectId = member.ProjectId,
@@ -159,7 +162,7 @@ namespace backend.Services
         {
             await CheckIfUserIsAdminForProject(userId, member.ProjectId);
 
-            ProjectMemberships? memberToChangeRole = await _context.ProjectMemberships.Where(m => m.UserId == member.UserId && m.ProjectId== member.ProjectId).FirstOrDefaultAsync();
+            ProjectMemberships? memberToChangeRole = await _context.ProjectMemberships.Where(m => m.UserId == member.UserId && m.ProjectId == member.ProjectId).FirstOrDefaultAsync();
 
             if (memberToChangeRole is null) { throw new NotFoundException("User not Found"); }
 

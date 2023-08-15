@@ -31,9 +31,7 @@ function UseListManager() {
   };
 
   const setSortType = (value: string) => {
-    console.log("sortType:", value);
     const intValue = parseInt(value);
-    console.log("intValue:", intValue);
     if (intValue || intValue === 0) {
       setSortTasks(intValue);
     }
