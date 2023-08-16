@@ -21,5 +21,7 @@ namespace backend.Entities
         public DateTime? FinishDate { get; set; }
         [NotNull]
         public int ProjectId { get; set; }
+        [NotNull]
+        public int DoerId { get; set; }
     }
 }

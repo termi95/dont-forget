@@ -37,6 +37,9 @@ namespace backend.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("DoerId")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("Done")
                         .HasColumnType("boolean");
 

@@ -47,7 +47,7 @@ function UseListManager() {
       { name: "PRIORITY_ASC", value: "Priority ↑" },
       { name: "PRIORITY_DESC", value: "Priority ↓" },
     ];
-    
+
     return firstHalf.map((value, index) => {
       const text = mapper.map((x) => {
         if (x.name === value.toString()) {
@@ -67,10 +67,14 @@ function UseListManager() {
 
     switch (sortType) {
       case SortType.ALPHABETICALLY_ASC:
-        sortedTasks = tasks?.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
+        sortedTasks = tasks?.sort((a, b) =>
+          a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
+        );
         break;
       case SortType.ALPHABETICALLY_DESC:
-        sortedTasks = tasks?.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1));
+        sortedTasks = tasks?.sort((a, b) =>
+          a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1
+        );
         break;
       case SortType.PRIORITY_ASC:
         sortedTasks = tasks?.sort((a, b) => {

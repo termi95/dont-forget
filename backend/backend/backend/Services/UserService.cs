@@ -61,7 +61,8 @@ namespace backend.Services
                     CreationDate = DateTime.Now,
                     Name = "Your first Task",
                     Priority = Model.Task.AssignmentEnum.Priority.Medium,
-                    ProjectId = project.Id
+                    ProjectId = project.Id,
+                    DoerId = user.Id,                    
                 });
             _context.SaveChanges();
         }

@@ -16,6 +16,7 @@ namespace backend.Model.Task
         public DateTime CreationDate { get; set; }
         public DateTime? FinishDate { get; set; }
         public int ProjectId { get; set; }
+        public int DoerId { get; set; }
 
     }
 }

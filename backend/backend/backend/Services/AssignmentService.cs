@@ -38,6 +38,7 @@ namespace backend.Services
                 Priority.Medium,
                 ProjectId = assignment.ProjectId,
                 Body = string.Empty,
+                DoerId = userId,
             };
 
             await _context.Assignments.AddAsync(toDo);
@@ -45,6 +46,11 @@ namespace backend.Services
 
             return toDo;
         }
+
+        //public async Task<bool> ChangeAssignmentDoer(AssignmentDto assignment, int userId)
+        //{
+
+        //}
 
         public async Task<bool> DeleteAssigmentByIdAsync(int assignmenId, int userId)
         {

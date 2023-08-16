@@ -11,15 +11,16 @@ function ListManager() {
     sortTasks,
     sortTask,
   } = UseListManager();
-  
+
   return (
     <>
-      <div className="task">
+      <div className="task" style={{ cursor: "default" }}>
         <div className="task-visibility">
           <label htmlFor="visibility">
             <p>Task visibility:</p>
           </label>
           <select
+            className="pointer"
             id="visibility"
             onChange={(e) => {
               setVisibility(e.target.value);
@@ -34,6 +35,7 @@ function ListManager() {
             <p>Sort task by:</p>
           </label>
           <select
+            className="pointer"
             onChange={(e) => {
               setSortType(e.target.value);
               sortTask(sortTasks.valueOf());

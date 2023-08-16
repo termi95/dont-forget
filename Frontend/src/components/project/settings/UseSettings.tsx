@@ -105,6 +105,12 @@ export default function UseSettings({ projectId }: Props) {
     return navigate("/project");
   }
 
+  const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>)=> {
+    if (e.code === "Enter") {
+      await addUser();      
+    }
+  }
+
   const projectMembersTableContent = () => {
     return members?.map((member, index) => {
       return (
@@ -132,5 +138,6 @@ export default function UseSettings({ projectId }: Props) {
     toggleModalState,
     handleDeleteAction,
     returnToMainPage,
+    handleKeyDown,
   };
 }

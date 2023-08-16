@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import UseSettings from "./UseSettings";
 import Modal from "../../modal/Modal";
 import { ModalButton } from "../../../types/Modal";
-import { AiFillHome } from "react-icons/ai";
 import { ImExit } from "react-icons/im";
 
 function Settings() {
@@ -21,6 +20,7 @@ function Settings() {
     projectMembersTableContent,
     toggleModalState,
     returnToMainPage,
+    handleKeyDown,
   } = UseSettings({ projectId });
   useEffect(() => {
     fetchData();
@@ -37,6 +37,7 @@ function Settings() {
             className="space-left  t00"
             placeholder="user@email.com"
             ref={userToAddRef}
+            onKeyDown={(e)=>handleKeyDown(e)}
           />
           <select
             name="Privilages"
