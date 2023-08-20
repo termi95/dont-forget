@@ -70,5 +70,11 @@ namespace backend.Controllers
             int userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             return Ok(await _assignmentService.GetPropertiesAssignmentAsync(assignment,userId));
         }
+        [HttpPatch, Route("doer"), Authorize]
+        public async Task<ActionResult> DoerAssignment([FromBody] AssignmentDto assignment)
+        {
+            int userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            return Ok(await _assignmentService.ChangeAssignmentDoer(assignment, userId));
+        }
     }
 }

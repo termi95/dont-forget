@@ -1,1 +1,3 @@
 **/.vs/**
+backend/backend/backend/obj/**
+backend/backend/backend/bin/**

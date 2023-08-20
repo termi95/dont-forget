@@ -1,27 +1,68 @@
-import { Priority, Task, TaskProperties } from "../../../types/Task";
+import { Doer, Priority, Task, TaskProperties } from "../../../types/Task";
 import { UseTaskApi } from "../UseTaskApi";
 import { useEffect, useState } from "react";
 
 interface Props {
   id: number;
+  projectId: number;
   refreshPriority: (value: Priority) => void;
 }
-function UseTaskBody({ id, refreshPriority }: Props) {
+function UseTaskBody({ id, projectId, refreshPriority }: Props) {
   const { handleUpdateTaskPriority } = UseTaskApi();
   const [taskProperties, setTaskProperties] = useState<TaskProperties>();
-  const { getTaskProperties, updateTaskProperties } = UseTaskApi();
+  const [doers, setDoers] = useState<Doer[]>();
+  const {
+    getTaskProperties,
+    updateTaskProperties,
+    getAllDoersForProject,
+    handleUpdateTaskDoer,
+  } = UseTaskApi();
 
   useEffect(() => {
-    getProperties(id);
+    getProperties(id, projectId);
+    getAllDoers(projectId);
   }, []);
 
-  const getProperties = async (id: number) => {
-    const data = await getTaskProperties(id);
+  const getProperties = async (id: number, projectId: number) => {
+    const data = await getTaskProperties(id, projectId);
     if (data) {
       setTaskProperties(data);
     }
   };
 
+  const getAllDoers = async (projectId: number) => {
+    const doers = await getAllDoersForProject(projectId);
+    setDoers([...doers]);
+  };
+
+  const doersOptions = () => {
+    if (doers) {
+      return doers.map((doer) => {
+        return (
+          <option key={doer.id} value={doer.id}>
+            {doer.email}
+          </option>
+        );
+      });
+    }
+  };
+
+  const changeDoer = async (target: HTMLSelectElement) => {
+    try {
+      const newDoer = Number.parseInt(target.value);
+      if (
+        await handleUpdateTaskDoer({
+          DoerId: newDoer,
+          id: id,
+        } as Task)
+      ) {
+        setTaskProperties((prev) => ({
+          ...prev!,
+          DoerId: newDoer,
+        }));
+      }
+    } catch (error) {}
+  };
   const priorityTaskOptions = () => {
     const sortTypes = Object.values(Priority);
     const half = Math.ceil(sortTypes.length / 2);
@@ -56,8 +97,10 @@ function UseTaskBody({ id, refreshPriority }: Props) {
           id: id,
         } as Task)
       ) {
-        taskProperties!.priority = pickedPriorityAsNumber;
-        setTaskProperties(taskProperties);
+        setTaskProperties((prev) => ({
+          ...prev!,
+          priority: pickedPriorityAsNumber,
+        }));
         refreshPriority(pickedPriorityAsNumber);
       }
     } catch (error) {}
@@ -79,6 +122,8 @@ function UseTaskBody({ id, refreshPriority }: Props) {
     changeTaskPriority,
     taskProperties,
     handleSaveContent,
+    doersOptions,
+    changeDoer,
   };
 }
 

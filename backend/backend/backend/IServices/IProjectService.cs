@@ -1,6 +1,7 @@
 ﻿using backend.Entities;
 using backend.Model.Project;
 using backend.Model.ProjectMemberships;
+using backend.Model.User;
 
 namespace backend.IServices
 {
@@ -19,5 +20,6 @@ namespace backend.IServices
         public Task<bool> DeleteMemberFromProject(int userId, RemoveProjectMemberDto member);
         public Task<ProjectMembersDto> AddMemberToProject(int userId, AddProjectMemberDto member);
         public Task<bool> ChangeUserRoleInProject(int userId, ChangeMemberRoleDto member);
+        public Task<List<DoerDto>> GetAllDoersForProject(int userId, int projectId);
     }
 }

@@ -13,9 +13,10 @@ import UseTask from "./UseTask";
 const Modal = lazy(() => import("../modal/Modal"));
 interface Props {
   task: AddTaskType;
+  projectId: number;
   refresh: () => void;
 }
-function Task({ task, refresh }: Props) {
+function Task({ task, projectId, refresh }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visibleTaskSetting, setVisibleTaskSetting] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -55,6 +56,7 @@ function Task({ task, refresh }: Props) {
           <TaskBody
             key={task.id}
             id={task.id!}
+            projectId={projectId}
             refreshPriority={handleChangePriority}
           />
         </div>

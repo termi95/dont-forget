@@ -3,6 +3,7 @@ using backend.Exceptions;
 using backend.IServices;
 using backend.Model.Project;
 using backend.Model.ProjectMemberships;
+using backend.Model.User;
 using Microsoft.EntityFrameworkCore;
 using static backend.Model.ProjectMemberships.ProjectMembershipsEnum;
 
@@ -114,7 +115,7 @@ namespace backend.Services
 
         public async Task<bool> DeleteMemberFromProject(int userId, RemoveProjectMemberDto member)
         {
-             await CheckIfUserIsAdminForProject(userId, member.ProjectId);
+            await CheckIfUserIsAdminForProject(userId, member.ProjectId);
             var memberToDelete = await _context.ProjectMemberships.FirstOrDefaultAsync(x => x.UserId == member.UserId);
             if (memberToDelete is not null && memberToDelete.Role == Role.Admin)
             {
@@ -177,6 +178,24 @@ namespace backend.Services
 
             return true;
         }
+
+        public async Task<List<DoerDto>> GetAllDoersForProject(int userId, int projectId)
+        {
+            if (!(await _context.ProjectMemberships.AnyAsync((x) => x.ProjectId == projectId && x.UserId == userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
+
+            return await (from pm in _context.ProjectMemberships
+                                     join u in _context.Users on pm.UserId equals u.Id
+                                     where pm.ProjectId == projectId
+                                     select new DoerDto
+                                     {
+                                         Id = u.Id,
+                                         Email = u.Email
+                                     }).ToListAsync();
+        }
+
         private async Task<bool> CheckMinimalNumberOfAdminsInProject(int ProjectId)
         {
             int checkNumberOfAdminInProject = await _context.ProjectMemberships.Where(m => m.ProjectId == ProjectId && m.Role == Role.Admin).CountAsync();

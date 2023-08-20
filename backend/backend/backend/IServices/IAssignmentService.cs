@@ -14,6 +14,6 @@ namespace backend.IServices
         Task<bool> ChangePriorityAssignmentAsync(AssignmentDto assignment, int userId);
         Task<bool> SetBodyAssignmentAsync(AssignmentDto assignment, int userId);
         Task<Assignment> GetPropertiesAssignmentAsync(AssignmentDto assignment, int userId);
-
+        Task<bool> ChangeAssignmentDoer(AssignmentDto assignment, int userId);
     }
 }

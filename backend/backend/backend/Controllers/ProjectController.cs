@@ -1,4 +1,5 @@
-﻿using backend.IServices;
+﻿using backend.Entities;
+using backend.IServices;
 using backend.Model.Project;
 using backend.Model.ProjectMemberships;
 using Microsoft.AspNetCore.Authorization;
@@ -80,6 +81,13 @@ namespace backend.Controllers
         {
             int userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             return Ok(await _projectService.AddMemberToProject(userId, member));
+        }
+
+        [HttpPost, Route("get-doers"), Authorize]
+        public async Task<ActionResult> GetDoers([FromBody] ProjectIdDto Project)
+        {
+            int userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            return Ok(await _projectService.GetAllDoersForProject(userId, Project.ProjectId));
         }
     }
 }

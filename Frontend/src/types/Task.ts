@@ -7,6 +7,7 @@ interface Task {
   creationDate: Date | null;
   FinishDate: Date | null;
   priority: Priority;
+  DoerId: number;
 }
 interface TaskUpdate {
   id: number;
@@ -14,6 +15,7 @@ interface TaskUpdate {
   Body: string;
   done: boolean;
   priority: Priority;
+  DoerId: number;
 }
 
 interface AddTaskHeader {
@@ -29,6 +31,12 @@ export interface TaskProperties {
   id: number;
   body: string;
   priority?: Priority;
+  DoerId: number;
+}
+
+export interface Doer {
+  id: number;
+  email: string;
 }
 
 export const TaskVisibility: ITaskVisibility[] = [

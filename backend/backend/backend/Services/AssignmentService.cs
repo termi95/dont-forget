@@ -15,6 +15,10 @@ namespace backend.Services
         }
         public async Task<bool> ChangePriorityAssignmentAsync(AssignmentDto assignment, int userId)
         {
+            if (!(await CheckIsUserIsMemberOfProject(assignment.Id, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
             Assignment? toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
             if (toDo is null)
             {
@@ -28,6 +32,11 @@ namespace backend.Services
 
         public async Task<Assignment> CreateAssignmentAsync(AssignmentDto assignment, int userId)
         {
+            if (!(await CheckIsUserIsMemberOfProjectByProjectId(assignment.ProjectId, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
+
             Assignment toDo = new()
             {
                 CreationDate = DateTime.Now.Date,
@@ -47,13 +56,30 @@ namespace backend.Services
             return toDo;
         }
 
-        //public async Task<bool> ChangeAssignmentDoer(AssignmentDto assignment, int userId)
-        //{
-
-        //}
+        public async Task<bool> ChangeAssignmentDoer(AssignmentDto assignment, int userId)
+        {
+            if (!(await CheckIsUserIsMemberOfProject(assignment.Id, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
+            Assignment? toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
+            if (toDo is null)
+            {
+                throw new NotFoundException("Assignment not found.");
+            }
+            await _context.Assignments
+               .Where(a => a.Id == toDo.Id)
+               .ExecuteUpdateAsync(a => a.SetProperty(a => a.DoerId, assignment.DoerId));
+            return true;
+        }
 
         public async Task<bool> DeleteAssigmentByIdAsync(int assignmenId, int userId)
         {
+            // TODO block if user is not in project or check is it possible
+            //if (!(await CheckIsUserIsMemberOfProject(assignmenId, userId)))
+            //{
+            //    throw new ForbiddenAccessException("User is not a project member.");
+            //}
             Assignment? result = await GetAssignmentToUpdateProp(userId, assignmenId);
             if (result is null)
             {
@@ -66,6 +92,7 @@ namespace backend.Services
 
         public async Task<Assignment> GetAssignmentByIdAsync(int id, int userId)
         {
+            // TODO block if user is not in project or check is it possible
             return await (from a in _context.Assignments
                           join p in _context.Projects on a.ProjectId equals p.Id
                           join s in _context.ProjectMemberships on a.ProjectId equals s.ProjectId
@@ -83,12 +110,16 @@ namespace backend.Services
                           }).FirstAsync();
         }
 
-        public async Task<List<Assignment>> GetAssignmentsForProjectAsync(int prjectId, int userId)
+        public async Task<List<Assignment>> GetAssignmentsForProjectAsync(int projectId, int userId)
         {
+            if (!(await CheckIsUserIsMemberOfProjectByProjectId(projectId, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
             return await (from a in _context.Assignments
                           join p in _context.Projects on a.ProjectId equals p.Id
                           join s in _context.ProjectMemberships on a.ProjectId equals s.ProjectId
-                          where s.UserId == userId && p.Id == prjectId
+                          where s.UserId == userId && p.Id == projectId
                           orderby a.Name ascending
                           select new Assignment
                           {
@@ -103,6 +134,10 @@ namespace backend.Services
 
         public async Task<Assignment> GetPropertiesAssignmentAsync(AssignmentDto assignment, int userId)
         {
+            if (!(await CheckIsUserIsMemberOfProject(assignment.Id, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
             Assignment toDo = await (from a in _context.Assignments
                                      join p in _context.Projects on a.ProjectId equals p.Id
                                      join s in _context.ProjectMemberships on a.ProjectId equals s.ProjectId
@@ -112,6 +147,7 @@ namespace backend.Services
                                          Id = a.Id,
                                          Priority = a.Priority,
                                          Body = a.Body,
+                                         DoerId = a.DoerId,
                                      }).FirstAsync();
             if (toDo is null)
             {
@@ -122,6 +158,10 @@ namespace backend.Services
 
         public async Task<bool> RenameAssignmentAsync(AssignmentDto assignment, int userId)
         {
+            if (!(await CheckIsUserIsMemberOfProject(assignment.Id, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
             Assignment? toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
             if (toDo is null)
             {
@@ -135,6 +175,10 @@ namespace backend.Services
 
         public async Task<bool> SetBodyAssignmentAsync(AssignmentDto assignment, int userId)
         {
+            if (!(await CheckIsUserIsMemberOfProject(assignment.Id, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
             Assignment? toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
             if (toDo is null)
             {
@@ -148,6 +192,10 @@ namespace backend.Services
 
         public async Task<bool> TogleDoneAssignmentAsync(AssignmentDto assignment, int userId)
         {
+            if (!(await CheckIsUserIsMemberOfProject(assignment.Id, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
             Assignment? toDo = await GetAssignmentToUpdateProp(userId, assignment.Id);
             if (toDo is null)
             {
@@ -171,6 +219,19 @@ namespace backend.Services
                  {
                      Id = a.Id,
                  }).FirstOrDefaultAsync();
+        }
+
+        private async Task<bool> CheckIsUserIsMemberOfProject(int assignmentId, int userId)
+        {
+            var assignment = await _context.Assignments.FirstOrDefaultAsync((x) => x.Id == assignmentId);
+            if (assignment is null) { throw new NotFoundException("Assignment not found."); }
+            return await _context.ProjectMemberships.AnyAsync((x) => x.ProjectId == assignment.ProjectId && x.UserId == userId);
+        }
+        private async Task<bool> CheckIsUserIsMemberOfProjectByProjectId(int projectId, int userId)
+        {
+            var member = await _context.ProjectMemberships.FirstOrDefaultAsync((x) => x.ProjectId == projectId && x.UserId == userId);
+            if (member is null) { throw new NotFoundException("User is not a member of that project."); }
+            return true;
         }
     }
 }

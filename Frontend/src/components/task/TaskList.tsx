@@ -17,30 +17,51 @@ function TaskList() {
 
   const fetchTasks = useCallback(async () => {
     setIsLoading(true);
-    setTasks(await getProjectTasks(project));
+    if (project && project.id && project.id > 0) {
+      setTasks(await getProjectTasks(project));
+    }
     setIsLoading(false);
   }, [project]);
 
   useEffect(() => {
     fetchTasks();
   }, [project]);
-  
+
   useEffect(() => {
     content;
   }, [sortTasks]);
 
-
   const content = () => {
     if (!(taskVisibility.name === "All")) {
-      return tasks!
-        .filter((task) => task.done === Boolean(taskVisibility.value))
-        .map((task) => {
-          return <Task key={task.id} task={task} refresh={fetchTasks} />;
-        });
+      if (tasks) {
+        return tasks
+          .filter((task) => task.done === Boolean(taskVisibility.value))
+          .map((task) => {
+            return (
+              <Task
+                key={task.id}
+                task={task}
+                projectId={project.id!}
+                refresh={fetchTasks}
+              />
+            );
+          });        
+      }
+      return []
     } else {
-      return tasks!.map((task) => {
-        return <Task key={task.id} task={task} refresh={fetchTasks} />;
-      });
+      if (tasks) {
+        return tasks.map((task) => {
+          return (
+            <Task
+              key={task.id}
+              task={task}
+              projectId={project.id!}
+              refresh={fetchTasks}
+            />
+          );
+        });        
+      }
+      return []
     }
   };
 

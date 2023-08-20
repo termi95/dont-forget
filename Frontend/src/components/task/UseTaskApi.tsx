@@ -3,6 +3,7 @@ import { api } from "../../api/api";
 import { Project } from "../../types/Project";
 import {
   AddTaskHeader,
+  Doer,
   Priority,
   Task,
   TaskProperties,
@@ -71,12 +72,14 @@ export const UseTaskApi = () => {
       Body: "",
       done: false,
       priority: Priority.MEDIUM,
+      DoerId: 0
     };
     updateTask.done = task.done;
     updateTask.Name = task.name;
     updateTask.Body = task.body;
     updateTask.id = task.id ? task.id : 0;
     updateTask.priority = task.priority;
+    updateTask.DoerId = task.DoerId;
     return updateTask;
   };
 
@@ -112,6 +115,7 @@ export const UseTaskApi = () => {
         throw new Error("");
       });
   };
+
   const updateTaskProperties = async (properties: TaskProperties) => {
     return await api
       .patch("/Assignment/properties", properties)
@@ -125,9 +129,10 @@ export const UseTaskApi = () => {
         throw new Error("");
       });
   };
-  const getTaskProperties = async (id: number) => {
+
+  const getTaskProperties = async (id: number, projectId: number) => {
     const tasks: TaskProperties = await api
-      .post("/Assignment/get-properties", { id })
+      .post("/Assignment/get-properties", { id, projectId })
       .then((res) => {
         if (res.status === 200) {
           return res.data;
@@ -135,6 +140,32 @@ export const UseTaskApi = () => {
         throw new Error("error");
       });
     return await tasks;
+  };
+
+  const getAllDoersForProject = async (projectId: number) => {
+    const tasks: Doer[] = await api
+      .post("Project/get-doers", { projectId })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.data;
+        }
+        throw new Error("error");
+      });
+    return await tasks;
+  };
+
+  const handleUpdateTaskDoer = async (task: Task) => {
+    return await api
+      .patch("/Assignment/doer", task)
+      .then(async (res) => {
+        if (res.status === 200) {
+          return true;
+        }
+        throw new Error("");
+      })
+      .catch((e) => {
+        throw new Error("");
+      });
   };
   return {
     handleAddTask,
@@ -145,5 +176,7 @@ export const UseTaskApi = () => {
     handleUpdateTaskPriority,
     getTaskProperties,
     updateTaskProperties,
+    getAllDoersForProject,
+    handleUpdateTaskDoer,
   };
 };
