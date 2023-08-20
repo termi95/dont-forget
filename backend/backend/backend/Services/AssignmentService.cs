@@ -75,11 +75,10 @@ namespace backend.Services
 
         public async Task<bool> DeleteAssigmentByIdAsync(int assignmenId, int userId)
         {
-            // TODO block if user is not in project or check is it possible
-            //if (!(await CheckIsUserIsMemberOfProject(assignmenId, userId)))
-            //{
-            //    throw new ForbiddenAccessException("User is not a project member.");
-            //}
+            if (!(await CheckIsUserIsMemberOfProject(assignmenId, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
             Assignment? result = await GetAssignmentToUpdateProp(userId, assignmenId);
             if (result is null)
             {
@@ -92,7 +91,10 @@ namespace backend.Services
 
         public async Task<Assignment> GetAssignmentByIdAsync(int id, int userId)
         {
-            // TODO block if user is not in project or check is it possible
+            if (!(await CheckIsUserIsMemberOfProject(id, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
             return await (from a in _context.Assignments
                           join p in _context.Projects on a.ProjectId equals p.Id
                           join s in _context.ProjectMemberships on a.ProjectId equals s.ProjectId
