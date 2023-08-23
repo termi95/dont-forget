@@ -9,12 +9,26 @@ import TaskVisibilityProvider from "../task/contexts/TaskVisibilityContext";
 import ActiveTaskProvider from "../task/contexts/ActiveTaskContext";
 import TaskSortContextProvider from "../task/contexts/TaskSortContext";
 import { MenuContext } from "../menu/MenuContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../AppContext";
+import Helper from "../../helper/Helper";
 
-function Project() {
+
+function Project() {  
   const { IsMenuExpaned } = useContext(MenuContext);
-  const { loginUser } = useContext(AppContext);
+  const { loginUser } = useContext(AppContext);  
+  const { setIsMenuExpaned } = useContext(MenuContext);
+  const { GetAppContext } = Helper();
+
+  useEffect(() => {;
+    GetAppContext();
+    if (window.innerWidth <= 600) {
+      setIsMenuExpaned(false);
+    } else {
+      setIsMenuExpaned(true);
+    }
+  }, []);
+
   return (
     <>
       <div className="main-container">

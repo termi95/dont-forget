@@ -5,6 +5,7 @@ import { UserLogin } from "../../types/User";
 import UseToast from "../../UseToast";
 import { AppContext } from "../../AppContext";
 import { MenuContext } from "../menu/MenuContext";
+import Helper from "../../helper/Helper";
 const userInitialState: UserLogin = {
   email: "",
   password: "",
@@ -12,8 +13,9 @@ const userInitialState: UserLogin = {
 export const UseLogin = () => {
   const [user, setUser] = useState<UserLogin>(userInitialState);
   const { setLoginUser } = useContext(AppContext);
-  const { setIsMenuExpaned } = useContext(MenuContext);  
+  const { setIsMenuExpaned } = useContext(MenuContext);
   const { ShowError } = UseToast();
+  const { SetAppContext } = Helper();
 
   let navigate = useNavigate();
   const login = async () => {
@@ -25,9 +27,11 @@ export const UseLogin = () => {
 
           if (window.innerWidth <= 600) {
             setLoginUser((prev) => ({ ...prev, isMobile: true }));
+            SetAppContext({ isDesktop: false, isMobile: true });
             setIsMenuExpaned(false);
           } else {
             setLoginUser((prev) => ({ ...prev, isDesktop: true }));
+            SetAppContext({ isDesktop: true, isMobile: false });
             setIsMenuExpaned(true);
           }
 
