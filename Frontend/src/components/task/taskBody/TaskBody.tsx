@@ -19,58 +19,81 @@ function TaskBody({ id, projectId, refreshPriority }: Props) {
     handleSaveContent,
     doersOptions,
     changeDoer,
+    ref,
+    handleAddComment,
+    CommentList,
+    handleKeyDown,
   } = UseTaskBody({ id, projectId, refreshPriority });
   const editorRef = useRef<TinyMCEEditor | null>(null);
   return (
     <>
-      <div className="task-body-content-wraper">
-        <div className="task-body-content">
-          <div className="flex">
-            <div className="task-priority">
-              <label>
-                <p className="t00">Priority:</p>
-              </label>
-              <select
-                className="t00"
-                onChange={(e) => {
-                  changeTaskPriority(e.target);
-                }}
-                value={taskProperties?.priority}
-              >
-                {priorityTaskOptions()}
-              </select>
+      <div className="task-body-content-wraper ">
+        <div className="task-body-content w50">
+          <div className="flex column h100 space-between">
+            <div className="flex">
+              <div className="task-priority">
+                <label>
+                  <p className="t00">Priority:</p>
+                </label>
+                <select
+                  className="t00"
+                  onChange={(e) => {
+                    changeTaskPriority(e.target);
+                  }}
+                  value={taskProperties?.priority}
+                >
+                  {priorityTaskOptions()}
+                </select>
+              </div>
+              <div className="pad-left">
+                <label>
+                  <p className="t00">Doer:</p>
+                </label>
+                <select
+                  className="t00"
+                  onChange={(e) => {
+                    changeDoer(e.target);
+                  }}
+                  value={taskProperties?.DoerId}
+                >
+                  {doersOptions()}
+                </select>
+              </div>
             </div>
-            <div className="pad-left">
-              <label>
-                <p className="t00">Doer:</p>
-              </label>
-              <select
-                className="t00"
-                onChange={(e) => {
-                  changeDoer(e.target);
-                }}
-                value={taskProperties?.DoerId}
+            <br />
+            <div className="task-body-content-text">
+              <Editor
+                textareaName="Description"
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                value={taskProperties?.body}
+              />
+              <button
+                className="task-body-content-button t00"
+                onClick={() =>
+                  handleSaveContent(editorRef.current?.getContent())
+                }
               >
-                {doersOptions()}
-              </select>
+                save
+              </button>
             </div>
           </div>
-          <br />
-          <div className="task-body-content-text">
-            <Editor
-              textareaName="Description"
-              onInit={(evt, editor) => (editorRef.current = editor)}
-              value={taskProperties?.body}
-            />
-            <button
-              className="task-body-content-button"
-              onClick={() => handleSaveContent(editorRef.current?.getContent())}
-            >
+        </div>
+        <div className="flex column chat-border space-between min-w50">
+          <div className="chat flex scroll-y">{CommentList()}</div>
+          <div className="flex column sm-space-left">
+            <textarea
+              ref={ref}
+              name="comment"
+              cols={10}
+              rows={2}
+              className="t00 comment-border-radius w100 sm-pad"
+              onKeyDown={(e)=>handleKeyDown(e)}
+            ></textarea>
+            <button className="t00 w100 sm-pad" onClick={handleAddComment}>
               save
             </button>
           </div>
         </div>
-        <div className="chat">tu będzię czat</div>
       </div>
     </>
   );

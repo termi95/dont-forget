@@ -8,8 +8,6 @@
   background-color: rgb(220, 220, 220);
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  align-items: center;
-  min-height: 40px;
 }
 
 .remove-bottom-border {
@@ -20,32 +18,27 @@
 .task-body-content-wraper {
   padding: 10px;
   display: flex;
-  justify-content: space-between;
   width: 100%;
+  height: 70vh;
   .task-body-content {
-    width: 50%;
     display: flex;
     flex-direction: column;
     &-text {
       width: 95%;
       max-width: 95%;
-      margin: auto;
+      margin-left: auto;
+      margin-right: auto;
     }
-    &-button{      
+    &-button {
       width: 100%;
-      margin: auto;
+      margin-left: auto;
+      margin-right: auto;
       padding: 5px;
     }
     .task-priority {
       font-size: 1rem;
       padding-left: 20px;
       padding-bottom: 10px;
-      text-align: start;
     }
-  }
-  .chat {
-    width: 50%;
-    border-color: rgba(128, 128, 128, 0.5);
-    border-left: dotted 1px;
   }
 }

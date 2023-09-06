@@ -1,6 +1,7 @@
 ﻿using backend.Entities;
 using backend.Exceptions;
 using backend.IServices;
+using backend.Model.Assignment;
 using backend.Model.Task;
 using Microsoft.EntityFrameworkCore;
 
@@ -208,6 +209,44 @@ namespace backend.Services
                 .Where(a => a.Id == toDo.Id)
                 .ExecuteUpdateAsync(a => a.SetProperty(a => a.Done, assignment.Done));
             return true;
+        }
+
+        public async Task<List<CommentResponse>> GetCommentsForAsignmentAsync(CommentDto comment, int userId)
+        {
+            if (!(await CheckIsUserIsMemberOfProject(comment.AssignmentId, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
+
+            return await (from c in _context.Comments
+                          join u in _context.Users on c.UserId equals u.Id
+                          where c.AssignmentId == comment.AssignmentId
+                          select new CommentResponse { Id = c.Id, Added = c.Added, User = u.Email, Message = c.Message }).ToListAsync();
+        }
+        public async Task<CommentResponse> AddCommentsForAsignmentAsync(CommentDto comment, int userId)
+        {
+            if (!(await CheckIsUserIsMemberOfProject(comment.AssignmentId, userId)))
+            {
+                throw new ForbiddenAccessException("User is not a project member.");
+            }
+            if (string.IsNullOrEmpty(comment.Message))
+            {
+                throw new BadRequestException("You can't add yourself.");
+            }
+            var Comment = new Comment
+            {
+                Added = DateTime.Now,
+                Message = comment.Message,
+                UserId = userId,
+                AssignmentId = comment.AssignmentId
+            };
+            await _context.Comments.AddAsync(Comment);
+            await _context.SaveChangesAsync();
+
+            return await (from c in _context.Comments
+            join u in _context.Users on c.UserId equals u.Id
+            where c.Id == Comment.Id
+            select new CommentResponse { Id = c.Id, Added = c.Added, User = u.Email, Message = c.Message }).SingleAsync();
         }
 
         private async Task<Assignment?> GetAssignmentToUpdateProp(int userId, int assignmentId)

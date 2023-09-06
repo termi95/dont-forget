@@ -27,6 +27,12 @@ interface ITaskVisibility {
   name: string;
   value: number;
 }
+export interface IMessage {  
+  id:number;
+  message: string;
+  user: string;
+  added: string;
+}
 export interface TaskProperties {
   id: number;
   body: string;

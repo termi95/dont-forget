@@ -1,4 +1,5 @@
 ﻿using backend.Entities;
+using backend.Model.Assignment;
 using backend.Model.Task;
 
 namespace backend.IServices
@@ -15,5 +16,7 @@ namespace backend.IServices
         Task<bool> SetBodyAssignmentAsync(AssignmentDto assignment, int userId);
         Task<Assignment> GetPropertiesAssignmentAsync(AssignmentDto assignment, int userId);
         Task<bool> ChangeAssignmentDoer(AssignmentDto assignment, int userId);
+        Task<CommentResponse> AddCommentsForAsignmentAsync(CommentDto comment, int userId);
+        Task<List<CommentResponse>> GetCommentsForAsignmentAsync(CommentDto comment, int userId);
     }
 }

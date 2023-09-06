@@ -13,14 +13,13 @@ import { useContext, useEffect } from "react";
 import { AppContext } from "../../AppContext";
 import Helper from "../../helper/Helper";
 
-
-function Project() {  
+function Project() {
   const { IsMenuExpaned } = useContext(MenuContext);
-  const { loginUser } = useContext(AppContext);  
+  const { loginUser } = useContext(AppContext);
   const { setIsMenuExpaned } = useContext(MenuContext);
   const { GetAppContext } = Helper();
 
-  useEffect(() => {;
+  useEffect(() => {
     GetAppContext();
     if (window.innerWidth <= 600) {
       setIsMenuExpaned(false);
@@ -38,7 +37,6 @@ function Project() {
             <div
               id="project-content"
               className={[
-                "max-h",
                 loginUser.isDesktop
                   ? IsMenuExpaned
                     ? ""
@@ -61,12 +59,11 @@ function Project() {
               </TasksProvider>
             </div>
           )}
-          
+
           {loginUser.isDesktop && (
             <div
               id="project-content"
               className={[
-                "max-h",
                 loginUser.isDesktop
                   ? IsMenuExpaned
                     ? ""
@@ -74,7 +71,7 @@ function Project() {
                   : IsMenuExpaned
                   ? "shrink-menu"
                   : "expand-menu",
-                  loginUser.isMobile && !IsMenuExpaned && ""
+                loginUser.isMobile && !IsMenuExpaned && "",
               ].join(" ")}
             >
               <TasksProvider>

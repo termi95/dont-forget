@@ -4,6 +4,7 @@ import { Project } from "../../types/Project";
 import {
   AddTaskHeader,
   Doer,
+  IMessage,
   Priority,
   Task,
   TaskProperties,
@@ -72,7 +73,7 @@ export const UseTaskApi = () => {
       Body: "",
       done: false,
       priority: Priority.MEDIUM,
-      DoerId: 0
+      DoerId: 0,
     };
     updateTask.done = task.done;
     updateTask.Name = task.name;
@@ -167,6 +168,35 @@ export const UseTaskApi = () => {
         throw new Error("");
       });
   };
+
+  const insertMessage = async (taskId: number, message: string) => {
+    return await api
+      .post("/Assignment/add-comment", { AssignmentId: taskId, message })
+      .then(async (res) => {
+        if (res.status === 200) {
+          return true;
+        }
+        throw new Error("");
+      })
+      .catch((e) => {
+        throw new Error("");
+      });
+  };
+
+  const getMessages = async (taskId: number): Promise<IMessage[]> => {
+    return await api
+      .post("/Assignment/get-comment", { AssignmentId: taskId })
+      .then(async (res) => {
+        if (res.status === 200) {
+          return res.data;
+        }
+        throw new Error("");
+      })
+      .catch((e) => {
+        throw new Error("");
+      });
+  };
+
   return {
     handleAddTask,
     getProjectTasks,
@@ -178,5 +208,7 @@ export const UseTaskApi = () => {
     updateTaskProperties,
     getAllDoersForProject,
     handleUpdateTaskDoer,
+    insertMessage,
+    getMessages,
   };
 };

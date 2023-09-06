@@ -1,6 +1,13 @@
-import { Doer, Priority, Task, TaskProperties } from "../../../types/Task";
+import {
+  Doer,
+  IMessage,
+  Priority,
+  Task,
+  TaskProperties,
+} from "../../../types/Task";
 import { UseTaskApi } from "../UseTaskApi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Comment } from "../chat/Comment";
 
 interface Props {
   id: number;
@@ -8,8 +15,10 @@ interface Props {
   refreshPriority: (value: Priority) => void;
 }
 function UseTaskBody({ id, projectId, refreshPriority }: Props) {
-  const { handleUpdateTaskPriority } = UseTaskApi();
+  const { handleUpdateTaskPriority, getMessages, insertMessage } = UseTaskApi();
   const [taskProperties, setTaskProperties] = useState<TaskProperties>();
+  const [messages, setMessages] = useState<IMessage[]>();
+  const ref = useRef<HTMLTextAreaElement>(null);
   const [doers, setDoers] = useState<Doer[]>();
   const {
     getTaskProperties,
@@ -21,8 +30,12 @@ function UseTaskBody({ id, projectId, refreshPriority }: Props) {
   useEffect(() => {
     getProperties(id, projectId);
     getAllDoers(projectId);
+    setMessageList(id);
   }, []);
 
+  const setMessageList = async (id: number) => {
+    setMessages([...(await getMessages(id))]);
+  };
   const getProperties = async (id: number, projectId: number) => {
     const data = await getTaskProperties(id, projectId);
     if (data) {
@@ -117,6 +130,49 @@ function UseTaskBody({ id, projectId, refreshPriority }: Props) {
     }
   };
 
+  const handleAddComment = async () => {
+    if (ref === null || ref.current === null) {
+      return;
+    }
+    const commnet = ref.current!.value.trim();
+    if (commnet === "") {
+      return;
+    }
+    console.log(commnet);
+    if (await insertMessage(id, commnet)) {
+      setMessageList(id);
+    }
+    ref.current!.value = "";
+  };
+
+  const CommentList = () => {
+    let lastId = 0;
+    return messages?.map((m) => {
+      let color: 1 | 0 = 0;
+      let possition = "right";
+      if (lastId !== 0 && lastId !== m.id) {
+        color = 1;
+        possition = "left";
+      }
+      lastId = m.id;
+      return (
+        <Comment
+          key={m.id}
+          color={color}
+          possition={possition}
+          user={m.user}
+          time={m.added}
+          message={m.message}
+        />
+      );
+    });
+  };
+
+  const handleKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>)=> {
+    if (e.code === "Enter") {
+      await handleAddComment();      
+    }
+  }
   return {
     priorityTaskOptions,
     changeTaskPriority,
@@ -124,6 +180,10 @@ function UseTaskBody({ id, projectId, refreshPriority }: Props) {
     handleSaveContent,
     doersOptions,
     changeDoer,
+    ref,
+    handleAddComment,
+    CommentList,
+    handleKeyDown,
   };
 }
 

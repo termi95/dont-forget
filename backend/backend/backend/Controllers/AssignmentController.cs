@@ -1,4 +1,5 @@
 ﻿using backend.IServices;
+using backend.Model.Assignment;
 using backend.Model.Project;
 using backend.Model.Task;
 using Microsoft.AspNetCore.Authorization;
@@ -75,6 +76,18 @@ namespace backend.Controllers
         {
             int userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             return Ok(await _assignmentService.ChangeAssignmentDoer(assignment, userId));
+        }
+        [HttpPost, Route("add-comment"), Authorize]
+        public async Task<ActionResult> AddCommentAssignment([FromBody] CommentDto comment)
+        {
+            int userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            return Ok(await _assignmentService.AddCommentsForAsignmentAsync(comment, userId));
+        }
+        [HttpPost, Route("get-comment"), Authorize]
+        public async Task<ActionResult> GetCommentAssignment([FromBody] CommentDto comment)
+        {
+            int userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            return Ok(await _assignmentService.GetCommentsForAsignmentAsync(comment, userId));
         }
     }
 }

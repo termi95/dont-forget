@@ -201,6 +201,9 @@ a {
   width: 100%;
 }
 
+.h100 {
+  height: 100%;
+}
 .text-left {
   text-align: left;
 }
@@ -211,6 +214,9 @@ a {
 
 .sm-pad {
   padding: 5px;
+}
+.min-w50{
+  min-width: 50%;
 }
 
 .pad-top {
@@ -226,12 +232,31 @@ a {
   padding-right: 10px;
 }
 
+.sm-space-left {
+  margin-left: 0.5rem;
+}
+
+.sm-space-top {
+  margin-top: 0.5rem;
+}
+
+.sm-space-bottom {
+  margin-bottom: 0.5rem;
+}
+
+.sm-space-right {
+  margin-right: 0.5rem;
+}
+
 .p-auto {
   padding: auto;
 }
 
 .h-auto {
   height: auto;
+}
+.h20{
+  height: 20%;
 }
 
 .absolut {
@@ -297,8 +322,27 @@ tr {
   margin-bottom: 1rem;
 }
 
+.space {
+  margin: 1rem;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
 .background-default {
   background-color: #eee;
+}
+
+.bg-smoke {
+  background-color: whitesmoke;
+}
+.scroll-y {
+  overflow:scroll;
+  overflow-x:hidden;
+}
+.w50{
+  width: 50%;
 }
 
 @media only screen and (max-width: 480px) {
